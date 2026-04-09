@@ -20,10 +20,11 @@ Oslo har systematisk for få offentlige toaletter i boligstrøk. Nabodo løser d
 ## Status
 
 ```
-v1.1.4 — Beta
+v2.0 — Beta
 ✅ nabodo.no live på Cloudflare Pages
 ✅ Formspree e-post-registrering
 ✅ Personvern + vilkår (GDPR)
+✅ Åpen kildekode på GitHub
 🔜 BankID-innlogging (mai 2026)
 🔜 Cloudflare Workers + D1 database
 🔜 Kart og geolokasjon
@@ -59,8 +60,6 @@ Ingen avhengigheter. Bare åpne `index.html` i nettleseren.
 
 ## Bidra
 
-Vi ønsker alle typer bidrag velkommen:
-
 - 🐛 **Bugfixes** — finn og fiks feil
 - 💡 **Funksjoner** — foreslå nye ideer via Issues
 - 🎨 **Design** — forbedre UI/UX
@@ -87,7 +86,7 @@ Vil du være med? Meld deg på [nabodo.no](https://nabodo.no) eller bidra her p�
 
 ## Eier
 
-**EcoDeco AS** · Org.nr. 936 320 856 · Nesodden  
+**EcoDeco AS** · Org.nr. 936 320 856  
 Grunder: Eirik Botten Nicolaysen
 
 ---
