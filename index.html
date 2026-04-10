@@ -52,6 +52,16 @@
     --radius-sm: 10px;
   }
 
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text: #f0f0f0; --text-muted: #aaa; --bg: #1a1a1a;
+      --surface: #242424; --border: rgba(255,255,255,0.1);
+      --green-pale: #1a2e22; --green-light: #4a8c60;
+    }
+    nav { background: rgba(30,30,30,0.9); }
+  }
+
   html { scroll-behavior: smooth; }
 
   body {
@@ -262,6 +272,60 @@
   footer p { font-size: 13px; }
   footer a { color: var(--green-light); text-decoration: none; }
 
+
+  /* ─── PULSING DOT ─── */
+  .pulse-dot {
+    display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; background: #22c55e;
+    margin-right: 5px; position: relative; top: -1px;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+  }
+
+  /* ─── SEARCH ─── */
+  .search-wrap { position: relative; margin-bottom: 1rem; }
+  .search-wrap input {
+    width: 100%; padding: 11px 16px 11px 42px;
+    border: 0.5px solid var(--border); border-radius: 50px;
+    font-size: 14px; font-family: inherit; background: var(--surface);
+    color: var(--text); transition: border-color 0.15s;
+  }
+  .search-wrap input:focus { outline: none; border-color: var(--green-mid); }
+  .search-wrap .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 16px; pointer-events: none;
+  }
+
+  /* ─── NABODO SCORE ─── */
+  .nabodo-score {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--green-pale); color: var(--green-dark);
+    border: 0.5px solid var(--green-light);
+    padding: 2px 10px; border-radius: 50px; font-size: 11px; font-weight: 500;
+  }
+
+  /* ─── LUCKY BTN ─── */
+  .lucky-btn {
+    background: transparent; border: 0.5px solid var(--border);
+    color: var(--text-muted); padding: 8px 18px; border-radius: 50px;
+    font-size: 13px; cursor: pointer; font-family: inherit;
+    transition: all 0.15s;
+  }
+  .lucky-btn:hover { border-color: var(--green-mid); color: var(--green-dark); }
+
+  /* ─── FEED ─── */
+  .feed-post {
+    background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 0.75rem;
+  }
+  .feed-post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .feed-post-avatar { font-size: 20px; }
+  .feed-post-meta { font-size: 12px; color: var(--text-muted); }
+  .feed-post-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+  .feed-post-tag { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 20px; background: var(--green-pale); color: var(--green-dark); margin-top: 8px; }
   /* ─── AREA FILTER ─── */
   .area-btn {
     background: var(--surface); color: var(--text-muted);
@@ -384,6 +448,19 @@
     <h2 class="section-title">Verter nær deg</h2>
     <p class="section-sub">Velg et område og klikk på en vert for å se profilen. Dette er hvordan det vil se ut når du er registrert.</p>
 
+
+    <!-- Search + Lucky + Stats -->
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;">
+      <div class="search-wrap" style="flex:1;min-width:200px;">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Søk etter gitar, hjertestarter, kaffe..." oninput="searchVerter()">
+      </div>
+      <button class="lucky-btn" onclick="luckyVert()">🎲 Prøv lykken</button>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;" id="stats-bar">
+      Laster...
+    </div>
+
     <!-- Area filter -->
     <div style="display:flex;gap:8px;margin:1.5rem 0;flex-wrap:wrap;" id="area-filter">
       <button class="area-btn active" onclick="filterArea('alle')">Alle</button>
@@ -482,6 +559,25 @@
 
 <!-- FOOTER -->
 
+
+<!-- NABO SØKER NABO FEED -->
+<section style="background:#f7f5f2;padding:4rem 0;">
+  <div class="container">
+    <div class="section-label">Nabo søker nabo</div>
+    <h2 class="section-title">Hva skjer i nabolaget?</h2>
+    <p class="section-sub" style="margin-bottom:2rem;">Registrerte verter kan poste aktiviteter og søke etter naboer.</p>
+
+    <div id="feed-container"></div>
+
+    <div style="text-align:center;margin-top:1.5rem;">
+      <button onclick="document.getElementById('registrer').scrollIntoView({behavior:'smooth'})"
+        style="background:var(--green-dark);color:#fff;border:none;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;">
+        Registrer deg og delta →
+      </button>
+    </div>
+  </div>
+</section>
+
 <!-- PERSONVERN & VILKÅR -->
 <section id="personvern" style="background:#f7f5f2;padding:3rem 0;">
   <div class="container" style="max-width:700px;">
@@ -507,7 +603,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.4.2</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.5.0</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -695,7 +791,110 @@
     aktivtOmrade = 'tag_' + type;
     document.querySelectorAll('.area-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
-    renderListings();
+  
+  // Stats bar
+  function updateStats() {
+    const total = verter.length;
+    const open = verter.filter(v => v.open).length;
+    const totalVisits = verter.reduce((a,v) => a + v.besok, 0);
+    document.getElementById('stats-bar').innerHTML =
+      `<strong style="color:var(--green-dark)">${open} åpne nå</strong> av ${total} verter · <strong style="color:var(--green-dark)">${totalVisits}</strong> besøk totalt`;
+  }
+
+  // Search
+  function searchVerter() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    if (!q) { aktivtOmrade = 'alle'; renderListings(); return; }
+    aktivtOmrade = 'search';
+    const container = document.getElementById('listings-container');
+    const filtered = verter.filter(v =>
+      v.tags.some(t => t.toLowerCase().includes(q)) ||
+      v.navn.toLowerCase().includes(q) ||
+      v.omradeNavn.toLowerCase().includes(q) ||
+      v.notat.toLowerCase().includes(q)
+    );
+    container.innerHTML = filtered.length ? filtered.map(v => renderVert(v)).join('') :
+      '<p style="color:var(--text-muted);padding:2rem;text-align:center;">Ingen treff — prøv et annet søkeord</p>';
+  }
+
+  function renderVert(v) {
+    return `<div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
+      <div class="listing-avatar">${v.emoji}</div>
+      <div class="listing-body">
+        <div class="listing-name">${v.navn}</div>
+        <div class="listing-addr">${v.gate}, Oslo</div>
+        <div class="listing-tags">
+          ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t==='Åpen nå' ? '<span class="pulse-dot"></span>' : ''}${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="listing-meta">
+        <div class="listing-dist">${v.dist}</div>
+        <div class="nabodo-score">⭐ ${Math.min(v.tags.length, 5)}/5</div>
+        <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
+        <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">Se profil</button>
+      </div>
+    </div>`;
+  }
+
+  // Lucky vert
+  function luckyVert() {
+    const open = verter.filter(v => v.open);
+    const v = open[Math.floor(Math.random() * open.length)];
+    openProfile(v.id);
+    showToast('🎲 Tilfeldig vert: ' + v.navn + '!');
+  }
+
+  // Feed
+  const feedPosts = [
+    {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton i Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:"14 min siden"},
+    {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Bare ring på 34.",tag:"👋 Sosialt",tid:"32 min siden"},
+    {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:"1 time siden"},
+    {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. Medbrakt drikke, jeg tar gitaren! 🎸",tag:"🎵 Musikk",tid:"2 timer siden"},
+    {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
+    {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Påminnelse: Jeg har hjertestarter og er sertifisert i HLR. Ring på 44 ved behov — alltid hjemme på dagtid. 💗",tag:"💗 Beredskap",tid:"i går"},
+  ];
+
+  function renderFeed() {
+    document.getElementById('feed-container').innerHTML = feedPosts.map(p => `
+      <div class="feed-post">
+        <div class="feed-post-header">
+          <span class="feed-post-avatar">${p.emoji}</span>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--text)">${p.navn}</div>
+            <div class="feed-post-meta">${p.omrade} · ${p.tid}</div>
+          </div>
+        </div>
+        <div class="feed-post-text">${p.tekst}</div>
+        <span class="feed-post-tag">${p.tag}</span>
+      </div>
+    `).join('');
+  }
+
+
+  // Seasonal relevance
+  const month = new Date().getMonth();
+  const isSummer = month >= 4 && month <= 8;
+  const isWinter = month >= 10 || month <= 2;
+  if (isSummer) {
+    document.querySelectorAll('.area-btn').forEach(b => {
+      if (b.textContent.includes('solkrem') || b.textContent.includes('Kjøl')) {
+        b.style.outline = '2px solid #f59e0b';
+        b.title = 'Sesongaktuelt nå!';
+      }
+    });
+  }
+  if (isWinter) {
+    document.querySelectorAll('.area-btn').forEach(b => {
+      if (b.textContent.includes('paraply') || b.textContent.includes('pledd')) {
+        b.style.outline = '2px solid #3b82f6';
+        b.title = 'Sesongaktuelt nå!';
+      }
+    });
+  }
+
+  renderListings();
+  updateStats();
+  renderFeed();
   }
 
   function filterArea(omrade) {
@@ -763,7 +962,110 @@
     }
   }
 
+
+  // Stats bar
+  function updateStats() {
+    const total = verter.length;
+    const open = verter.filter(v => v.open).length;
+    const totalVisits = verter.reduce((a,v) => a + v.besok, 0);
+    document.getElementById('stats-bar').innerHTML =
+      `<strong style="color:var(--green-dark)">${open} åpne nå</strong> av ${total} verter · <strong style="color:var(--green-dark)">${totalVisits}</strong> besøk totalt`;
+  }
+
+  // Search
+  function searchVerter() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    if (!q) { aktivtOmrade = 'alle'; renderListings(); return; }
+    aktivtOmrade = 'search';
+    const container = document.getElementById('listings-container');
+    const filtered = verter.filter(v =>
+      v.tags.some(t => t.toLowerCase().includes(q)) ||
+      v.navn.toLowerCase().includes(q) ||
+      v.omradeNavn.toLowerCase().includes(q) ||
+      v.notat.toLowerCase().includes(q)
+    );
+    container.innerHTML = filtered.length ? filtered.map(v => renderVert(v)).join('') :
+      '<p style="color:var(--text-muted);padding:2rem;text-align:center;">Ingen treff — prøv et annet søkeord</p>';
+  }
+
+  function renderVert(v) {
+    return `<div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
+      <div class="listing-avatar">${v.emoji}</div>
+      <div class="listing-body">
+        <div class="listing-name">${v.navn}</div>
+        <div class="listing-addr">${v.gate}, Oslo</div>
+        <div class="listing-tags">
+          ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t==='Åpen nå' ? '<span class="pulse-dot"></span>' : ''}${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="listing-meta">
+        <div class="listing-dist">${v.dist}</div>
+        <div class="nabodo-score">⭐ ${Math.min(v.tags.length, 5)}/5</div>
+        <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
+        <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">Se profil</button>
+      </div>
+    </div>`;
+  }
+
+  // Lucky vert
+  function luckyVert() {
+    const open = verter.filter(v => v.open);
+    const v = open[Math.floor(Math.random() * open.length)];
+    openProfile(v.id);
+    showToast('🎲 Tilfeldig vert: ' + v.navn + '!');
+  }
+
+  // Feed
+  const feedPosts = [
+    {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton i Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:"14 min siden"},
+    {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Bare ring på 34.",tag:"👋 Sosialt",tid:"32 min siden"},
+    {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:"1 time siden"},
+    {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. Medbrakt drikke, jeg tar gitaren! 🎸",tag:"🎵 Musikk",tid:"2 timer siden"},
+    {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
+    {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Påminnelse: Jeg har hjertestarter og er sertifisert i HLR. Ring på 44 ved behov — alltid hjemme på dagtid. 💗",tag:"💗 Beredskap",tid:"i går"},
+  ];
+
+  function renderFeed() {
+    document.getElementById('feed-container').innerHTML = feedPosts.map(p => `
+      <div class="feed-post">
+        <div class="feed-post-header">
+          <span class="feed-post-avatar">${p.emoji}</span>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--text)">${p.navn}</div>
+            <div class="feed-post-meta">${p.omrade} · ${p.tid}</div>
+          </div>
+        </div>
+        <div class="feed-post-text">${p.tekst}</div>
+        <span class="feed-post-tag">${p.tag}</span>
+      </div>
+    `).join('');
+  }
+
+
+  // Seasonal relevance
+  const month = new Date().getMonth();
+  const isSummer = month >= 4 && month <= 8;
+  const isWinter = month >= 10 || month <= 2;
+  if (isSummer) {
+    document.querySelectorAll('.area-btn').forEach(b => {
+      if (b.textContent.includes('solkrem') || b.textContent.includes('Kjøl')) {
+        b.style.outline = '2px solid #f59e0b';
+        b.title = 'Sesongaktuelt nå!';
+      }
+    });
+  }
+  if (isWinter) {
+    document.querySelectorAll('.area-btn').forEach(b => {
+      if (b.textContent.includes('paraply') || b.textContent.includes('pledd')) {
+        b.style.outline = '2px solid #3b82f6';
+        b.title = 'Sesongaktuelt nå!';
+      }
+    });
+  }
+
   renderListings();
+  updateStats();
+  renderFeed();
   }
 
   function renderListings() {
@@ -787,23 +1089,7 @@
     else if (aktivtOmrade === 'tag_paraply') filtered = verter.filter(v => v.tags.some(t => t.includes('paraply')));
     else if (aktivtOmrade === 'tag_barnemat') filtered = verter.filter(v => v.tags.some(t => t.includes('barnemat')));
     else filtered = verter.filter(v => v.omrade === aktivtOmrade);
-    container.innerHTML = filtered.map(v => `
-      <div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
-        <div class="listing-avatar">${v.emoji}</div>
-        <div class="listing-body">
-          <div class="listing-name">${v.navn}</div>
-          <div class="listing-addr">${v.gate}, Oslo</div>
-          <div class="listing-tags">
-            ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t}</span>`).join('')}
-          </div>
-        </div>
-        <div class="listing-meta">
-          <div class="listing-dist">${v.dist}</div>
-          <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
-          <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">${v.open ? 'Se profil' : 'Se profil'}</button>
-        </div>
-      </div>
-    `).join('');
+    container.innerHTML = filtered.map(v => renderVert(v)).join('');
   }
 
   function openProfile(id) {
@@ -889,7 +1175,110 @@
     }
   }
 
+
+  // Stats bar
+  function updateStats() {
+    const total = verter.length;
+    const open = verter.filter(v => v.open).length;
+    const totalVisits = verter.reduce((a,v) => a + v.besok, 0);
+    document.getElementById('stats-bar').innerHTML =
+      `<strong style="color:var(--green-dark)">${open} åpne nå</strong> av ${total} verter · <strong style="color:var(--green-dark)">${totalVisits}</strong> besøk totalt`;
+  }
+
+  // Search
+  function searchVerter() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    if (!q) { aktivtOmrade = 'alle'; renderListings(); return; }
+    aktivtOmrade = 'search';
+    const container = document.getElementById('listings-container');
+    const filtered = verter.filter(v =>
+      v.tags.some(t => t.toLowerCase().includes(q)) ||
+      v.navn.toLowerCase().includes(q) ||
+      v.omradeNavn.toLowerCase().includes(q) ||
+      v.notat.toLowerCase().includes(q)
+    );
+    container.innerHTML = filtered.length ? filtered.map(v => renderVert(v)).join('') :
+      '<p style="color:var(--text-muted);padding:2rem;text-align:center;">Ingen treff — prøv et annet søkeord</p>';
+  }
+
+  function renderVert(v) {
+    return `<div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
+      <div class="listing-avatar">${v.emoji}</div>
+      <div class="listing-body">
+        <div class="listing-name">${v.navn}</div>
+        <div class="listing-addr">${v.gate}, Oslo</div>
+        <div class="listing-tags">
+          ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t==='Åpen nå' ? '<span class="pulse-dot"></span>' : ''}${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="listing-meta">
+        <div class="listing-dist">${v.dist}</div>
+        <div class="nabodo-score">⭐ ${Math.min(v.tags.length, 5)}/5</div>
+        <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
+        <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">Se profil</button>
+      </div>
+    </div>`;
+  }
+
+  // Lucky vert
+  function luckyVert() {
+    const open = verter.filter(v => v.open);
+    const v = open[Math.floor(Math.random() * open.length)];
+    openProfile(v.id);
+    showToast('🎲 Tilfeldig vert: ' + v.navn + '!');
+  }
+
+  // Feed
+  const feedPosts = [
+    {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton i Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:"14 min siden"},
+    {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Bare ring på 34.",tag:"👋 Sosialt",tid:"32 min siden"},
+    {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:"1 time siden"},
+    {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. Medbrakt drikke, jeg tar gitaren! 🎸",tag:"🎵 Musikk",tid:"2 timer siden"},
+    {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
+    {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Påminnelse: Jeg har hjertestarter og er sertifisert i HLR. Ring på 44 ved behov — alltid hjemme på dagtid. 💗",tag:"💗 Beredskap",tid:"i går"},
+  ];
+
+  function renderFeed() {
+    document.getElementById('feed-container').innerHTML = feedPosts.map(p => `
+      <div class="feed-post">
+        <div class="feed-post-header">
+          <span class="feed-post-avatar">${p.emoji}</span>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--text)">${p.navn}</div>
+            <div class="feed-post-meta">${p.omrade} · ${p.tid}</div>
+          </div>
+        </div>
+        <div class="feed-post-text">${p.tekst}</div>
+        <span class="feed-post-tag">${p.tag}</span>
+      </div>
+    `).join('');
+  }
+
+
+  // Seasonal relevance
+  const month = new Date().getMonth();
+  const isSummer = month >= 4 && month <= 8;
+  const isWinter = month >= 10 || month <= 2;
+  if (isSummer) {
+    document.querySelectorAll('.area-btn').forEach(b => {
+      if (b.textContent.includes('solkrem') || b.textContent.includes('Kjøl')) {
+        b.style.outline = '2px solid #f59e0b';
+        b.title = 'Sesongaktuelt nå!';
+      }
+    });
+  }
+  if (isWinter) {
+    document.querySelectorAll('.area-btn').forEach(b => {
+      if (b.textContent.includes('paraply') || b.textContent.includes('pledd')) {
+        b.style.outline = '2px solid #3b82f6';
+        b.title = 'Sesongaktuelt nå!';
+      }
+    });
+  }
+
   renderListings();
+  updateStats();
+  renderFeed();
 
   function showToast(msg) {
     const t = document.getElementById('toast');
