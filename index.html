@@ -28,1114 +28,179 @@
 <link rel="apple-touch-icon" href="/icon-512.png">
 <meta property="og:image" content="https://nabodo.no/og-image.png">
 <script>
-  if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
-    location.replace('https:' + location.href.substring(location.protocol.length));
-  }
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --green-dark: #2d5a3d;
-    --green-mid: #3d7a53;
-    --green-light: #a8d5b5;
-    --green-pale: #e8f5ed;
-    --text: #1a1a1a;
-    --text-muted: #666;
-    --bg: #f7f5f2;
-    --surface: #ffffff;
-    --border: rgba(0,0,0,0.1);
-    --radius: 16px;
-    --radius-sm: 10px;
-  }
-
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ─── NAV ─── */
-  nav {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.85rem 2rem;
-  }
-  .logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--green-dark); }
-  .logo span { color: var(--green-mid); }
-  .nav-cta {
-    background: var(--green-dark); color: #fff;
-    border: none; padding: 8px 20px; border-radius: 50px;
-    font-size: 14px; font-weight: 500; cursor: pointer;
-    font-family: inherit; text-decoration: none; display: inline-block;
-  }
-  .nav-cta:hover { background: var(--green-mid); }
-
-  /* ─── HERO ─── */
-  .hero {
-    background: var(--green-dark);
-    color: var(--green-pale);
-    padding: 5rem 2rem 4rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 30% 60%, rgba(168,213,181,0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(168,213,181,0.08) 0%, transparent 50%);
-  }
-  .hero-inner { position: relative; max-width: 640px; margin: 0 auto; }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(168,213,181,0.2);
-    color: var(--green-light);
-    border: 0.5px solid rgba(168,213,181,0.4);
-    padding: 5px 16px; border-radius: 50px; font-size: 13px;
-    margin-bottom: 1.5rem;
-  }
-  .hero h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(38px, 6vw, 64px);
-    line-height: 1.1;
-    color: #fff;
-    margin-bottom: 1rem;
-  }
-  .hero h1 em { color: var(--green-light); font-style: normal; }
-  .hero p {
-    font-size: 18px; color: rgba(232,245,237,0.8);
-    line-height: 1.6; margin-bottom: 2.5rem;
-    max-width: 480px; margin-left: auto; margin-right: auto;
-  }
-  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--green-light); color: var(--green-dark);
-    border: none; padding: 14px 28px; border-radius: 50px;
-    font-size: 16px; font-weight: 500; cursor: pointer;
-    font-family: inherit; text-decoration: none; display: inline-block;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
-  .btn-ghost {
-    background: transparent; color: var(--green-light);
-    border: 0.5px solid rgba(168,213,181,0.5); padding: 14px 28px; border-radius: 50px;
-    font-size: 16px; font-weight: 500; cursor: pointer;
-    font-family: inherit; text-decoration: none; display: inline-block;
-  }
-  .btn-ghost:hover { border-color: var(--green-light); }
-  .hero-stats {
-    display: flex; justify-content: center; gap: 3rem;
-    margin-top: 3rem; padding-top: 2.5rem;
-    border-top: 0.5px solid rgba(168,213,181,0.2);
-  }
-  .hero-stat strong { display: block; font-size: 28px; color: #fff; font-weight: 500; }
-  .hero-stat span { font-size: 13px; color: rgba(168,213,181,0.7); }
-
-  /* ─── SECTIONS ─── */
-  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
-  section { padding: 5rem 0; }
-  .section-label {
-    font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--green-mid); margin-bottom: 1rem;
-  }
-  .section-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(28px, 4vw, 42px); color: var(--text);
-    line-height: 1.2; margin-bottom: 1rem;
-  }
-  .section-sub { font-size: 16px; color: var(--text-muted); line-height: 1.6; max-width: 520px; }
-
-  /* ─── HOW IT WORKS ─── */
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-  .step-card {
-    background: var(--surface); border-radius: var(--radius);
-    border: 0.5px solid var(--border); padding: 1.5rem;
-  }
-  .step-num {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--green-pale); color: var(--green-dark);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 500; margin-bottom: 1rem;
-  }
-  .step-card h3 { font-size: 17px; font-weight: 500; margin-bottom: 6px; }
-  .step-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-
-  /* ─── LISTINGS ─── */
-  .listings-bg { background: #f0ede8; }
-  .listings { display: grid; gap: 1rem; margin-top: 2.5rem; }
-  .listing {
-    background: var(--surface); border-radius: var(--radius);
-    border: 0.5px solid var(--border); padding: 1.25rem 1.5rem;
-    display: flex; align-items: center; gap: 1rem;
-    cursor: pointer; transition: box-shadow 0.15s, transform 0.15s;
-  }
-  .listing:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-1px); }
-  .listing-avatar {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: var(--green-pale); display: flex; align-items: center;
-    justify-content: center; font-size: 22px; flex-shrink: 0;
-  }
-  .listing-body { flex: 1; min-width: 0; }
-  .listing-name { font-size: 16px; font-weight: 500; }
-  .listing-addr { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-  .listing-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-  .tag {
-    font-size: 11px; padding: 3px 10px; border-radius: 20px;
-    background: var(--bg); color: var(--text-muted);
-    border: 0.5px solid var(--border);
-  }
-  .tag.open { background: var(--green-pale); color: var(--green-dark); border-color: var(--green-light); }
-  .listing-meta { text-align: right; flex-shrink: 0; }
-  .listing-dist { font-size: 14px; font-weight: 500; color: var(--green-dark); }
-  .listing-rating { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-  .listing-action {
-    background: var(--green-dark); color: #fff;
-    border: none; padding: 8px 16px; border-radius: 50px;
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    font-family: inherit; margin-top: 8px; white-space: nowrap;
-  }
-
-  /* ─── REGISTER ─── */
-  .register-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-  @media (max-width: 640px) { .register-grid { grid-template-columns: 1fr; } }
-  .register-form {
-    background: var(--surface); border-radius: var(--radius);
-    border: 0.5px solid var(--border); padding: 2rem;
-  }
-  .register-form h2 { font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 1.5rem; }
-  .form-group { margin-bottom: 1rem; }
-  .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%; padding: 10px 12px;
-    border: 0.5px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm);
-    font-size: 14px; font-family: inherit; background: var(--bg);
-    color: var(--text); transition: border-color 0.15s;
-  }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { outline: none; border-color: var(--green-mid); }
-  .form-group textarea { height: 80px; resize: none; }
-  .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
-  .checkbox-group label {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 14px; color: var(--text); cursor: pointer; margin: 0;
-  }
-  .checkbox-group input[type=checkbox] { accent-color: var(--green-dark); width: 16px; height: 16px; }
-  .btn-submit {
-    width: 100%; background: var(--green-dark); color: #fff;
-    border: none; padding: 13px; border-radius: 50px;
-    font-size: 15px; font-weight: 500; cursor: pointer;
-    font-family: inherit; margin-top: 1rem; transition: background 0.15s;
-  }
-  .btn-submit:hover { background: var(--green-mid); }
-  .register-why h3 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 1rem; }
-  .register-why p { font-size: 16px; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; }
-  .why-points { list-style: none; }
-  .why-points li {
-    display: flex; align-items: flex-start; gap: 10px;
-    font-size: 15px; color: var(--text); margin-bottom: 0.75rem; line-height: 1.5;
-  }
-  .why-points li::before {
-    content: '✓'; color: var(--green-mid); font-weight: 500;
-    flex-shrink: 0; margin-top: 1px;
-  }
-
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--green-dark); color: rgba(232,245,237,0.7);
-    padding: 3rem 2rem; text-align: center;
-  }
-  footer .logo { color: var(--green-light); display: block; margin-bottom: 0.5rem; }
-  footer p { font-size: 13px; }
-  footer a { color: var(--green-light); text-decoration: none; }
-
-
-  /* ─── PULSING DOT ─── */
-  .pulse-dot {
-    display: inline-block; width: 8px; height: 8px;
-    border-radius: 50%; background: #22c55e;
-    margin-right: 5px; position: relative; top: -1px;
-    animation: pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
-    50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
-  }
-
-  /* ─── SEARCH ─── */
-  .search-wrap { position: relative; margin-bottom: 1rem; }
-  .search-wrap input {
-    width: 100%; padding: 11px 16px 11px 42px;
-    border: 0.5px solid var(--border); border-radius: 50px;
-    font-size: 14px; font-family: inherit; background: var(--surface);
-    color: var(--text); transition: border-color 0.15s;
-  }
-  .search-wrap input:focus { outline: none; border-color: var(--green-mid); }
-  .search-wrap .search-icon {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    font-size: 16px; pointer-events: none;
-  }
-
-  /* ─── NABODO SCORE ─── */
-  .nabodo-score {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: var(--green-pale); color: var(--green-dark);
-    border: 0.5px solid var(--green-light);
-    padding: 2px 10px; border-radius: 50px; font-size: 11px; font-weight: 500;
-  }
-
-  /* ─── LUCKY BTN ─── */
-  .lucky-btn {
-    background: transparent; border: 0.5px solid var(--border);
-    color: var(--text-muted); padding: 8px 18px; border-radius: 50px;
-    font-size: 13px; cursor: pointer; font-family: inherit;
-    transition: all 0.15s;
-  }
-  .lucky-btn:hover { border-color: var(--green-mid); color: var(--green-dark); }
-
-  /* ─── FEED ─── */
-  .feed-post {
-    background: var(--surface); border: 0.5px solid var(--border);
-    border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 0.75rem;
-  }
-  .feed-post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .feed-post-avatar { font-size: 20px; }
-  .feed-post-meta { font-size: 12px; color: var(--text-muted); }
-  .feed-post-text { font-size: 14px; color: var(--text); line-height: 1.5; }
-  .feed-post-tag { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 20px; background: var(--green-pale); color: var(--green-dark); margin-top: 8px; }
-  /* ─── AREA FILTER ─── */
-  .area-btn {
-    background: var(--surface); color: var(--text-muted);
-    border: 0.5px solid var(--border); padding: 8px 20px; border-radius: 50px;
-    font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;
-    transition: all 0.15s;
-  }
-  .area-btn:hover { border-color: var(--green-mid); color: var(--green-dark); }
-  .area-btn.active { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
-  .profile-tag {
-    font-size: 11px; padding: 4px 12px; border-radius: 20px;
-    background: var(--green-pale); color: var(--green-dark); border: 0.5px solid var(--green-light);
-  }
-  .review-item { font-size: 13px; color: #666; padding: 8px 0; border-bottom: 0.5px solid #f0ede8; }
-  .review-item:last-child { border-bottom: none; }
-
-  /* ─── SUCCESS TOAST ─── */
-  .toast {
-    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
-    background: var(--green-dark); color: #fff;
-    padding: 14px 28px; border-radius: 50px;
-    font-size: 15px; font-weight: 500;
-    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    z-index: 999;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 600px) {
-    nav { padding: 0.75rem 1.25rem; }
-    .hero { padding: 3.5rem 1.25rem 3rem; }
-    .hero-stats { gap: 1.5rem; }
-    section { padding: 3.5rem 0; }
-    .container { padding: 0 1.25rem; }
-    .listing { flex-wrap: wrap; }
-    .listing-action { margin-top: 0; }
-  }
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <div style="display:flex;align-items:center;gap:10px;"><div class="logo">Nabo<span>do</span></div><span style="background:#fff3cd;color:#856404;border:0.5px solid #ffc107;padding:2px 10px;border-radius:50px;font-size:11px;font-weight:500;">BETA</span></div>
-  <a class="nav-cta" href="#registrer">Bli vert — få tilgang</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">🇳🇴 Beta — du gir for å få. Én dør om gangen.</div>
-    <h1>Åpne din dør.<br>Finn en <em>nabo</em>.</h1>
-    <p>Registrer deg som vert — og få tilgang til alle andre verter nær deg. Gjensidig tillit, én dør om gangen.</p>
-    <div class="hero-btns">
-      <a class="btn-primary" href="#registrer">Registrer deg — og finn toaletter</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><strong id="vert-counter">0</strong><span>interesserte verter</span></div>
-      <div class="hero-stat"><strong>Oslo</strong><span>lansering 2026</span></div>
-      <div class="hero-stat"><strong>Gratis</strong><span>alltid, for alle</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section>
-  <div class="container">
-    <div class="section-label">Slik fungerer det</div>
-    <h2 class="section-title">Du gir for å få</h2>
-    <p class="section-sub">Registrer deg som vert — så får du tilgang til alle andre verter nær deg. Ingen betaling, ingen app, bare gjensidighet.</p>
-    <div class="steps">
-      <div class="step-card">
-        <div class="step-num">1</div>
-        <h3>Registrer deg som vert</h3>
-        <p>Legg inn adresse og tilgjengelighet. Dette er inngangsbilletten din til fellesskapet.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">2</div>
-        <h3>Si fra at du kommer</h3>
-        <p>Send en rask melding. Verten vet du er på vei — ingen ubehagelige overraskelser.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">3</div>
-        <h3>Ring på</h3>
-        <p>Verten åpner. Du er ferdig på under 5 min. Kanskje utveksler dere et smil.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">4</div>
-        <h3>Legg igjen en stjerne</h3>
-        <p>Gi tilbakemelding så fellesskapet vokser og tilliten bygges over tid.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- PWA INFO BOX -->
-<section style="background:#2d5a3d;padding:2rem 0;" id="pwa-section">
-  <div class="container">
-    <div style="display:flex;align-items:center;gap:1.5rem;background:rgba(255,255,255,0.08);border:0.5px solid rgba(168,213,181,0.3);border-radius:16px;padding:1.25rem 1.5rem;flex-wrap:wrap;">
-      <div style="font-size:40px;flex-shrink:0;">📲</div>
-      <div style="flex:1;min-width:200px;">
-        <div style="font-weight:500;color:#fff;font-size:15px;margin-bottom:4px;">Installer Nabodo som app</div>
-        <div id="pwa-text" style="font-size:13px;color:rgba(168,213,181,0.8);line-height:1.5;">Ingen App Store. Legg til Nabodo direkte fra nettleseren din — fungerer som en ekte app, også uten internett.</div>
-      </div>
-      <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
-        <span style="background:rgba(168,213,181,0.15);color:#a8d5b5;border:0.5px solid rgba(168,213,181,0.3);padding:5px 14px;border-radius:50px;font-size:12px;font-weight:500;">PWA</span>
-        <button id="pwa-install-btn" style="display:none;background:#a8d5b5;color:#2d5a3d;border:none;padding:8px 18px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;">
-          Installer app →
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DEMO SECTION -->
-<section class="listings-bg" id="finn" style="padding:5rem 0;">
-  <div class="container">
-    <div class="section-label">Demo — slik fungerer det</div>
-    <h2 class="section-title">Verter nær deg</h2>
-    <p class="section-sub">Velg et område og klikk på en vert for å se profilen. Dette er hvordan det vil se ut når du er registrert.</p>
-
-
-    <!-- Search + Lucky + Stats -->
-    <div style="display:flex;gap:10px;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;">
-      <div class="search-wrap" style="flex:1;min-width:200px;">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Søk etter gitar, hjertestarter, kaffe..." oninput="searchVerter()">
-      </div>
-      <button class="lucky-btn" onclick="luckyVert()">🎲 Prøv lykken</button>
-    </div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;" id="stats-bar">
-      Laster...
-    </div>
-
-    <!-- Area filter -->
-    <div style="display:flex;gap:10px;margin:1.5rem 0;flex-wrap:wrap;">
-      <div style="position:relative;flex:1;min-width:160px;">
-        <select onchange="filterArea(this.value)" style="width:100%;padding:10px 36px 10px 14px;border-radius:50px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:inherit;appearance:none;cursor:pointer;">
-          <option value="alle">📍 Alle steder</option>
-          <optgroup label="── Bydeler">
-            <option value="bislett">Bislett</option>
-            <option value="frogner">Frogner</option>
-            <option value="grunerlokka">Grünerløkka</option>
-            <option value="cuba">Cuba — Grünerløkka</option>
-            <option value="gamlebyen">Gamlebyen</option>
-            <option value="gronland">Grønland</option>
-            <option value="hammersborg">Hammersborg</option>
-            <option value="sagene">Sagene</option>
-            <option value="bjolsen">Bjølsen</option>
-            <option value="torshov">Torshov</option>
-            <option value="majorstuen">Majorstuen</option>
-            <option value="marienlyst">Marienlyst-jordene</option>
-          </optgroup>
-          <optgroup label="── 🌳 Parker">
-            <option value="frognerparken">🌳 Frognerparken</option>
-            <option value="sthanshaugen">🌳 St. Hanshaugen</option>
-            <option value="sofienberg">🌳 Sofienbergparken</option>
-            <option value="oyenparken">🌳 Tøyenparken</option>
-            <option value="slottsparken">🌳 Slottsparken</option>
-            <option value="thorshovparken">🌳 Thorshovparken</option>
-          </optgroup>
-          <optgroup label="── 🏖️ Strand og Øyer">
-            <option value="bygdoy">🏖️ Bygdøy</option>
-            <option value="hovedoya">⛵ Hovedøya</option>
-            <option value="langoyene">⛵ Langøyene</option>
-            <option value="nakholmen">⛵ Nakholmen</option>
-            <option value="gressholmen">⛵ Gressholmen</option>
-            <option value="bleikoya">⛵ Bleikøya</option>
-            <option value="lindoya">⛵ Lindøya</option>
-          </optgroup>
-        </select>
-        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text-muted);">▼</span>
-      </div>
-      <div style="position:relative;flex:1;min-width:160px;">
-        <select onchange="filterTilbud(this.value)" style="width:100%;padding:10px 36px 10px 14px;border-radius:50px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:inherit;appearance:none;cursor:pointer;">
-          <option value="alle">🎁 Alle tilbud</option>
-          <optgroup label="── Basis">
-            <option value="Lading">🔋 Lading</option>
-            <option value="Kjøl">🧊 Kjøl medbrakt drikke</option>
-            <option value="vannflaske">🚰 Fyll vannflaske</option>
-            <option value="solkrem">☀️ Nødsolkrem</option>
-            <option value="paraply">🌂 Nødparaply</option>
-          </optgroup>
-          <optgroup label="── Sosialt">
-            <option value="kaffe">👋 Bli med på kaffe</option>
-            <option value="Musikk">🎵 Musikk og stemning</option>
-            <option value="gitar">🎸 Lån en gitar</option>
-            <option value="bok">📚 Lån en bok</option>
-            <option value="pledd">🛋️ Lån et pledd</option>
-          </optgroup>
-          <optgroup label="── Sport">
-            <option value="badminton">🏸 Lån badminton</option>
-            <option value="spille">⚽ Bli med å spille</option>
-            <option value="Luft">🚲 Luft til sykkel/ball</option>
-          </optgroup>
-          <optgroup label="── Familie">
-            <option value="barnemat">🍼 Varme barnemat/melk</option>
-          </optgroup>
-          <optgroup label="── Beredskap">
-            <option value="førstehjelp">🩺 Kan førstehjelp</option>
-            <option value="Hjertestarter">💗 Hjertestarter</option>
-          </optgroup>
-        </select>
-        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text-muted);">▼</span>
-      </div>
-    </div>
-
-    <div class="listings" id="listings-container"></div>
-  </div>
-</section>
-
-<!-- PROFILE MODAL -->
-<div id="profile-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)closeProfile()">
-  <div style="background:#fff;border-radius:24px;max-width:420px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
-    <div id="profile-header" style="padding:2rem;background:#2d5a3d;text-align:center;">
-      <div id="profile-avatar" style="font-size:52px;margin-bottom:0.5rem;"></div>
-      <div id="profile-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;"></div>
-      <div id="profile-area" style="font-size:13px;color:#a8d5b5;margin-top:4px;"></div>
-      <div id="profile-rating" style="font-size:13px;color:#a8d5b5;margin-top:4px;"></div>
-    </div>
-    <div style="padding:1.5rem;">
-      <div id="profile-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;"></div>
-      <div id="profile-note" style="font-size:14px;color:#666;line-height:1.6;margin-bottom:1rem;background:#f7f5f2;padding:1rem;border-radius:12px;"></div>
-      <div id="profile-reviews" style="margin-bottom:1.25rem;"></div>
-      <div style="display:flex;gap:8px;margin-bottom:8px;">
-        <button id="profile-map-btn" onclick="openInMaps()" style="flex:1;padding:10px;border-radius:50px;border:0.5px solid #ddd;background:transparent;color:#2d5a3d;font-size:13px;cursor:pointer;font-family:inherit;">🗺 Åpne i kart</button>
-        <button id="profile-copy-btn" onclick="copyAddress()" style="flex:1;padding:10px;border-radius:50px;border:0.5px solid #ddd;background:transparent;color:#2d5a3d;font-size:13px;cursor:pointer;font-family:inherit;">📋 Kopier adresse</button>
-      </div>
-      <div style="display:flex;gap:8px;">
-        <button onclick="closeProfile()" style="flex:1;padding:12px;border-radius:50px;border:0.5px solid #ddd;background:transparent;color:#666;font-size:14px;cursor:pointer;font-family:inherit;">Tilbake</button>
-        <button id="profile-action-btn" style="flex:2;padding:12px;border-radius:50px;border:none;background:#2d5a3d;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;"></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- REGISTER -->
-<section id="registrer" style="background:#2d5a3d;padding:5rem 0;">
-  <div class="container" style="max-width:580px;text-align:center;">
-    <div class="section-label" style="color:#a8d5b5;">Bli vert</div>
-    <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,42px);color:#fff;margin-bottom:1rem;">Åpne din dør. Finn en nabo.</h2>
-    <p style="font-size:16px;color:rgba(232,245,237,0.75);line-height:1.6;margin-bottom:0.75rem;">Nabodo er en 1:1-tjeneste — du registrerer deg som vert og får tilgang til alle andre verter nær deg. Gjensidig tillit er selve mekanismen.</p>
-    <p style="font-size:13px;color:rgba(168,213,181,0.6);margin-bottom:2rem;">⚠️ Ingen data lagres ennå utover e-post. Fullt skjema kommer ved lansering.</p>
-
-    <form action="https://formspree.io/f/xeepwwvy" method="POST" id="beta-form" style="display:flex;flex-direction:column;gap:12px;max-width:400px;margin:0 auto;">
-      <input type="email" name="email" required placeholder="din@epost.no"
-        style="padding:14px 18px;border-radius:50px;border:none;font-size:15px;font-family:inherit;background:rgba(255,255,255,0.95);color:#1a1a1a;width:100%;">
-      <input type="text" name="by" placeholder="Hvilken by? (valgfritt)"
-        style="padding:14px 18px;border-radius:50px;border:none;font-size:15px;font-family:inherit;background:rgba(255,255,255,0.15);color:#fff;width:100%;">
-      <input type="hidden" name="_subject" value="Ny Nabodo-interessent!">
-      <input type="hidden" name="_next" value="https://nabodo.no#takk">
-      <button type="submit"
-        style="background:#a8d5b5;color:#2d5a3d;border:none;padding:14px 28px;border-radius:50px;font-size:16px;font-weight:500;cursor:pointer;font-family:inherit;transition:transform 0.15s;">
-        Meld meg på →
-      </button>
-    </form>
-
-    <p id="takk" style="display:none;color:#a8d5b5;font-size:15px;margin-top:1rem;">✓ Takk! Vi gir deg beskjed når vi lanserer.</p>
-    <p style="font-size:12px;color:rgba(168,213,181,0.4);margin-top:1.5rem;">
-      Ved å sende inn godtar du våre <a href="#vilkar" style="color:#a8d5b5;">vilkår</a> og <a href="#personvern" style="color:#a8d5b5;">personvernerklæring</a>.
-    </p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-
-
-<!-- NABO SØKER NABO FEED -->
-<section style="background:#f7f5f2;padding:4rem 0;">
-  <div class="container">
-    <div class="section-label">Nabo søker nabo</div>
-    <h2 class="section-title">Hva skjer i nabolaget?</h2>
-    <p class="section-sub" style="margin-bottom:2rem;">Registrerte verter kan poste aktiviteter og søke etter naboer.</p>
-
-    <div id="feed-container"></div>
-
-    <div style="text-align:center;margin-top:1.5rem;">
-      <button onclick="document.getElementById('registrer').scrollIntoView({behavior:'smooth'})"
-        style="background:var(--green-dark);color:#fff;border:none;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;">
-        Registrer deg og delta →
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- PERSONVERN & VILKÅR -->
-<section id="personvern" style="background:#f7f5f2;padding:3rem 0;">
-  <div class="container" style="max-width:700px;">
-    <div class="section-label">Personvernerklæring</div>
-    <h2 class="section-title" style="font-size:28px;">Personvern</h2>
-    <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:1rem;">Nabodo (EcoDeco AS, org.nr. 936 320 856) samler kun inn e-postadresse for å varsle deg når tjenesten lanseres. Vi selger ikke data til tredjeparter. Du kan når som helst be om sletting via skjemaet på siden.</p>
-    <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:1rem;">Dataene lagres sikkert på Cloudflare-infrastruktur innenfor EU/EØS. Vi følger GDPR. Ingen data overføres til land utenfor EØS.</p>
-    <p style="font-size:13px;color:#999;">Behandlingsansvarlig: EcoDeco AS · Org.nr. 936 320 856</p>
-  </div>
-</section>
-
-<section id="vilkar" style="background:#fff;padding:3rem 0;">
-  <div class="container" style="max-width:700px;">
-    <div class="section-label">Vilkår for bruk</div>
-    <h2 class="section-title" style="font-size:28px;">Vilkår</h2>
-    <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:1rem;"><strong>Beta-tjeneste.</strong> Nabodo er under utvikling. Tjenesten tilbys uten garantier av noe slag. EcoDeco AS er ikke ansvarlig for hendelser som oppstår mellom verter og gjester.</p>
-    <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:1rem;"><strong>Verters ansvar.</strong> Verter er selv ansvarlige for å sikre trygg tilgang til eget toalett. Nabodo gjennomfører ingen bakgrunnssjekk i beta-fasen.</p>
-    <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:1rem;"><strong>Gjestens ansvar.</strong> Gjester skal opptre hensynsfullt og respektere vertens hjem. Maksimal oppholdstid er 5 minutter med mindre annet er avtalt.</p>
-    <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:1rem;"><strong>Alder.</strong> Tjenesten er kun for personer over 18 år, eller mindreårige med foresattes samtykke.</p>
-    <p style="font-size:13px;color:#999;">Norsk lov gjelder. Tvister løses ved Oslo tingrett. Sist oppdatert: april 2026.</p>
-  </div>
-</section>
-
-<footer>
-  <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.5.6</p>
-  <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
-</footer>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<script>
+  // ─── DATA ───────────────────────────────────────────────────────────
   const verter = [
-    // BISLETT
-    {id:1,navn:"Marta H.",emoji:"👩",gate:"Pilestredet 42",omrade:"bislett",omradeNavn:"Bislett",dist:"80 m",rating:"4.9",besok:38,open:true,
-     tags:["Åpen nå","Rullestolvennlig","Heis","🚰 Fyll vannflaske","🩺 Kan førstehjelp","💗 Hjertestarter"],
-     notat:"Sykepleier hjemme på dagtid. Har hjertestarter og førstehjelpsutdanning. Heis til 3. etasje.",
-     reviews:[{tekst:"Reddende engel! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Sykepleier og supervert.",dato:"3 dager siden"}]},
-    {id:2,navn:"Per K.",emoji:"👨‍🦳",gate:"Ullevålsveien 12",omrade:"bislett",omradeNavn:"Bislett",dist:"210 m",rating:"4.7",besok:21,open:true,
-     tags:["Åpen nå","Babyskiftebord","🍼 Varme barnemat/melk","🌂 Nødparaply","Barnevennlig"],
-     notat:"Bestefar hjemme på dagtid. Alltid varm melk og tørr paraply klar for barnefamilier!",
-     reviews:[{tekst:"Beste bestefar-vert! ⭐⭐⭐⭐⭐",dato:"1 uke siden"},{tekst:"Varm melk og god stemning.",dato:"2 uker siden"}]},
-
-    // FROGNER
-    {id:3,navn:"Amina S.",emoji:"👩🏾",gate:"Frognerveien 8",omrade:"frogner",omradeNavn:"Frogner",dist:"340 m",rating:"5.0",besok:14,open:false,
-     tags:["Kun 08–20","Parfymefri","Allergivennlig","🚰 Fyll vannflaske"],
-     notat:"Allergi i husholdningen — parfymefri sone. Fyll gjerne vannflasken. Book i forkant.",
-     reviews:[{tekst:"Utrolig hensynsfull vert. ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
-    {id:4,navn:"Jonas B.",emoji:"🧔",gate:"Elisenbergveien 4",omrade:"frogner",omradeNavn:"Frogner",dist:"410 m",rating:"4.8",besok:9,open:true,
-     tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","Hund i huset"],
-     notat:"Aktiv Frogner-fyr med badmintonracketer til utlån. Førstehjelpsutdannet. Hunden er snill!",
-     reviews:[{tekst:"Spilte badminton og fikk do-stopp! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-
-    // GRÜNERLØKKA
-    {id:5,navn:"Mikkel A.",emoji:"👨‍🎤",gate:"Thorvald Meyers gate 34",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"180 m",rating:"4.9",besok:52,open:true,
-     tags:["Åpen nå","🎵 Musikk og stemning","🎸 Lån en gitar","🔋 Lading","📚 Lån en bok","🌂 Nødparaply","🛋️ Lån et pledd"],
-     notat:"Hjemmekontor-dame. Kaffe, lading, bøker og paraply. Grünerløkkas hyggeligste stopp!",
-     reviews:[{tekst:"Gitar, vinyl og god stemning! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste kulturvert på Løkka!",dato:"3 dager siden"}]},
-    {id:6,navn:"Lars O.",emoji:"👨‍🦲",gate:"Grüners gate 12",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"290 m",rating:"4.6",besok:17,open:true,
-     tags:["Åpen nå","Rullestolvennlig","🚲 Luft til sykkel/ball","🔋 Lading","Inngang bakgård"],
-     notat:"Syklist og teknolog. Pumpe, lading og rullestolrampe. Inngang via bakgård.",
-     reviews:[{tekst:"Fikk luftet sykkelen og ladet! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
-
-    // GAMLEBYEN
-    {id:7,navn:"Fatima A.",emoji:"👩🏽",gate:"Schweigaards gate 22",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"320 m",rating:"4.8",besok:11,open:true,
-     tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🌂 Nødparaply","Rullestolvennlig"],
-     notat:"Småbarnsmamma hjemme. Alltid klar for barnefamilier — varm mat, skiftebord og paraply.",
-     reviews:[{tekst:"Livredder med to barn i regnværet! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-    {id:8,navn:"Ravi P.",emoji:"👨🏽",gate:"Mosseveien 3",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"480 m",rating:"4.5",besok:8,open:true,
-     tags:["Åpen nå","🔋 Lading","📚 Lån en bok","☀️ Nødsolkrem"],
-     notat:"Hjemmekontor. Lading, bøker og solkrem. Stille nabolag.",
-     reviews:[{tekst:"Praktisk og hyggelig! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
-
-    // GRØNLAND
-    {id:9,navn:"Yasmin H.",emoji:"👩🏽‍🦱",gate:"Tøyengata 18",omrade:"gronland",omradeNavn:"Grønland",dist:"150 m",rating:"5.0",besok:29,open:true,
-     tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🧊 Kjøl medbrakt drikke","🌂 Nødparaply"],
-     notat:"Familiehjem med alt du trenger. Varm mat, kjøleskap og paraply. Alltid hjemme på dagtid.",
-     reviews:[{tekst:"Beste familieverten! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Alt var klart og varmt.",dato:"3 dager siden"}]},
-    {id:10,navn:"Ole T.",emoji:"👴",gate:"Grønlandsleiret 14",omrade:"gronland",omradeNavn:"Grønland",dist:"240 m",rating:"4.7",besok:19,open:false,
-     tags:["Kun 09–18","💗 Hjertestarter","🩺 Kan førstehjelp","📚 Lån en bok"],
-     notat:"Pensjonert lege. Har hjertestarter og medisinsk utstyr. Åpen hverdager 9–18.",
-     reviews:[{tekst:"Lege-vert — tryggeste stopp i Oslo! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
-
-    // HAMMERSBORG
-    {id:11,navn:"Kari N.",emoji:"👩‍🦳",gate:"Akersbakken 7",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"200 m",rating:"4.9",besok:34,open:true,
-     tags:["Åpen nå","Heis","🔋 Lading","🚰 Fyll vannflaske","☀️ Nødsolkrem","🌂 Nødparaply"],
-     notat:"Alltid forberedt på Oslo-været! Heis til 4. etasje. Lading, vann, solkrem og paraply.",
-     reviews:[{tekst:"Perfekt for alle slags vær! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Som en liten kiosk!",dato:"4 dager siden"}]},
-    {id:12,navn:"Bjørn A.",emoji:"🧓",gate:"Fredensborgveien 6",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"310 m",rating:"4.6",besok:12,open:true,
-     tags:["Åpen nå","🩺 Kan førstehjelp","💗 Hjertestarter","🚲 Luft til sykkel/ball"],
-     notat:"Aktiv pensjonist med førstehjelp og hjertestarter. Pumpe til sykkel. Inngang bakgård.",
-     reviews:[{tekst:"Trygg og hjelpsom! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
-
-    // SAGENE
-    {id:13,navn:"Silje M.",emoji:"👩‍🦱",gate:"Sandakerveien 24",omrade:"sagene",omradeNavn:"Sagene",dist:"260 m",rating:"4.8",besok:23,open:true,
-     tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🚲 Luft til sykkel/ball","🔋 Lading"],
-     notat:"Sportslig dame med masse utstyr. Badminton, pumpe og lading. Alltid klar for en kamp!",
-     reviews:[{tekst:"Spilte badminton etterpå! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-    {id:14,navn:"Erik S.",emoji:"🧑‍🦰",gate:"Treschows gate 8",omrade:"sagene",omradeNavn:"Sagene",dist:"390 m",rating:"4.5",besok:7,open:true,
-     tags:["Åpen nå","📚 Lån en bok","🌂 Nødparaply","Nær Myraløkka"],
-     notat:"Rett ved Myraløkka park. Bøker og paraply til låns. Rolig nabolag.",
-     reviews:[{tekst:"Hyggelig stopp nær parken! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
-
-    // BJØLSEN
-    {id:15,navn:"Nora B.",emoji:"👱‍♀️",gate:"Bjølsenveien 12",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"300 m",rating:"4.7",besok:15,open:true,
-     tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🧊 Kjøl medbrakt drikke","Rolig gate"],
-     notat:"Tobarnsmamma. Alt for barnefamilier — varm mat, kjøleskap og skiftebord.",
-     reviews:[{tekst:"Perfekt for småbarnsforeldre! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
-    {id:16,navn:"Tor H.",emoji:"👨‍🦱",gate:"Dælenenggata 5",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"420 m",rating:"4.6",besok:10,open:false,
-     tags:["Kun 17–22","🔋 Lading","⚽ Bli med å spille","🏸 Lån badminton"],
-     notat:"Jobber på dagtid, hjemme fra 17. Badminton og fotball i kveldstimene!",
-     reviews:[{tekst:"Kveldssport med naboer! ⭐⭐⭐⭐",dato:"2 uker siden"}]},
-
-    // TORSHOV
-    {id:17,navn:"Hanne G.",emoji:"👩",gate:"Torshovgata 18",omrade:"torshov",omradeNavn:"Torshov",dist:"190 m",rating:"5.0",besok:41,open:true,
-     tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🌂 Nødparaply","📚 Lån en bok","🚰 Fyll vannflaske","🛋️ Lån et pledd"],
-     notat:"Torshov-husmoren! Kaffe, pledd, bøker, paraply og vann. Bli gjerne med på en kopp! 1. etasje.",
-     reviews:[{tekst:"Torshov på sitt beste! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom for do, ble for kaffe.",dato:"2 dager siden"}]},
-    {id:18,navn:"Magnus T.",emoji:"🧔‍♂️",gate:"Vogts gate 34",omrade:"torshov",omradeNavn:"Torshov",dist:"350 m",rating:"4.7",besok:18,open:true,
-     tags:["Åpen nå","🔋 Lading","🚲 Luft til sykkel/ball","🩺 Kan førstehjelp","Heis","👋 Bli med på kaffe"],
-     notat:"Ingeniør og syklist. Lading, pumpe og førstehjelp. Alltid kaffe på kanna. Heis til 4. etasje.",
-     reviews:[{tekst:"Teknisk vert med alt utstyr! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
-
-    // MAJORSTUEN
-    {id:19,navn:"Line W.",emoji:"👩‍🦰",gate:"Majorstuvegen 22",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"130 m",rating:"4.9",besok:47,open:true,
-     tags:["Åpen nå","Rullestolvennlig","Heis","🔋 Lading","☀️ Nødsolkrem","🌂 Nødparaply"],
-     notat:"Sentralt på Majorstuen. Forberedt på alt slags vær. Heis, lading, solkrem og paraply.",
-     reviews:[{tekst:"Perfekt plassering! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Alltid klar med paraply.",dato:"3 dager siden"}]},
-    {id:20,navn:"Petter L.",emoji:"👨",gate:"Kirkeveien 58",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"270 m",rating:"4.6",besok:22,open:true,
-     tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","👋 Bli med på kaffe","Nær t-bane"],
-     notat:"Aktiv fyr rett ved Majorstuen t-bane. Badminton til utlån og førstehjelp.",
-     reviews:[{tekst:"Sportslig og hjelpsom! ⭐⭐⭐⭐",dato:"4 dager siden"}]},
-
-    // MARIENLYST-JORDENE
-    {id:31,navn:"Camilla B.",emoji:"👩🏻‍🦰",gate:"Marienlystveien 8",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"220 m",rating:"4.8",besok:26,open:true,
-     tags:["Åpen nå","🔋 Lading","📚 Lån en bok","🚰 Fyll vannflaske","Nær NRK"],
-     notat:"Journalist nær NRK. Lading, bøker og vann. 3. etasje.",
-     reviews:[{tekst:"Hyggelig mediemenneske! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
-    {id:32,navn:"Øystein K.",emoji:"👨🏻‍🦳",gate:"Røa allé 3",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"340 m",rating:"4.7",besok:13,open:true,
-     tags:["Åpen nå","💗 Hjertestarter","🩺 Kan førstehjelp","🌂 Nødparaply"],
-     notat:"Ambulansesjåfør. Hjertestarter og fullt førstehjelpsutustyr tilgjengelig.",
-     reviews:[{tekst:"Tryggeste verten i Oslo! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
-
-    // CUBA — GRÜNERLØKKA
-    {id:33,navn:"Diego R.",emoji:"👨🏽",gate:"Helgesens gate 22",omrade:"cuba",omradeNavn:"Cuba — Grünerløkka",dist:"170 m",rating:"4.9",besok:31,open:true,
-     tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🎵 Musikk og stemning","🌂 Nødparaply"],
-     notat:"Cubansk musikk og kaffe. Gitar til utlån, pledd og paraply. 1. etasje, ring på 22B. ¡Bienvenidos!",
-     reviews:[{tekst:"Kaffe, salsa og do! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste stemning i Oslo.",dato:"2 dager siden"}]},
-
-    // PARKER — FROGNERPARKEN
-    {id:21,navn:"Sofia R.",emoji:"👩🏻",gate:"Frognerveien 42",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"90 m",rating:"5.0",besok:63,open:true,
-     tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🚰 Fyll vannflaske","☀️ Nødsolkrem","💗 Hjertestarter","🩺 Kan førstehjelp"],
-     notat:"Lege hjemme på fridagen. Hjertestarter, førstehjelp, kjøleskap og solkrem. Rett ved parkinngangen.",
-     reviews:[{tekst:"Lege-vert ved Frognerparken! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Trygg og fantastisk!",dato:"2 dager siden"}]},
-    {id:22,navn:"Anders K.",emoji:"👨‍🦳",gate:"Frognerparkveien 8",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"140 m",rating:"4.9",besok:38,open:true,
-     tags:["Åpen nå","Hotzone","🏸 Lån badminton","⚽ Bli med å spille","🚲 Luft til sykkel/ball","🔋 Lading"],
-     notat:"Aktiv far med sportsutstyr. Badminton, fotball, pumpe og lading. Alltid klar for lek!",
-     reviews:[{tekst:"Fantastisk sporty vert! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
-
-    // ST. HANSHAUGEN
-    {id:23,navn:"Marie S.",emoji:"👩‍🦳",gate:"Hegdehaugsveien 14",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"110 m",rating:"4.9",besok:55,open:true,
-     tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","📚 Lån en bok","🌂 Nødparaply","🚰 Fyll vannflaske","🛋️ Lån et pledd","🎸 Lån en gitar"],
-     notat:"Pensjonert bibliotekar og amatørgitarist. Bøker, pledd, gitar og paraply. Heis finnes. Ring på 14D.",
-     reviews:[{tekst:"Bibliotek og do i ett! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom for do, fikk bok.",dato:"1 dag siden"}]},
-    {id:24,navn:"Kristian O.",emoji:"🧑",gate:"St. Hanshaugen 3",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"200 m",rating:"4.7",besok:29,open:true,
-     tags:["Åpen nå","Hotzone","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","☀️ Nødsolkrem"],
-     notat:"Fysioterapeut og badmintonspiller. Alltid klar for en kamp! Førstehjelp tilgjengelig.",
-     reviews:[{tekst:"Spilte badminton og fikk hjelp! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-
-    // SOFIENBERGPARKEN
-    {id:25,navn:"Aisha M.",emoji:"👩🏾‍🦱",gate:"Sofienberggata 8",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"80 m",rating:"5.0",besok:44,open:true,
-     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","Babyskiftebord","🌂 Nødparaply","🧊 Kjøl medbrakt drikke"],
-     notat:"Trebarnsmamma nabo til parken. Varm mat, skiftebord, kjøleskap og paraply. Alltid åpen!",
-     reviews:[{tekst:"Reddet piknik-dagen! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste familieverter!",dato:"3 dager siden"}]},
-    {id:26,navn:"Thomas B.",emoji:"👨🏻",gate:"Helgesens gate 5",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"160 m",rating:"4.8",besok:21,open:true,
-     tags:["Åpen nå","Hotzone","🔋 Lading","🚲 Luft til sykkel/ball","⚽ Bli med å spille","☀️ Nødsolkrem"],
-     notat:"Syklist og fotballspiller. Lading, pumpe og solkrem. Alltid klar for en kamp i parken!",
-     reviews:[{tekst:"Spilte fotball etterpå! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
-
-    // TØYENPARKEN
-    {id:27,navn:"Lena F.",emoji:"👩‍🦱",gate:"Seilduksgata 14",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"120 m",rating:"4.9",besok:37,open:true,
-     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🧊 Kjøl medbrakt drikke","Barnefamilier"],
-     notat:"Jordmor og barnefamilievert. Varm mat, kjøleskap og paraply. Spesielt egnet for småbarnsfamilier.",
-     reviews:[{tekst:"Jordmor-vert! Fantastisk! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt for barna.",dato:"2 dager siden"}]},
-    {id:28,navn:"Geir A.",emoji:"🧔",gate:"Tøyengata 44",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"230 m",rating:"4.6",besok:14,open:true,
-     tags:["Åpen nå","Hotzone","🏸 Lån badminton","🚲 Luft til sykkel/ball","💗 Hjertestarter","🩺 Kan førstehjelp"],
-     notat:"Brannmann. Hjertestarter, førstehjelp og sportsutstyr. Tryggeste stopp ved Tøyenparken.",
-     reviews:[{tekst:"Brannmann-vert — tryggeste i Oslo! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
-
-    // SLOTTSPARKEN
-    {id:29,navn:"Astrid M.",emoji:"👩‍🦳",gate:"Parkveien 18",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"95 m",rating:"5.0",besok:71,open:true,
-     tags:["Åpen nå","Hotzone","🔋 Lading","🚰 Fyll vannflaske","📚 Lån en bok","🌂 Nødparaply","☀️ Nødsolkrem"],
-     notat:"Hjemmekontor-dame med alt du trenger. Lading, vann, bøker, paraply og solkrem. 1. etasje.",
-     reviews:[{tekst:"Komplett servicepunkt! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Livredder under konsert.",dato:"2 dager siden"}]},
-    {id:30,navn:"Henrik P.",emoji:"👨‍🦱",gate:"Wergelandsveien 5",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"180 m",rating:"4.8",besok:33,open:true,
-     tags:["Åpen nå","Hotzone","💗 Hjertestarter","🩺 Kan førstehjelp","🧊 Kjøl medbrakt drikke"],
-     notat:"Lege ansatt ved Rikshospitalet. Hjertestarter og medisinsk utstyr. Kjøleskap tilgjengelig.",
-     reviews:[{tekst:"Lege-vert ved Slottsparken! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
-
-    // THORSHOVPARKEN
-    {id:34,navn:"Turid V.",emoji:"👩‍🦳",gate:"Vogts gate 12",omrade:"thorshovparken",omradeNavn:"🌳 Thorshovparken",dist:"130 m",rating:"5.0",besok:27,open:true,
-     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🏸 Lån badminton","Barnefamilier","🛋️ Lån et pledd"],
-     notat:"Barnehageansatt nær parken. Badminton, varm barnemat og paraply. Ring på 12A.",
-     reviews:[{tekst:"Barnehage-vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt for lekeplassen.",dato:"3 dager siden"}]}
+    {id:1,navn:"Marta H.",emoji:"👩",gate:"Pilestredet 42",omrade:"bislett",omradeNavn:"Bislett",dist:"80 m",rating:"4.9",besok:38,open:true,tags:["Åpen nå","Rullestolvennlig","🚰 Fyll vannflaske","🩺 Kan førstehjelp","💗 Hjertestarter"],notat:"Sykepleier hjemme på dagtid. Hjertestarter og førstehjelp. Heis til 3. etasje.",reviews:[{tekst:"Reddende engel! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Sykepleier og supervert.",dato:"3 dager siden"}]},
+    {id:2,navn:"Per K.",emoji:"👨‍🦳",gate:"Ullevålsveien 12",omrade:"bislett",omradeNavn:"Bislett",dist:"210 m",rating:"4.7",besok:21,open:true,tags:["Åpen nå","Babyskiftebord","🍼 Varme barnemat/melk","🌂 Nødparaply"],notat:"Bestefar hjemme på dagtid. Varm melk og paraply for barnefamilier!",reviews:[{tekst:"Beste bestefar-vert! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:3,navn:"Amina S.",emoji:"👩🏾",gate:"Frognerveien 8",omrade:"frogner",omradeNavn:"Frogner",dist:"340 m",rating:"5.0",besok:14,open:false,tags:["Kun 08–20","Parfymefri","🚰 Fyll vannflaske"],notat:"Allergi i husholdningen — parfymefri sone. Fyll vannflasken. Book i forkant.",reviews:[{tekst:"Utrolig hensynsfull vert. ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+    {id:4,navn:"Jonas B.",emoji:"🧔",gate:"Elisenbergveien 4",omrade:"frogner",omradeNavn:"Frogner",dist:"410 m",rating:"4.8",besok:9,open:true,tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","Hund i huset"],notat:"Aktiv Frogner-fyr med badmintonracketer. Førstehjelpsutdannet. Hunden er snill!",reviews:[{tekst:"Spilte badminton og fikk do-stopp! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:5,navn:"Mikkel A.",emoji:"👨‍🎤",gate:"Thorvald Meyers gate 34",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"180 m",rating:"4.9",besok:52,open:true,tags:["Åpen nå","🎵 Musikk og stemning","🎸 Lån en gitar","🔋 Lading","📚 Lån en bok","🛋️ Lån et pledd"],notat:"Musiker på hjemmekontor. Te, lading, vinyl og bøker. Kom innom! 2. etasje.",reviews:[{tekst:"Gitar, vinyl og god stemning! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste kulturvert på Løkka!",dato:"3 dager siden"}]},
+    {id:6,navn:"Lars O.",emoji:"👨‍🦲",gate:"Grüners gate 12",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"290 m",rating:"4.6",besok:17,open:true,tags:["Åpen nå","Rullestolvennlig","🚲 Luft til sykkel/ball","🔋 Lading"],notat:"Syklist og teknolog. Pumpe, lading og rullestolrampe. Inngang via bakgård.",reviews:[{tekst:"Fikk luftet sykkelen og ladet! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:7,navn:"Fatima A.",emoji:"👩🏽",gate:"Schweigaards gate 22",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"320 m",rating:"4.8",besok:11,open:true,tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🌂 Nødparaply","Rullestolvennlig"],notat:"Småbarnsmamma hjemme. Varm mat, skiftebord og paraply for barnefamilier.",reviews:[{tekst:"Livredder i regnværet! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:8,navn:"Ravi P.",emoji:"👨🏽",gate:"Mosseveien 3",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"480 m",rating:"4.5",besok:8,open:true,tags:["Åpen nå","🔋 Lading","📚 Lån en bok","☀️ Nødsolkrem"],notat:"Hjemmekontor. Lading, bøker og solkrem.",reviews:[{tekst:"Praktisk og hyggelig! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:9,navn:"Yasmin H.",emoji:"👩🏽‍🦱",gate:"Tøyengata 18",omrade:"gronland",omradeNavn:"Grønland",dist:"150 m",rating:"5.0",besok:29,open:true,tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🧊 Kjøl medbrakt drikke","🌂 Nødparaply"],notat:"Familiehjem med alt du trenger. Varm mat, kjøleskap og paraply.",reviews:[{tekst:"Beste familieverten! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:10,navn:"Ole T.",emoji:"👴",gate:"Grønlandsleiret 14",omrade:"gronland",omradeNavn:"Grønland",dist:"240 m",rating:"4.7",besok:19,open:false,tags:["Kun 09–18","💗 Hjertestarter","🩺 Kan førstehjelp","📚 Lån en bok"],notat:"Pensjonert lege. Hjertestarter og medisinsk utstyr. Åpen hverdager 9–18.",reviews:[{tekst:"Lege-vert — tryggeste stopp i Oslo! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+    {id:11,navn:"Kari N.",emoji:"👩‍🦳",gate:"Akersbakken 7",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"200 m",rating:"4.9",besok:34,open:true,tags:["Åpen nå","Heis","🔋 Lading","🚰 Fyll vannflaske","☀️ Nødsolkrem","🌂 Nødparaply"],notat:"Alltid forberedt! Heis til 4. etasje. Lading, vann, solkrem og paraply.",reviews:[{tekst:"Som en liten kiosk! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:12,navn:"Bjørn A.",emoji:"🧓",gate:"Fredensborgveien 6",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"310 m",rating:"4.6",besok:12,open:true,tags:["Åpen nå","🩺 Kan førstehjelp","💗 Hjertestarter","🚲 Luft til sykkel/ball"],notat:"Aktiv pensjonist. Førstehjelp, hjertestarter og sykkelspumpe. Inngang bakgård.",reviews:[{tekst:"Trygg og hjelpsom! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:13,navn:"Silje M.",emoji:"👩‍🦱",gate:"Sandakerveien 24",omrade:"sagene",omradeNavn:"Sagene",dist:"260 m",rating:"4.8",besok:23,open:true,tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🚲 Luft til sykkel/ball","🔋 Lading"],notat:"Sportslig dame. Badminton, pumpe og lading. Klar for kamp!",reviews:[{tekst:"Spilte badminton etterpå! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:14,navn:"Erik S.",emoji:"🧑‍🦰",gate:"Treschows gate 8",omrade:"sagene",omradeNavn:"Sagene",dist:"390 m",rating:"4.5",besok:7,open:true,tags:["Åpen nå","📚 Lån en bok","🌂 Nødparaply","Nær Myraløkka"],notat:"Rett ved Myraløkka. Bøker og paraply. Rolig nabolag.",reviews:[{tekst:"Hyggelig stopp! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:15,navn:"Nora B.",emoji:"👱‍♀️",gate:"Bjølsenveien 12",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"300 m",rating:"4.7",besok:15,open:true,tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🧊 Kjøl medbrakt drikke"],notat:"Tobarnsmamma. Alt for barnefamilier.",reviews:[{tekst:"Perfekt for småbarnsforeldre! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:16,navn:"Tor H.",emoji:"👨‍🦱",gate:"Dælenenggata 5",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"420 m",rating:"4.6",besok:10,open:false,tags:["Kun 17–22","🔋 Lading","⚽ Bli med å spille","🏸 Lån badminton"],notat:"Hjemme fra 17. Badminton og fotball i kveldstimene!",reviews:[{tekst:"Kveldssport med naboer! ⭐⭐⭐⭐",dato:"2 uker siden"}]},
+    {id:17,navn:"Hanne G.",emoji:"👩",gate:"Torshovgata 18",omrade:"torshov",omradeNavn:"Torshov",dist:"190 m",rating:"5.0",besok:41,open:true,tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🌂 Nødparaply","📚 Lån en bok","🛋️ Lån et pledd"],notat:"Torshov-husmoren! Kaffe, pledd, bøker, paraply. Bli med på en kopp!",reviews:[{tekst:"Kom for do, ble for kaffe. ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:18,navn:"Magnus T.",emoji:"🧔‍♂️",gate:"Vogts gate 34",omrade:"torshov",omradeNavn:"Torshov",dist:"350 m",rating:"4.7",besok:18,open:true,tags:["Åpen nå","🔋 Lading","🚲 Luft til sykkel/ball","🩺 Kan førstehjelp","👋 Bli med på kaffe"],notat:"Ingeniør og syklist. Lading, pumpe og førstehjelp. Kaffe på kanna.",reviews:[{tekst:"Teknisk vert med alt utstyr! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+    {id:19,navn:"Line W.",emoji:"👩‍🦰",gate:"Majorstuvegen 22",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"130 m",rating:"4.9",besok:47,open:true,tags:["Åpen nå","Rullestolvennlig","Heis","🔋 Lading","☀️ Nødsolkrem","🌂 Nødparaply"],notat:"Sentralt på Majorstuen. Heis, lading, solkrem og paraply.",reviews:[{tekst:"Perfekt plassering! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:20,navn:"Petter L.",emoji:"👨",gate:"Kirkeveien 58",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"270 m",rating:"4.6",besok:22,open:true,tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","👋 Bli med på kaffe"],notat:"Aktiv fyr ved Majorstuen t-bane. Badminton og førstehjelp.",reviews:[{tekst:"Sportslig og hjelpsom! ⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:21,navn:"Sofia R.",emoji:"👩🏻",gate:"Frognerveien 42",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"90 m",rating:"5.0",besok:63,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🚰 Fyll vannflaske","☀️ Nødsolkrem","💗 Hjertestarter","🩺 Kan førstehjelp"],notat:"Lege hjemme på fridagen. Hjertestarter, førstehjelp og solkrem. Rett ved parkinngangen.",reviews:[{tekst:"Lege-vert ved Frognerparken! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:22,navn:"Anders K.",emoji:"👨‍🦳",gate:"Frognerparkveien 8",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"140 m",rating:"4.9",besok:38,open:true,tags:["Åpen nå","Hotzone","🏸 Lån badminton","⚽ Bli med å spille","🚲 Luft til sykkel/ball","🔋 Lading"],notat:"Aktiv far med sportsutstyr. Badminton, fotball og pumpe.",reviews:[{tekst:"Fantastisk sporty vert! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:23,navn:"Marie S.",emoji:"👩‍🦳",gate:"Hegdehaugsveien 14",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"110 m",rating:"4.9",besok:55,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","📚 Lån en bok","🌂 Nødparaply","🛋️ Lån et pledd","🎸 Lån en gitar"],notat:"Pensjonert bibliotekar og gitarist. Bøker, pledd, gitar og paraply. Heis. Ring på 14D.",reviews:[{tekst:"Bibliotek og do i ett! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:24,navn:"Kristian O.",emoji:"🧑",gate:"St. Hanshaugen 3",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"200 m",rating:"4.7",besok:29,open:true,tags:["Åpen nå","Hotzone","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","☀️ Nødsolkrem"],notat:"Fysioterapeut og badmintonspiller. Klar for kamp! Førstehjelp tilgjengelig.",reviews:[{tekst:"Spilte badminton og fikk hjelp! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:25,navn:"Aisha M.",emoji:"👩🏾‍🦱",gate:"Sofienberggata 8",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"80 m",rating:"5.0",besok:44,open:true,tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","Babyskiftebord","🌂 Nødparaply","🧊 Kjøl medbrakt drikke"],notat:"Trebarnsmamma nabo til parken. Varm mat, kjøleskap og paraply.",reviews:[{tekst:"Reddet piknik-dagen! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:26,navn:"Thomas B.",emoji:"👨🏻",gate:"Helgesens gate 5",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"160 m",rating:"4.8",besok:21,open:true,tags:["Åpen nå","Hotzone","🔋 Lading","🚲 Luft til sykkel/ball","⚽ Bli med å spille","☀️ Nødsolkrem"],notat:"Syklist og fotballspiller. Lading, pumpe og solkrem.",reviews:[{tekst:"Spilte fotball etterpå! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:27,navn:"Lena F.",emoji:"👩‍🦱",gate:"Seilduksgata 14",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"120 m",rating:"4.9",besok:37,open:true,tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🧊 Kjøl medbrakt drikke","Barnefamilier"],notat:"Jordmor og barnefamilievert. Varm mat, kjøleskap og paraply.",reviews:[{tekst:"Jordmor-vert! Fantastisk! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:28,navn:"Geir A.",emoji:"🧔",gate:"Tøyengata 44",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"230 m",rating:"4.6",besok:14,open:true,tags:["Åpen nå","Hotzone","🏸 Lån badminton","🚲 Luft til sykkel/ball","💗 Hjertestarter","🩺 Kan førstehjelp"],notat:"Brannmann. Hjertestarter, førstehjelp og sportsutstyr.",reviews:[{tekst:"Brannmann-vert — tryggeste i Oslo! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:29,navn:"Astrid M.",emoji:"👩‍🦳",gate:"Parkveien 18",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"95 m",rating:"5.0",besok:71,open:true,tags:["Åpen nå","Hotzone","🔋 Lading","🚰 Fyll vannflaske","📚 Lån en bok","🌂 Nødparaply","☀️ Nødsolkrem"],notat:"Alt du trenger. Lading, vann, bøker, paraply og solkrem. 1. etasje.",reviews:[{tekst:"Komplett servicepunkt! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:30,navn:"Henrik P.",emoji:"👨‍🦱",gate:"Wergelandsveien 5",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"180 m",rating:"4.8",besok:33,open:true,tags:["Åpen nå","Hotzone","💗 Hjertestarter","🩺 Kan førstehjelp","🧊 Kjøl medbrakt drikke"],notat:"Lege ved Rikshospitalet. Hjertestarter og kjøleskap.",reviews:[{tekst:"Lege-vert ved Slottsparken! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:31,navn:"Camilla B.",emoji:"👩🏻‍🦰",gate:"Marienlystveien 8",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"220 m",rating:"4.8",besok:26,open:true,tags:["Åpen nå","🔋 Lading","📚 Lån en bok","🚰 Fyll vannflaske","Nær NRK"],notat:"Journalist nær NRK. Lading, bøker og vann. 3. etasje.",reviews:[{tekst:"Hyggelig mediemenneske! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:32,navn:"Øystein K.",emoji:"👨🏻‍🦳",gate:"Røa allé 3",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"340 m",rating:"4.7",besok:13,open:true,tags:["Åpen nå","💗 Hjertestarter","🩺 Kan førstehjelp","🌂 Nødparaply"],notat:"Ambulansesjåfør. Hjertestarter og fullt førstehjelpstutstyr.",reviews:[{tekst:"Tryggeste verten i Oslo! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:33,navn:"Diego R.",emoji:"👨🏽",gate:"Helgesens gate 22",omrade:"cuba",omradeNavn:"Cuba — Grünerløkka",dist:"170 m",rating:"4.9",besok:31,open:true,tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🎵 Musikk og stemning","🎸 Lån en gitar","🌂 Nødparaply"],notat:"Cubansk musikk og kaffe. Gitar, pledd og paraply. Ring på 22B. ¡Bienvenidos!",reviews:[{tekst:"Kaffe, salsa og do! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:34,navn:"Turid V.",emoji:"👩‍🦳",gate:"Vogts gate 12",omrade:"thorshovparken",omradeNavn:"🌳 Thorshovparken",dist:"130 m",rating:"5.0",besok:27,open:true,tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🏸 Lån badminton","🛋️ Lån et pledd"],notat:"Barnehageansatt nær parken. Badminton, varm barnemat og paraply. Ring på 12A.",reviews:[{tekst:"Barnehage-vert! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:40,navn:"Kari B.",emoji:"👩‍🦳",gate:"Huk Aveny 1",omrade:"bygdoy",omradeNavn:"🏖️ Bygdøy",dist:"fra båten",rating:"5.0",besok:44,open:true,tags:["Åpen nå","🧊 Kjøl medbrakt drikke","☀️ Nødsolkrem","🌂 Nødparaply","🚰 Fyll vannflaske"],notat:"Rett ved Huk badestrand. Kjøleskap, solkrem og vann. Ring på ved porten.",reviews:[{tekst:"Livredder på stranden! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:41,navn:"Birger N.",emoji:"🧔‍♂️",gate:"Bygdøynesveien 8",omrade:"bygdoy",omradeNavn:"🏖️ Bygdøy",dist:"fra båten",rating:"4.8",besok:31,open:true,tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🔋 Lading","🚲 Luft til sykkel/ball"],notat:"Aktiv Bygdøy-beboer. Badminton, pumpe og lading.",reviews:[{tekst:"Badminton på Bygdøy! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:42,navn:"Solveig H.",emoji:"👩🏻",gate:"Hovedøya ferjekai",omrade:"hovedoya",omradeNavn:"⛵ Hovedøya",dist:"på øya",rating:"5.0",besok:28,open:true,tags:["Åpen nå","Hotzone","☀️ Nødsolkrem","🧊 Kjøl medbrakt drikke","🛋️ Lån et pledd","🌂 Nødparaply"],notat:"Sommerhytte på Hovedøya. Solkrem, kjøleskap og pledd. Finn meg ved den røde hytta.",reviews:[{tekst:"Øy-eventyr med Nabodo! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:43,navn:"Lars E.",emoji:"👨",gate:"Langøyene sørside",omrade:"langoyene",omradeNavn:"⛵ Langøyene",dist:"på øya",rating:"4.9",besok:19,open:true,tags:["Åpen nå","Hotzone","☀️ Nødsolkrem","🚰 Fyll vannflaske","🩺 Kan førstehjelp"],notat:"Langøyene-vert ved campingplassen. Førstehjelp, vann og solkrem.",reviews:[{tekst:"Perfekt på Langøyene! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:44,navn:"Mette S.",emoji:"👩🏼",gate:"Nakholmen brygge",omrade:"nakholmen",omradeNavn:"⛵ Nakholmen",dist:"på øya",rating:"5.0",besok:22,open:true,tags:["Åpen nå","Hotzone","🎸 Lån en gitar","🛋️ Lån et pledd","🧊 Kjøl medbrakt drikke"],notat:"Sommerhytte ved brygga. Gitar, pledd og kjøleskap. Kom innom!",reviews:[{tekst:"Gitarkveld på Nakholmen! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:45,navn:"Tor A.",emoji:"🧓",gate:"Gressholmen kai",omrade:"gressholmen",omradeNavn:"⛵ Gressholmen",dist:"på øya",rating:"4.8",besok:15,open:true,tags:["Åpen nå","Hotzone","💗 Hjertestarter","🩺 Kan førstehjelp","🚰 Fyll vannflaske"],notat:"Pensjonert lege. Hjertestarter og førstehjelp på øya.",reviews:[{tekst:"Trygg lege på øya! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:46,navn:"Nina K.",emoji:"👩🏽",gate:"Bleikøya vest",omrade:"bleikoya",omradeNavn:"⛵ Bleikøya",dist:"på øya",rating:"4.9",besok:11,open:true,tags:["Åpen nå","Hotzone","🎵 Musikk og stemning","🎸 Lån en gitar","🛋️ Lån et pledd"],notat:"Kunstner på Bleikøya. Gitar, musikk og pledd. Velkommen!",reviews:[{tekst:"Kunstner-vert på Bleikøya! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:47,navn:"Pål O.",emoji:"👨🏻",gate:"Lindøya brygge",omrade:"lindoya",omradeNavn:"⛵ Lindøya",dist:"på øya",rating:"4.7",besok:18,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🏸 Lån badminton","⚽ Bli med å spille"],notat:"Lindøya-beboer. Badminton og kjøleskap. Det gule huset.",reviews:[{tekst:"Sport og sol på Lindøya! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]}
   ];
 
-  let aktivtOmrade = 'alle';
+  // ─── FERRY ───────────────────────────────────────────────────────────
+  const ferryRoutes = {
+    bygdoy:      {linje:"B9",navn:"Bygdøy",tider:["10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","15:00","16:00","17:00","18:00"]},
+    hovedoya:    {linje:"B1",navn:"Hovedøya",tider:["09:30","10:00","10:30","11:00","11:30","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"]},
+    langoyene:   {linje:"B2",navn:"Langøyene",tider:["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"]},
+    nakholmen:   {linje:"B3",navn:"Nakholmen",tider:["09:45","10:45","11:45","12:45","13:45","14:45","15:45","16:45","17:45","18:45"]},
+    gressholmen: {linje:"B1",navn:"Gressholmen",tider:["09:30","10:30","11:30","12:30","13:30","14:30","15:30","16:30","17:30","18:30"]},
+    bleikoya:    {linje:"B3",navn:"Bleikøya",tider:["10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"]},
+    lindoya:     {linje:"B2",navn:"Lindøya",tider:["09:00","10:30","12:00","13:30","15:00","16:30","18:00"]},
+    heggholmen:  {linje:"B3",navn:"Heggholmen",tider:["10:00","11:30","13:00","14:30","16:00","17:30"]},
+    ulvoya:      {linje:"B9",navn:"Ulvøya",tider:["09:30","11:00","12:30","14:00","15:30","17:00","18:30"]}
+  };
 
-  function filterTag(type) {
-    aktivtOmrade = 'tag_' + type;
+  function showFerry(omrade) {
+    const panel = document.getElementById('ferry-panel');
+    const route = ferryRoutes[omrade];
+    if (!route) { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+    document.getElementById('ferry-title').textContent = route.linje + ' → ' + route.navn + ' (fra Aker Brygge)';
+    document.getElementById('ferry-updated').textContent = 'Oppdatert: ' + new Date().toLocaleTimeString('nb-NO', {hour:'2-digit',minute:'2-digit'});
+    const nowMins = new Date().getHours() * 60 + new Date().getMinutes();
+    document.getElementById('ferry-times').innerHTML = route.tider.map(function(t) {
+      const parts = t.split(':');
+      const diff = parseInt(parts[0]) * 60 + parseInt(parts[1]) - nowMins;
+      let status, color, bg;
+      if (diff < 0) { status = 'Gått'; color = '#999'; bg = 'rgba(255,255,255,0.05)'; }
+      else if (diff <= 15) { status = 'Om ' + diff + ' min'; color = '#fbbf24'; bg = 'rgba(251,191,36,0.15)'; }
+      else if (diff <= 45) { status = diff + ' min'; color = '#34d399'; bg = 'rgba(52,211,153,0.15)'; }
+      else { status = t; color = 'rgba(168,213,255,0.7)'; bg = 'rgba(255,255,255,0.05)'; }
+      return '<div style="background:' + bg + ';border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 12px;text-align:center;min-width:72px;"><div style="font-size:15px;font-weight:500;color:#fff;">' + t + '</div><div style="font-size:11px;color:' + color + ';">' + status + '</div></div>';
+    }).join('');
+  }
+
+  // ─── STATE & FILTER ──────────────────────────────────────────────────
+  var aktivtOmrade = 'alle';
+
+  function filterSted(val) {
+    document.getElementById('tilbud-select').value = 'alle';
+    document.getElementById('search-input').value = '';
+    aktivtOmrade = val;
+    showFerry(val);
     renderListings();
   }
 
   function filterTilbud(val) {
-    if (val === 'alle') aktivtOmrade = 'alle';
-    else aktivtOmrade = 'tilbud_' + val;
+    document.getElementById('sted-select').value = 'alle';
+    document.getElementById('search-input').value = '';
+    aktivtOmrade = 'tag_' + val;
     renderListings();
   }
 
-  // Stats bar
-  function updateStats() {
-    const total = verter.length;
-    const open = verter.filter(v => v.open).length;
-    const totalVisits = verter.reduce((a,v) => a + v.besok, 0);
-    document.getElementById('stats-bar').innerHTML =
-      `<strong style="color:var(--green-dark)">${open} åpne nå</strong> av ${total} verter · <strong style="color:var(--green-dark)">${totalVisits}</strong> besøk totalt`;
-  }
-
-  // Search
   function searchVerter() {
-    const q = document.getElementById('search-input').value.toLowerCase();
+    var q = document.getElementById('search-input').value.toLowerCase();
     if (!q) { aktivtOmrade = 'alle'; renderListings(); return; }
-    aktivtOmrade = 'search';
-    const container = document.getElementById('listings-container');
-    const filtered = verter.filter(v =>
-      v.tags.some(t => t.toLowerCase().includes(q)) ||
-      v.navn.toLowerCase().includes(q) ||
-      v.omradeNavn.toLowerCase().includes(q) ||
-      v.notat.toLowerCase().includes(q)
-    );
-    container.innerHTML = filtered.length ? filtered.map(v => renderVert(v)).join('') :
+    var filtered = verter.filter(function(v) {
+      return v.tags.some(function(t) { return t.toLowerCase().includes(q); }) ||
+             v.navn.toLowerCase().includes(q) ||
+             v.omradeNavn.toLowerCase().includes(q) ||
+             v.notat.toLowerCase().includes(q);
+    });
+    var container = document.getElementById('listings-container');
+    container.innerHTML = filtered.length ? filtered.map(renderVert).join('') :
       '<p style="color:var(--text-muted);padding:2rem;text-align:center;">Ingen treff — prøv et annet søkeord</p>';
   }
 
+  // ─── RENDER ──────────────────────────────────────────────────────────
   function renderVert(v) {
-    return `<div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
-      <div class="listing-avatar">${v.emoji}</div>
-      <div class="listing-body">
-        <div class="listing-name">${v.navn}</div>
-        <div class="listing-addr">${v.gate}, Oslo</div>
-        <div class="listing-tags">
-          ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t==='Åpen nå' ? '<span class="pulse-dot"></span>' : ''}${t}</span>`).join('')}
-        </div>
-      </div>
-      <div class="listing-meta">
-        <div class="listing-dist">${v.dist}</div>
-        <div class="nabodo-score">⭐ ${Math.min(v.tags.length, 5)}/5</div>
-        <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
-        <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">Se profil</button>
-      </div>
-    </div>`;
+    var tagsHtml = v.tags.slice(0,3).map(function(t) {
+      var dot = t === 'Åpen nå' ? '<span class="pulse-dot"></span>' : '';
+      var cls = t === 'Åpen nå' ? 'tag open' : 'tag';
+      return '<span class="' + cls + '">' + dot + t + '</span>';
+    }).join('');
+    var score = Math.min(v.tags.length, 5);
+    return '<div class="listing" onclick="openProfile(' + v.id + ')" style="cursor:pointer;">' +
+      '<div class="listing-avatar">' + v.emoji + '</div>' +
+      '<div class="listing-body">' +
+        '<div class="listing-name">' + v.navn + '</div>' +
+        '<div class="listing-addr">' + v.gate + ', Oslo</div>' +
+        '<div class="listing-tags">' + tagsHtml + '</div>' +
+      '</div>' +
+      '<div class="listing-meta">' +
+        '<div class="listing-dist">' + v.dist + '</div>' +
+        '<div class="nabodo-score">⭐ ' + score + '/5</div>' +
+        '<div class="listing-rating">★ ' + v.rating + ' · ' + v.besok + ' besøk</div>' +
+        '<button class="listing-action" onclick="event.stopPropagation();openProfile(' + v.id + ')">Se profil</button>' +
+      '</div>' +
+    '</div>';
   }
-
-  // Lucky vert
-  function luckyVert() {
-    const open = verter.filter(v => v.open);
-    const v = open[Math.floor(Math.random() * open.length)];
-    openProfile(v.id);
-    showToast('🎲 Tilfeldig vert: ' + v.navn + '!');
-  }
-
-  // Feed
-  const feedPosts = [
-    {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton på Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:"14 min siden"},
-    {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Bare ring på 34.",tag:"👋 Sosialt",tid:"32 min siden"},
-    {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:"1 time siden"},
-    {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. Medbrakt drikke, jeg tar gitaren! 🎸",tag:"🎵 Musikk",tid:"2 timer siden"},
-    {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
-    {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Påminnelse: Jeg har hjertestarter og er sertifisert i HLR. Ring på 44 ved behov — alltid hjemme på dagtid. 💗",tag:"💗 Beredskap",tid:"i går"},
-  ];
-
-  function renderFeed() {
-    document.getElementById('feed-container').innerHTML = feedPosts.map(p => `
-      <div class="feed-post">
-        <div class="feed-post-header">
-          <span class="feed-post-avatar">${p.emoji}</span>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--text)">${p.navn}</div>
-            <div class="feed-post-meta">${p.omrade} · ${p.tid}</div>
-          </div>
-        </div>
-        <div class="feed-post-text">${p.tekst}</div>
-        <span class="feed-post-tag">${p.tag}</span>
-      </div>
-    `).join('');
-  }
-
-
-  // Seasonal relevance
-  const month = new Date().getMonth();
-  const isSummer = month >= 4 && month <= 8;
-  const isWinter = month >= 10 || month <= 2;
-  if (isSummer) {
-    document.querySelectorAll('.area-btn').forEach(b => {
-      if (b.textContent.includes('solkrem') || b.textContent.includes('Kjøl')) {
-        b.style.outline = '2px solid #f59e0b';
-        b.title = 'Sesongaktuelt nå!';
-      }
-    });
-  }
-  if (isWinter) {
-    document.querySelectorAll('.area-btn').forEach(b => {
-      if (b.textContent.includes('paraply') || b.textContent.includes('pledd')) {
-        b.style.outline = '2px solid #3b82f6';
-        b.title = 'Sesongaktuelt nå!';
-      }
-    });
-  }
-
-  renderListings();
-  updateStats();
-  renderFeed();
-
-  function filterArea(omrade) {
-    aktivtOmrade = omrade;
-    renderListings();
-  }
-
-  // Animated counter
-  function animateCounter(el, target, duration) {
-    let start = 0;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) { start = target; clearInterval(timer); }
-      el.textContent = start;
-    }, 16);
-  }
-
-  const counterEl = document.getElementById('vert-counter');
-  if (counterEl) {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 34, 1800);
-        observer.disconnect();
-      }
-    });
-    observer.observe(counterEl);
-  }
-
-  // Current vert for map/copy
-  let currentVert = null;
-
-  function openInMaps() {
-    if (!currentVert) return;
-    const addr = encodeURIComponent(currentVert.gate + ', Oslo, Norway');
-    const isIOS = /iPhone|iPad/i.test(navigator.userAgent);
-    const url = isIOS
-      ? 'maps://maps.apple.com/?q=' + addr
-      : 'https://www.google.com/maps/search/?api=1&query=' + addr;
-    window.open(url, '_blank');
-  }
-
-  function copyAddress() {
-    if (!currentVert) return;
-    const addr = currentVert.gate + ', Oslo';
-    navigator.clipboard.writeText(addr).then(() => {
-      showToast('Adresse kopiert: ' + addr);
-      document.getElementById('profile-copy-btn').textContent = '✓ Kopiert!';
-      setTimeout(() => {
-        document.getElementById('profile-copy-btn').textContent = '📋 Kopier adresse';
-      }, 2000);
-    });
-  }
-
-  function shareNabodo() {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Nabodo',
-        text: 'Finn et toalett hos en nabo — gratis, trygt, nærme deg.',
-        url: 'https://nabodo.no'
-      });
-    } else {
-      navigator.clipboard.writeText('https://nabodo.no');
-      showToast('Lenke kopiert: nabodo.no');
-    }
-  }
-
-
-  // Stats bar
-  function updateStats() {
-    const total = verter.length;
-    const open = verter.filter(v => v.open).length;
-    const totalVisits = verter.reduce((a,v) => a + v.besok, 0);
-    document.getElementById('stats-bar').innerHTML =
-      `<strong style="color:var(--green-dark)">${open} åpne nå</strong> av ${total} verter · <strong style="color:var(--green-dark)">${totalVisits}</strong> besøk totalt`;
-  }
-
-  // Search
-  function searchVerter() {
-    const q = document.getElementById('search-input').value.toLowerCase();
-    if (!q) { aktivtOmrade = 'alle'; renderListings(); return; }
-    aktivtOmrade = 'search';
-    const container = document.getElementById('listings-container');
-    const filtered = verter.filter(v =>
-      v.tags.some(t => t.toLowerCase().includes(q)) ||
-      v.navn.toLowerCase().includes(q) ||
-      v.omradeNavn.toLowerCase().includes(q) ||
-      v.notat.toLowerCase().includes(q)
-    );
-    container.innerHTML = filtered.length ? filtered.map(v => renderVert(v)).join('') :
-      '<p style="color:var(--text-muted);padding:2rem;text-align:center;">Ingen treff — prøv et annet søkeord</p>';
-  }
-
-  function renderVert(v) {
-    return `<div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
-      <div class="listing-avatar">${v.emoji}</div>
-      <div class="listing-body">
-        <div class="listing-name">${v.navn}</div>
-        <div class="listing-addr">${v.gate}, Oslo</div>
-        <div class="listing-tags">
-          ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t==='Åpen nå' ? '<span class="pulse-dot"></span>' : ''}${t}</span>`).join('')}
-        </div>
-      </div>
-      <div class="listing-meta">
-        <div class="listing-dist">${v.dist}</div>
-        <div class="nabodo-score">⭐ ${Math.min(v.tags.length, 5)}/5</div>
-        <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
-        <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">Se profil</button>
-      </div>
-    </div>`;
-  }
-
-  // Lucky vert
-  function luckyVert() {
-    const open = verter.filter(v => v.open);
-    const v = open[Math.floor(Math.random() * open.length)];
-    openProfile(v.id);
-    showToast('🎲 Tilfeldig vert: ' + v.navn + '!');
-  }
-
-  // Feed
-  const feedPosts = [
-    {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton på Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:"14 min siden"},
-    {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Bare ring på 34.",tag:"👋 Sosialt",tid:"32 min siden"},
-    {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:"1 time siden"},
-    {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. Medbrakt drikke, jeg tar gitaren! 🎸",tag:"🎵 Musikk",tid:"2 timer siden"},
-    {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
-    {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Påminnelse: Jeg har hjertestarter og er sertifisert i HLR. Ring på 44 ved behov — alltid hjemme på dagtid. 💗",tag:"💗 Beredskap",tid:"i går"},
-  ];
-
-  function renderFeed() {
-    document.getElementById('feed-container').innerHTML = feedPosts.map(p => `
-      <div class="feed-post">
-        <div class="feed-post-header">
-          <span class="feed-post-avatar">${p.emoji}</span>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--text)">${p.navn}</div>
-            <div class="feed-post-meta">${p.omrade} · ${p.tid}</div>
-          </div>
-        </div>
-        <div class="feed-post-text">${p.tekst}</div>
-        <span class="feed-post-tag">${p.tag}</span>
-      </div>
-    `).join('');
-  }
-
-
-  // Seasonal relevance
-  const month = new Date().getMonth();
-  const isSummer = month >= 4 && month <= 8;
-  const isWinter = month >= 10 || month <= 2;
-  if (isSummer) {
-    document.querySelectorAll('.area-btn').forEach(b => {
-      if (b.textContent.includes('solkrem') || b.textContent.includes('Kjøl')) {
-        b.style.outline = '2px solid #f59e0b';
-        b.title = 'Sesongaktuelt nå!';
-      }
-    });
-  }
-  if (isWinter) {
-    document.querySelectorAll('.area-btn').forEach(b => {
-      if (b.textContent.includes('paraply') || b.textContent.includes('pledd')) {
-        b.style.outline = '2px solid #3b82f6';
-        b.title = 'Sesongaktuelt nå!';
-      }
-    });
-  }
-
-  renderListings();
-  updateStats();
-  renderFeed();
 
   function renderListings() {
-    const container = document.getElementById('listings-container');
-    let filtered;
-    if (aktivtOmrade === 'alle') filtered = verter;
-    else if (aktivtOmrade === 'tag_lading') filtered = verter.filter(v => v.tags.some(t => t.includes('Lading')));
-    else if (aktivtOmrade === 'tag_kjol') filtered = verter.filter(v => v.tags.some(t => t.includes('Kjøl')));
-    else if (aktivtOmrade === 'tag_vann') filtered = verter.filter(v => v.tags.some(t => t.includes('vannflaske')));
-    else if (aktivtOmrade === 'tag_solkrem') filtered = verter.filter(v => v.tags.some(t => t.includes('solkrem')));
-    else if (aktivtOmrade === 'tag_bok') filtered = verter.filter(v => v.tags.some(t => t.includes('bok')));
-    else if (aktivtOmrade === 'tag_luft') filtered = verter.filter(v => v.tags.some(t => t.includes('Luft')));
-    else if (aktivtOmrade === 'tag_forstehjelp') filtered = verter.filter(v => v.tags.some(t => t.includes('førstehjelp')));
-    else if (aktivtOmrade === 'tag_hjertestarter') filtered = verter.filter(v => v.tags.some(t => t.includes('Hjertestarter')));
-    else if (aktivtOmrade === 'tag_sport') filtered = verter.filter(v => v.tags.some(t => t.includes('badminton')));
-    else if (aktivtOmrade === 'tag_fotball') filtered = verter.filter(v => v.tags.some(t => t.includes('spille')));
-    else if (aktivtOmrade === 'tag_musikk') filtered = verter.filter(v => v.tags.some(t => t.includes('Musikk')));
-    else if (aktivtOmrade === 'tag_gitar') filtered = verter.filter(v => v.tags.some(t => t.includes('gitar')));
-    else if (aktivtOmrade === 'tag_pledd') filtered = verter.filter(v => v.tags.some(t => t.includes('pledd')));
-    else if (aktivtOmrade === 'tag_sosial') filtered = verter.filter(v => v.tags.some(t => t.includes('kaffe')));
-    else if (aktivtOmrade === 'tag_paraply') filtered = verter.filter(v => v.tags.some(t => t.includes('paraply')));
-    else if (aktivtOmrade === 'tag_barnemat') filtered = verter.filter(v => v.tags.some(t => t.includes('barnemat')));
-    else if (aktivtOmrade.startsWith('tilbud_')) { const n = aktivtOmrade.replace('tilbud_',''); filtered = verter.filter(v => v.tags.some(t => t.includes(n))); }
-    else filtered = verter.filter(v => v.omrade === aktivtOmrade);
-    container.innerHTML = filtered.map(v => renderVert(v)).join('');
+    var filtered;
+    if (aktivtOmrade === 'alle' || aktivtOmrade === 'tag_alle') {
+      filtered = verter;
+    } else if (aktivtOmrade.startsWith('tag_')) {
+      var tag = aktivtOmrade.replace('tag_', '');
+      var tagMap = {
+        lading: 'Lading', kjol: 'Kjøl', vann: 'vannflaske', solkrem: 'solkrem',
+        paraply: 'paraply', kaffe: 'kaffe', musikk: 'Musikk', gitar: 'gitar',
+        bok: 'bok', pledd: 'pledd', sport: 'badminton', fotball: 'spille',
+        luft: 'Luft', barnemat: 'barnemat', forstehjelp: 'førstehjelp', hjertestarter: 'Hjertestarter'
+      };
+      var needle = tagMap[tag] || tag;
+      filtered = verter.filter(function(v) { return v.tags.some(function(t) { return t.includes(needle); }); });
+    } else {
+      filtered = verter.filter(function(v) { return v.omrade === aktivtOmrade; });
+    }
+    document.getElementById('listings-container').innerHTML = filtered.map(renderVert).join('');
   }
 
+  // ─── PROFILE MODAL ───────────────────────────────────────────────────
+  var currentVert = null;
+
   function openProfile(id) {
-    const v = verter.find(x => x.id === id);
+    var v = verter.find(function(x) { return x.id === id; });
     currentVert = v;
     document.getElementById('profile-avatar').textContent = v.emoji;
     document.getElementById('profile-name').textContent = v.navn;
     document.getElementById('profile-area').textContent = v.gate + ' · ' + v.omradeNavn + ' · ' + v.dist;
     document.getElementById('profile-rating').textContent = '★ ' + v.rating + ' · ' + v.besok + ' besøk · ' + (v.open ? '✅ Åpen nå' : '⏱ Sjekk tidspunkt');
-    document.getElementById('profile-tags').innerHTML = v.tags.map(t => `<span class="profile-tag">${t}</span>`).join('');
+    document.getElementById('profile-tags').innerHTML = v.tags.map(function(t) { return '<span class="profile-tag">' + t + '</span>'; }).join('');
     document.getElementById('profile-note').innerHTML = '💬 ' + v.notat;
-    document.getElementById('profile-reviews').innerHTML = '<div style="font-size:12px;font-weight:500;color:#999;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Anmeldelser</div>' + v.reviews.map(r => `<div class="review-item">${r.tekst} <span style="color:#bbb;font-size:11px;">${r.dato}</span></div>`).join('');
-    document.getElementById('profile-action-btn').textContent = v.open ? 'Gi beskjed om at jeg kommer →' : 'Send forespørsel →';
-    document.getElementById('profile-action-btn').onclick = () => { closeProfile(); showToast('Melding sendt til ' + v.navn + '!'); };
-    const modal = document.getElementById('profile-modal');
-    modal.style.display = 'flex';
+    document.getElementById('profile-reviews').innerHTML = '<div style="font-size:12px;font-weight:500;color:#999;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Anmeldelser</div>' +
+      v.reviews.map(function(r) { return '<div class="review-item">' + r.tekst + ' <span style="color:#bbb;font-size:11px;">' + r.dato + '</span></div>'; }).join('');
+    var btn = document.getElementById('profile-action-btn');
+    btn.textContent = v.open ? 'Gi beskjed om at jeg kommer →' : 'Send forespørsel →';
+    btn.onclick = function() { closeProfile(); showToast('Melding sendt til ' + v.navn + '!'); };
+    document.getElementById('profile-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
 
@@ -1144,184 +209,139 @@
     document.body.style.overflow = '';
   }
 
-
-  // Animated counter
-  function animateCounter(el, target, duration) {
-    let start = 0;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) { start = target; clearInterval(timer); }
-      el.textContent = start;
-    }, 16);
-  }
-
-  const counterEl = document.getElementById('vert-counter');
-  if (counterEl) {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 34, 1800);
-        observer.disconnect();
-      }
-    });
-    observer.observe(counterEl);
-  }
-
-  // Current vert for map/copy
-  let currentVert = null;
-
   function openInMaps() {
     if (!currentVert) return;
-    const addr = encodeURIComponent(currentVert.gate + ', Oslo, Norway');
-    const isIOS = /iPhone|iPad/i.test(navigator.userAgent);
-    const url = isIOS
-      ? 'maps://maps.apple.com/?q=' + addr
-      : 'https://www.google.com/maps/search/?api=1&query=' + addr;
-    window.open(url, '_blank');
+    var addr = encodeURIComponent(currentVert.gate + ', Oslo, Norway');
+    var isIOS = /iPhone|iPad/i.test(navigator.userAgent);
+    window.open(isIOS ? 'maps://maps.apple.com/?q=' + addr : 'https://www.google.com/maps/search/?api=1&query=' + addr, '_blank');
   }
 
   function copyAddress() {
     if (!currentVert) return;
-    const addr = currentVert.gate + ', Oslo';
-    navigator.clipboard.writeText(addr).then(() => {
-      showToast('Adresse kopiert: ' + addr);
-      document.getElementById('profile-copy-btn').textContent = '✓ Kopiert!';
-      setTimeout(() => {
-        document.getElementById('profile-copy-btn').textContent = '📋 Kopier adresse';
-      }, 2000);
+    navigator.clipboard.writeText(currentVert.gate + ', Oslo').then(function() {
+      showToast('Adresse kopiert!');
+      var btn = document.getElementById('profile-copy-btn');
+      btn.textContent = '✓ Kopiert!';
+      setTimeout(function() { btn.textContent = '📋 Kopier adresse'; }, 2000);
     });
   }
 
   function shareNabodo() {
     if (navigator.share) {
-      navigator.share({
-        title: 'Nabodo',
-        text: 'Finn et toalett hos en nabo — gratis, trygt, nærme deg.',
-        url: 'https://nabodo.no'
-      });
+      navigator.share({title:'Nabodo',text:'Finn et toalett hos en nabo.',url:'https://nabodo.no'});
     } else {
       navigator.clipboard.writeText('https://nabodo.no');
       showToast('Lenke kopiert: nabodo.no');
     }
   }
 
+  // ─── TOAST ───────────────────────────────────────────────────────────
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = '✓ ' + msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 3000);
+  }
 
-  // Stats bar
+  // ─── STATS ───────────────────────────────────────────────────────────
   function updateStats() {
-    const total = verter.length;
-    const open = verter.filter(v => v.open).length;
-    const totalVisits = verter.reduce((a,v) => a + v.besok, 0);
+    var total = verter.length;
+    var open = verter.filter(function(v) { return v.open; }).length;
+    var visits = verter.reduce(function(a, v) { return a + v.besok; }, 0);
     document.getElementById('stats-bar').innerHTML =
-      `<strong style="color:var(--green-dark)">${open} åpne nå</strong> av ${total} verter · <strong style="color:var(--green-dark)">${totalVisits}</strong> besøk totalt`;
+      '<strong style="color:var(--green-dark)">' + open + ' åpne nå</strong> av ' + total + ' verter · <strong style="color:var(--green-dark)">' + visits + '</strong> besøk totalt';
   }
 
-  // Search
-  function searchVerter() {
-    const q = document.getElementById('search-input').value.toLowerCase();
-    if (!q) { aktivtOmrade = 'alle'; renderListings(); return; }
-    aktivtOmrade = 'search';
-    const container = document.getElementById('listings-container');
-    const filtered = verter.filter(v =>
-      v.tags.some(t => t.toLowerCase().includes(q)) ||
-      v.navn.toLowerCase().includes(q) ||
-      v.omradeNavn.toLowerCase().includes(q) ||
-      v.notat.toLowerCase().includes(q)
-    );
-    container.innerHTML = filtered.length ? filtered.map(v => renderVert(v)).join('') :
-      '<p style="color:var(--text-muted);padding:2rem;text-align:center;">Ingen treff — prøv et annet søkeord</p>';
+  // ─── COUNTER ─────────────────────────────────────────────────────────
+  function animateCounter(el, target, duration) {
+    var start = 0;
+    var step = Math.ceil(target / (duration / 16));
+    var timer = setInterval(function() {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = start;
+    }, 16);
   }
 
-  function renderVert(v) {
-    return `<div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
-      <div class="listing-avatar">${v.emoji}</div>
-      <div class="listing-body">
-        <div class="listing-name">${v.navn}</div>
-        <div class="listing-addr">${v.gate}, Oslo</div>
-        <div class="listing-tags">
-          ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t==='Åpen nå' ? '<span class="pulse-dot"></span>' : ''}${t}</span>`).join('')}
-        </div>
-      </div>
-      <div class="listing-meta">
-        <div class="listing-dist">${v.dist}</div>
-        <div class="nabodo-score">⭐ ${Math.min(v.tags.length, 5)}/5</div>
-        <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
-        <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">Se profil</button>
-      </div>
-    </div>`;
+  // ─── FEED ────────────────────────────────────────────────────────────
+  function liveTid(min) {
+    if (min < 60) return min + ' min siden';
+    if (min < 1440) return Math.floor(min/60) + ' timer siden';
+    return 'i går';
   }
 
-  // Lucky vert
-  function luckyVert() {
-    const open = verter.filter(v => v.open);
-    const v = open[Math.floor(Math.random() * open.length)];
-    openProfile(v.id);
-    showToast('🎲 Tilfeldig vert: ' + v.navn + '!');
-  }
-
-  // Feed
-  const feedPosts = [
-    {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton på Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:"14 min siden"},
-    {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Bare ring på 34.",tag:"👋 Sosialt",tid:"32 min siden"},
-    {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:"1 time siden"},
-    {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. Medbrakt drikke, jeg tar gitaren! 🎸",tag:"🎵 Musikk",tid:"2 timer siden"},
-    {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
-    {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Påminnelse: Jeg har hjertestarter og er sertifisert i HLR. Ring på 44 ved behov — alltid hjemme på dagtid. 💗",tag:"💗 Beredskap",tid:"i går"},
+  var feedPosts = [
+    {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton på Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:liveTid(14)},
+    {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Ring på 34.",tag:"👋 Sosialt",tid:liveTid(32)},
+    {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:liveTid(67)},
+    {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. Medbrakt drikke, jeg tar gitaren! 🎸",tag:"🎵 Musikk",tid:liveTid(127)},
+    {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:liveTid(195)},
+    {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Påminnelse: Hjertestarter og HLR-sertifisert. Ring på 44 ved behov. 💗",tag:"💗 Beredskap",tid:liveTid(1500)}
   ];
 
   function renderFeed() {
-    document.getElementById('feed-container').innerHTML = feedPosts.map(p => `
-      <div class="feed-post">
-        <div class="feed-post-header">
-          <span class="feed-post-avatar">${p.emoji}</span>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--text)">${p.navn}</div>
-            <div class="feed-post-meta">${p.omrade} · ${p.tid}</div>
-          </div>
-        </div>
-        <div class="feed-post-text">${p.tekst}</div>
-        <span class="feed-post-tag">${p.tag}</span>
-      </div>
-    `).join('');
+    document.getElementById('feed-container').innerHTML = feedPosts.map(function(p) {
+      return '<div class="feed-post"><div class="feed-post-header"><span class="feed-post-avatar">' + p.emoji + '</span><div><div style="font-size:14px;font-weight:500;color:var(--text)">' + p.navn + '</div><div class="feed-post-meta">' + p.omrade + ' · ' + p.tid + '</div></div></div><div class="feed-post-text">' + p.tekst + '</div><span class="feed-post-tag">' + p.tag + '</span></div>';
+    }).join('');
   }
 
-
-  // Seasonal relevance
-  const month = new Date().getMonth();
-  const isSummer = month >= 4 && month <= 8;
-  const isWinter = month >= 10 || month <= 2;
-  if (isSummer) {
-    document.querySelectorAll('.area-btn').forEach(b => {
-      if (b.textContent.includes('solkrem') || b.textContent.includes('Kjøl')) {
-        b.style.outline = '2px solid #f59e0b';
-        b.title = 'Sesongaktuelt nå!';
-      }
-    });
-  }
-  if (isWinter) {
-    document.querySelectorAll('.area-btn').forEach(b => {
-      if (b.textContent.includes('paraply') || b.textContent.includes('pledd')) {
-        b.style.outline = '2px solid #3b82f6';
-        b.title = 'Sesongaktuelt nå!';
-      }
-    });
+  // ─── FADE IN ─────────────────────────────────────────────────────────
+  function initFadeIn() {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold: 0.1});
+    document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
   }
 
+  // ─── PWA ─────────────────────────────────────────────────────────────
+  var deferredPrompt;
+  window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    var btn = document.getElementById('pwa-install-btn');
+    if (btn) {
+      btn.style.display = 'block';
+      btn.addEventListener('click', function() {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(r) {
+          if (r.outcome === 'accepted') { btn.style.display = 'none'; showToast('Nabodo er installert! 🎉'); }
+          deferredPrompt = null;
+        });
+      });
+    }
+  });
+  window.addEventListener('appinstalled', function() {
+    var s = document.getElementById('pwa-section');
+    if (s) s.style.display = 'none';
+  });
+
+  var pwaText = document.getElementById('pwa-text');
+  if (pwaText) {
+    var ua = navigator.userAgent;
+    if (/iPhone|iPad/i.test(ua)) pwaText.innerHTML = 'iPhone: Trykk del-knappen i Safari → <strong style="color:#a8d5b5;">«Legg til på hjemskjerm»</strong>.';
+    else if (/Android/i.test(ua)) pwaText.innerHTML = 'Android: Trykk menyknappen i Chrome → <strong style="color:#a8d5b5;">«Legg til på startskjerm»</strong>.';
+    else pwaText.innerHTML = 'Desktop: Klikk installikonet i adressefeltet → <strong style="color:#a8d5b5;">«Installer app»</strong>.';
+  }
+
+  // ─── SERVICE WORKER ──────────────────────────────────────────────────
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js'); });
+  }
+
+  // ─── INIT ─────────────────────────────────────────────────────────────
   renderListings();
   updateStats();
   renderFeed();
+  initFadeIn();
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = '✓ ' + msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
-  }
+  var counterEl = document.getElementById('vert-counter');
+  if (counterEl) setTimeout(function() { animateCounter(counterEl, 47, 1800); }, 500);
 
-  // Show takk message if redirected back with #takk
   if (window.location.hash === '#takk') {
-    const el = document.getElementById('takk');
+    var el = document.getElementById('takk');
     if (el) el.style.display = 'block';
   }
 
-  // Smooth scroll polyfill for Safari
-  document.querySelectorAll('a[href^="#"]').forEa
+</script>
+</body>
+</html>
