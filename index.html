@@ -319,7 +319,7 @@
       <a class="btn-primary" href="#registrer">Registrer deg — og finn toaletter</a>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><strong>1:1</strong><span>vert = gjest</span></div>
+      <div class="hero-stat"><strong id="vert-counter">0</strong><span>interesserte verter</span></div>
       <div class="hero-stat"><strong>Oslo</strong><span>lansering 2026</span></div>
       <div class="hero-stat"><strong>Gratis</strong><span>alltid, for alle</span></div>
     </div>
@@ -409,7 +409,11 @@
       <div id="profile-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;"></div>
       <div id="profile-note" style="font-size:14px;color:#666;line-height:1.6;margin-bottom:1rem;background:#f7f5f2;padding:1rem;border-radius:12px;"></div>
       <div id="profile-reviews" style="margin-bottom:1.25rem;"></div>
-      <div style="display:flex;gap:10px;">
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button id="profile-map-btn" onclick="openInMaps()" style="flex:1;padding:10px;border-radius:50px;border:0.5px solid #ddd;background:transparent;color:#2d5a3d;font-size:13px;cursor:pointer;font-family:inherit;">🗺 Åpne i kart</button>
+        <button id="profile-copy-btn" onclick="copyAddress()" style="flex:1;padding:10px;border-radius:50px;border:0.5px solid #ddd;background:transparent;color:#2d5a3d;font-size:13px;cursor:pointer;font-family:inherit;">📋 Kopier adresse</button>
+      </div>
+      <div style="display:flex;gap:8px;">
         <button onclick="closeProfile()" style="flex:1;padding:12px;border-radius:50px;border:0.5px solid #ddd;background:transparent;color:#666;font-size:14px;cursor:pointer;font-family:inherit;">Tilbake</button>
         <button id="profile-action-btn" style="flex:2;padding:12px;border-radius:50px;border:none;background:#2d5a3d;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;"></button>
       </div>
@@ -472,7 +476,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.2.5</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.3.0</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -551,7 +555,68 @@
     aktivtOmrade = omrade;
     document.querySelectorAll('.area-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
-    renderListings();
+  
+  // Animated counter
+  function animateCounter(el, target, duration) {
+    let start = 0;
+    const step = Math.ceil(target / (duration / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = start;
+    }, 16);
+  }
+
+  const counterEl = document.getElementById('vert-counter');
+  if (counterEl) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        animateCounter(counterEl, 12, 1200);
+        observer.disconnect();
+      }
+    });
+    observer.observe(counterEl);
+  }
+
+  // Current vert for map/copy
+  let currentVert = null;
+
+  function openInMaps() {
+    if (!currentVert) return;
+    const addr = encodeURIComponent(currentVert.gate + ', Oslo, Norway');
+    const isIOS = /iPhone|iPad/i.test(navigator.userAgent);
+    const url = isIOS
+      ? 'maps://maps.apple.com/?q=' + addr
+      : 'https://www.google.com/maps/search/?api=1&query=' + addr;
+    window.open(url, '_blank');
+  }
+
+  function copyAddress() {
+    if (!currentVert) return;
+    const addr = currentVert.gate + ', Oslo';
+    navigator.clipboard.writeText(addr).then(() => {
+      showToast('Adresse kopiert: ' + addr);
+      document.getElementById('profile-copy-btn').textContent = '✓ Kopiert!';
+      setTimeout(() => {
+        document.getElementById('profile-copy-btn').textContent = '📋 Kopier adresse';
+      }, 2000);
+    });
+  }
+
+  function shareNabodo() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Nabodo',
+        text: 'Finn et toalett hos en nabo — gratis, trygt, nærme deg.',
+        url: 'https://nabodo.no'
+      });
+    } else {
+      navigator.clipboard.writeText('https://nabodo.no');
+      showToast('Lenke kopiert: nabodo.no');
+    }
+  }
+
+  renderListings();
   }
 
   function renderListings() {
@@ -578,6 +643,7 @@
 
   function openProfile(id) {
     const v = verter.find(x => x.id === id);
+    currentVert = v;
     document.getElementById('profile-avatar').textContent = v.emoji;
     document.getElementById('profile-name').textContent = v.navn;
     document.getElementById('profile-area').textContent = v.gate + ' · ' + v.omradeNavn + ' · ' + v.dist;
@@ -595,6 +661,67 @@
   function closeProfile() {
     document.getElementById('profile-modal').style.display = 'none';
     document.body.style.overflow = '';
+  }
+
+
+  // Animated counter
+  function animateCounter(el, target, duration) {
+    let start = 0;
+    const step = Math.ceil(target / (duration / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = start;
+    }, 16);
+  }
+
+  const counterEl = document.getElementById('vert-counter');
+  if (counterEl) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        animateCounter(counterEl, 12, 1200);
+        observer.disconnect();
+      }
+    });
+    observer.observe(counterEl);
+  }
+
+  // Current vert for map/copy
+  let currentVert = null;
+
+  function openInMaps() {
+    if (!currentVert) return;
+    const addr = encodeURIComponent(currentVert.gate + ', Oslo, Norway');
+    const isIOS = /iPhone|iPad/i.test(navigator.userAgent);
+    const url = isIOS
+      ? 'maps://maps.apple.com/?q=' + addr
+      : 'https://www.google.com/maps/search/?api=1&query=' + addr;
+    window.open(url, '_blank');
+  }
+
+  function copyAddress() {
+    if (!currentVert) return;
+    const addr = currentVert.gate + ', Oslo';
+    navigator.clipboard.writeText(addr).then(() => {
+      showToast('Adresse kopiert: ' + addr);
+      document.getElementById('profile-copy-btn').textContent = '✓ Kopiert!';
+      setTimeout(() => {
+        document.getElementById('profile-copy-btn').textContent = '📋 Kopier adresse';
+      }, 2000);
+    });
+  }
+
+  function shareNabodo() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Nabodo',
+        text: 'Finn et toalett hos en nabo — gratis, trygt, nærme deg.',
+        url: 'https://nabodo.no'
+      });
+    } else {
+      navigator.clipboard.writeText('https://nabodo.no');
+      showToast('Lenke kopiert: nabodo.no');
+    }
   }
 
   renderListings();
