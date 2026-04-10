@@ -594,7 +594,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.5.5</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.5.2</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -782,9 +782,7 @@
     aktivtOmrade = 'tag_' + type;
     document.querySelectorAll('.area-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
-    renderListings();
-  }
-
+  
   // Stats bar
   function updateStats() {
     const total = verter.length;
@@ -888,14 +886,13 @@
   renderListings();
   updateStats();
   renderFeed();
+  }
 
   function filterArea(omrade) {
     aktivtOmrade = omrade;
     document.querySelectorAll('.area-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
-    renderListings();
-  }
-
+  
   // Animated counter
   function animateCounter(el, target, duration) {
     let start = 0;
@@ -1060,6 +1057,7 @@
   renderListings();
   updateStats();
   renderFeed();
+  }
 
   function renderListings() {
     const container = document.getElementById('listings-container');
@@ -1286,3 +1284,5 @@
     if (el) el.style.display = 'block';
   }
 
+  // Smooth scroll polyfill for Safari
+  document.querySelectorAll('a[href^="#"]').forEa
