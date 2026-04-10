@@ -416,6 +416,9 @@
       <button class="area-btn" style="background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7;" onclick="filterTag('sport')">🏸 Lån badminton</button>
       <button class="area-btn" style="background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7;" onclick="filterTag('fotball')">⚽ Bli med å spille</button>
       <button class="area-btn" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1;" onclick="filterTag('musikk')">🎵 Musikk og stemning</button>
+      <button class="area-btn" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1;" onclick="filterTag('gitar')">🎸 Lån en gitar</button>
+      <button class="area-btn" style="background:#fff8e1;color:#f57f17;border-color:#ffe082;" onclick="filterTag('pledd')">🛋️ Lån et pledd</button>
+      <button class="area-btn" style="background:#e8eaf6;color:#283593;border-color:#9fa8da;" onclick="filterTag('sosial')">👋 Bli med på kaffe</button>
       <button class="area-btn" style="background:#e8eaf6;color:#1a237e;border-color:#9fa8da;" onclick="filterTag('paraply')">🌂 Nødparaply</button>
       <button class="area-btn" style="background:#fff3e0;color:#e65100;border-color:#ffcc80;" onclick="filterTag('barnemat')">🍼 Varme barnemat/melk</button>
     </div>
@@ -504,7 +507,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.4.0</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.4.1</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -535,7 +538,7 @@
 
     // GRÜNERLØKKA
     {id:5,navn:"Ingrid L.",emoji:"👩‍🦰",gate:"Thorvald Meyers gate 34",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"180 m",rating:"4.9",besok:52,open:true,
-     tags:["Åpen nå","Kaffe tilbys","🔋 Lading","📚 Lån en bok","🌂 Nødparaply"],
+     tags:["Åpen nå","Kaffe tilbys","🔋 Lading","📚 Lån en bok","🌂 Nødparaply","🛋️ Lån et pledd","👋 Bli med på kaffe"],
      notat:"Hjemmekontor-dame. Kaffe, lading, bøker og paraply. Grünerløkkas hyggeligste stopp!",
      reviews:[{tekst:"Kaffe, lading og god prat! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste Nabodo-vert!",dato:"3 dager siden"}]},
     {id:6,navn:"Lars O.",emoji:"👨‍🦲",gate:"Grüners gate 12",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"290 m",rating:"4.6",besok:17,open:true,
@@ -595,8 +598,8 @@
 
     // TORSHOV
     {id:17,navn:"Hanne G.",emoji:"👩",gate:"Torshovgata 18",omrade:"torshov",omradeNavn:"Torshov",dist:"190 m",rating:"5.0",besok:41,open:true,
-     tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🌂 Nødparaply","📚 Lån en bok","🚰 Fyll vannflaske"],
-     notat:"Torshov-husmorens alt-i-ett. Kaffe, kjøleskap, bøker, paraply og vann. 1. etasje.",
+     tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🌂 Nødparaply","📚 Lån en bok","🚰 Fyll vannflaske","🛋️ Lån et pledd","👋 Bli med på kaffe"],
+     notat:"Torshov-husmoren! Kaffe, pledd, bøker, paraply og vann. Bli gjerne med på en kopp! 1. etasje.",
      reviews:[{tekst:"Torshov på sitt beste! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom for do, ble for kaffe.",dato:"2 dager siden"}]},
     {id:18,navn:"Magnus T.",emoji:"🧔‍♂️",gate:"Vogts gate 34",omrade:"torshov",omradeNavn:"Torshov",dist:"350 m",rating:"4.7",besok:18,open:true,
      tags:["Åpen nå","🔋 Lading","🚲 Luft til sykkel/ball","🩺 Kan førstehjelp","Heis"],
@@ -626,7 +629,7 @@
     // CUBA — GRÜNERLØKKA
     {id:33,navn:"Diego R.",emoji:"👨🏽",gate:"Helgesens gate 22",omrade:"cuba",omradeNavn:"Cuba — Grünerløkka",dist:"170 m",rating:"4.9",besok:31,open:true,
      tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🎵 Musikk og stemning","🌂 Nødparaply"],
-     notat:"Cubansk musikk og kaffe. Kjøleskap og paraply klar. 1. etasje, ring på 22B.",
+     notat:"Cubansk musikk og kaffe. Gitar til utlån, pledd og paraply. 1. etasje, ring på 22B. ¡Bienvenidos!",
      reviews:[{tekst:"Kaffe, salsa og do! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste stemning i Oslo.",dato:"2 dager siden"}]},
 
     // PARKER — FROGNERPARKEN
@@ -641,8 +644,8 @@
 
     // ST. HANSHAUGEN
     {id:23,navn:"Marie S.",emoji:"👩‍🦳",gate:"Hegdehaugsveien 14",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"110 m",rating:"4.9",besok:55,open:true,
-     tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","📚 Lån en bok","🌂 Nødparaply","🚰 Fyll vannflaske"],
-     notat:"Pensjonert bibliotekar. Bøker, kjøleskap, lading og paraply. Heis finnes. Ring på 14D.",
+     tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","📚 Lån en bok","🌂 Nødparaply","🚰 Fyll vannflaske","🛋️ Lån et pledd","🎸 Lån en gitar"],
+     notat:"Pensjonert bibliotekar og amatørgitarist. Bøker, pledd, gitar og paraply. Heis finnes. Ring på 14D.",
      reviews:[{tekst:"Bibliotek og do i ett! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom for do, fikk bok.",dato:"1 dag siden"}]},
     {id:24,navn:"Kristian O.",emoji:"🧑",gate:"St. Hanshaugen 3",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"200 m",rating:"4.7",besok:29,open:true,
      tags:["Åpen nå","Hotzone","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","☀️ Nødsolkrem"],
@@ -681,7 +684,7 @@
 
     // THORSHOVPARKEN
     {id:34,navn:"Turid V.",emoji:"👩‍🦳",gate:"Vogts gate 12",omrade:"thorshovparken",omradeNavn:"🌳 Thorshovparken",dist:"130 m",rating:"5.0",besok:27,open:true,
-     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🏸 Lån badminton","Barnefamilier"],
+     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🏸 Lån badminton","Barnefamilier","🛋️ Lån et pledd"],
      notat:"Barnehageansatt nær parken. Badminton, varm barnemat og paraply. Ring på 12A.",
      reviews:[{tekst:"Barnehage-vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt for lekeplassen.",dato:"3 dager siden"}]}
   ];
@@ -778,6 +781,9 @@
     else if (aktivtOmrade === 'tag_sport') filtered = verter.filter(v => v.tags.some(t => t.includes('badminton')));
     else if (aktivtOmrade === 'tag_fotball') filtered = verter.filter(v => v.tags.some(t => t.includes('spille')));
     else if (aktivtOmrade === 'tag_musikk') filtered = verter.filter(v => v.tags.some(t => t.includes('Musikk')));
+    else if (aktivtOmrade === 'tag_gitar') filtered = verter.filter(v => v.tags.some(t => t.includes('gitar')));
+    else if (aktivtOmrade === 'tag_pledd') filtered = verter.filter(v => v.tags.some(t => t.includes('pledd')));
+    else if (aktivtOmrade === 'tag_sosial') filtered = verter.filter(v => v.tags.some(t => t.includes('kaffe')));
     else if (aktivtOmrade === 'tag_paraply') filtered = verter.filter(v => v.tags.some(t => t.includes('paraply')));
     else if (aktivtOmrade === 'tag_barnemat') filtered = verter.filter(v => v.tags.some(t => t.includes('barnemat')));
     else filtered = verter.filter(v => v.omrade === aktivtOmrade);
