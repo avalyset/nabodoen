@@ -255,6 +255,22 @@
   footer p { font-size: 13px; }
   footer a { color: var(--green-light); text-decoration: none; }
 
+  /* ─── AREA FILTER ─── */
+  .area-btn {
+    background: var(--surface); color: var(--text-muted);
+    border: 0.5px solid var(--border); padding: 8px 20px; border-radius: 50px;
+    font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;
+    transition: all 0.15s;
+  }
+  .area-btn:hover { border-color: var(--green-mid); color: var(--green-dark); }
+  .area-btn.active { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
+  .profile-tag {
+    font-size: 11px; padding: 4px 12px; border-radius: 20px;
+    background: var(--green-pale); color: var(--green-dark); border: 0.5px solid var(--green-light);
+  }
+  .review-item { font-size: 13px; color: #666; padding: 8px 0; border-bottom: 0.5px solid #f0ede8; }
+  .review-item:last-child { border-bottom: none; }
+
   /* ─── SUCCESS TOAST ─── */
   .toast {
     position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
@@ -334,69 +350,45 @@
   </div>
 </section>
 
-<!-- LISTINGS -->
-<section class="listings-bg" id="finn">
+<!-- DEMO SECTION -->
+<section class="listings-bg" id="finn" style="padding:5rem 0;">
   <div class="container">
-    <div class="section-label">Slik ser det ut</div>
+    <div class="section-label">Demo — slik fungerer det</div>
     <h2 class="section-title">Verter nær deg</h2>
-    <p class="section-sub">Eksempelvisning — som registrert vert ser du faktiske naboer i ditt område.</p>
-    <div class="listings">
+    <p class="section-sub">Velg et område og klikk på en vert for å se profilen. Dette er hvordan det vil se ut når du er registrert.</p>
 
-      <div class="listing">
-        <div class="listing-avatar">👩</div>
-        <div class="listing-body">
-          <div class="listing-name">Marta H.</div>
-          <div class="listing-addr">Pilestredet 42, Oslo</div>
-          <div class="listing-tags">
-            <span class="tag open">Åpen nå</span>
-            <span class="tag">Rullestolvennlig</span>
-            <span class="tag">Heis</span>
-          </div>
-        </div>
-        <div class="listing-meta">
-          <div class="listing-dist">80 m</div>
-          <div class="listing-rating">★ 4.9 · 38 besøk</div>
-          <button class="listing-action" onclick="showToast('Melding sendt til Marta!')">Gi beskjed</button>
-        </div>
-      </div>
-
-      <div class="listing">
-        <div class="listing-avatar">👨‍🦳</div>
-        <div class="listing-body">
-          <div class="listing-name">Per K.</div>
-          <div class="listing-addr">Ullevålsveien 12, Oslo</div>
-          <div class="listing-tags">
-            <span class="tag open">Åpen nå</span>
-            <span class="tag">Babyskiftebord</span>
-          </div>
-        </div>
-        <div class="listing-meta">
-          <div class="listing-dist">210 m</div>
-          <div class="listing-rating">★ 4.7 · 21 besøk</div>
-          <button class="listing-action" onclick="showToast('Melding sendt til Per!')">Gi beskjed</button>
-        </div>
-      </div>
-
-      <div class="listing">
-        <div class="listing-avatar">👩🏾</div>
-        <div class="listing-body">
-          <div class="listing-name">Amina S.</div>
-          <div class="listing-addr">Kirkegata 8, Oslo</div>
-          <div class="listing-tags">
-            <span class="tag">Kun 08–20</span>
-            <span class="tag">Parfymefri</span>
-          </div>
-        </div>
-        <div class="listing-meta">
-          <div class="listing-dist">340 m</div>
-          <div class="listing-rating">★ 5.0 · 14 besøk</div>
-          <button class="listing-action" onclick="showToast('Forespørsel sendt til Amina!')">Send forespørsel</button>
-        </div>
-      </div>
-
+    <!-- Area filter -->
+    <div style="display:flex;gap:8px;margin:1.5rem 0;flex-wrap:wrap;" id="area-filter">
+      <button class="area-btn active" onclick="filterArea('alle')">Alle</button>
+      <button class="area-btn" onclick="filterArea('bislett')">Bislett</button>
+      <button class="area-btn" onclick="filterArea('frogner')">Frogner</button>
+      <button class="area-btn" onclick="filterArea('grunerlokka')">Grünerløkka</button>
     </div>
+
+    <div class="listings" id="listings-container"></div>
   </div>
 </section>
+
+<!-- PROFILE MODAL -->
+<div id="profile-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)closeProfile()">
+  <div style="background:#fff;border-radius:24px;max-width:420px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div id="profile-header" style="padding:2rem;background:#2d5a3d;text-align:center;">
+      <div id="profile-avatar" style="font-size:52px;margin-bottom:0.5rem;"></div>
+      <div id="profile-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;"></div>
+      <div id="profile-area" style="font-size:13px;color:#a8d5b5;margin-top:4px;"></div>
+      <div id="profile-rating" style="font-size:13px;color:#a8d5b5;margin-top:4px;"></div>
+    </div>
+    <div style="padding:1.5rem;">
+      <div id="profile-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;"></div>
+      <div id="profile-note" style="font-size:14px;color:#666;line-height:1.6;margin-bottom:1rem;background:#f7f5f2;padding:1rem;border-radius:12px;"></div>
+      <div id="profile-reviews" style="margin-bottom:1.25rem;"></div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="closeProfile()" style="flex:1;padding:12px;border-radius:50px;border:0.5px solid #ddd;background:transparent;color:#666;font-size:14px;cursor:pointer;font-family:inherit;">Tilbake</button>
+        <button id="profile-action-btn" style="flex:2;padding:12px;border-radius:50px;border:none;background:#2d5a3d;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;"></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- REGISTER -->
 <section id="registrer" style="background:#2d5a3d;padding:5rem 0;">
@@ -453,7 +445,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.2.0</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.2.1</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -461,6 +453,125 @@
 <div class="toast" id="toast"></div>
 
 <script>
+  const verter = [
+    {
+      id:1, navn:"Marta H.", emoji:"👩", gate:"Pilestredet 42", omrade:"bislett", omradeNavn:"Bislett",
+      dist:"80 m", rating:"4.9", besok:38, open:true,
+      tags:["Åpen nå","Rullestolvennlig","Heis","WC + dusj"],
+      notat:"Ring på, 3. etasje til venstre. Heis finnes. Maks 5 min, takk! 🌿",
+      reviews:[
+        {tekst:"Super hyggelig vert, rent og fint! ⭐⭐⭐⭐⭐", dato:"3 dager siden"},
+        {tekst:"Rask respons, veldig hjelpsom.", dato:"1 uke siden"},
+        {tekst:"Anbefales! Perfekt da toget var forsinket.", dato:"2 uker siden"}
+      ]
+    },
+    {
+      id:2, navn:"Per K.", emoji:"👨‍🦳", gate:"Ullevålsveien 12", omrade:"bislett", omradeNavn:"Bislett",
+      dist:"210 m", rating:"4.7", besok:21, open:true,
+      tags:["Åpen nå","Babyskiftebord","Barnevennlig"],
+      notat:"Ring på knapp 4. Vanligvis hjemme på dagtid. Barnefamilier spesielt velkomne!",
+      reviews:[
+        {tekst:"Fantastisk hjelp med babyskift! ⭐⭐⭐⭐⭐", dato:"1 uke siden"},
+        {tekst:"Veldig imøtekommende.", dato:"3 uker siden"}
+      ]
+    },
+    {
+      id:3, navn:"Amina S.", emoji:"👩🏾", gate:"Frognerveien 8", omrade:"frogner", omradeNavn:"Frogner",
+      dist:"340 m", rating:"5.0", besok:14, open:false,
+      tags:["Kun 08–20","Parfymefri","Allergivennlig"],
+      notat:"Vennligst book i appen, 5 min maks. Parfymefri sone pga allergi. Takk for forståelsen!",
+      reviews:[
+        {tekst:"Utrolig snill og ryddig. 5 stjerner! ⭐⭐⭐⭐⭐", dato:"5 dager siden"},
+        {tekst:"Alltid ren og velorganisert.", dato:"2 uker siden"}
+      ]
+    },
+    {
+      id:4, navn:"Jonas B.", emoji:"🧔", gate:"Kirkevegen 71", omrade:"frogner", omradeNavn:"Frogner",
+      dist:"410 m", rating:"4.8", besok:9, open:true,
+      tags:["Åpen nå","Hund i huset","Romslig"],
+      notat:"Ring på, første etasje til høyre. Hund er snill! Åpen de fleste dager.",
+      reviews:[
+        {tekst:"Hunden er kjempesøt! ⭐⭐⭐⭐⭐", dato:"2 dager siden"},
+        {tekst:"Hyggelig kar, anbefales.", dato:"1 uke siden"}
+      ]
+    },
+    {
+      id:5, navn:"Ingrid L.", emoji:"👩‍🦰", gate:"Thorvald Meyers gate 34", omrade:"grunerlokka", omradeNavn:"Grünerløkka",
+      dist:"180 m", rating:"4.9", besok:52, open:true,
+      tags:["Åpen nå","Kaffe tilbys","Hyggelig"],
+      notat:"Kom innom! Tilbyr gjerne en kopp kaffe. 2. etasje, ingen heis dessverre.",
+      reviews:[
+        {tekst:"Fikk kaffe og en hyggelig prat! Oslo på sitt beste. ⭐⭐⭐⭐⭐", dato:"i dag"},
+        {tekst:"Supervert, veldig hjelpsom.", dato:"3 dager siden"},
+        {tekst:"Beste Nabodo-opplevelse hittil!", dato:"1 uke siden"}
+      ]
+    },
+    {
+      id:6, navn:"Lars O.", emoji:"👨‍🦲", gate:"Grüners gate 12", omrade:"grunerlokka", omradeNavn:"Grünerløkka",
+      dist:"290 m", rating:"4.6", besok:17, open:true,
+      tags:["Åpen nå","Rullestolvennlig","Inngang bakgård"],
+      notat:"Inngang via bakgård. Ring på intercom 'Lars'. Rullestolrampe tilgjengelig.",
+      reviews:[
+        {tekst:"Tilgjengelig og hjelpsom! ⭐⭐⭐⭐⭐", dato:"4 dager siden"},
+        {tekst:"God adkomst for rullestol.", dato:"2 uker siden"}
+      ]
+    }
+  ];
+
+  let aktivtOmrade = 'alle';
+
+  function filterArea(omrade) {
+    aktivtOmrade = omrade;
+    document.querySelectorAll('.area-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    renderListings();
+  }
+
+  function renderListings() {
+    const container = document.getElementById('listings-container');
+    const filtered = aktivtOmrade === 'alle' ? verter : verter.filter(v => v.omrade === aktivtOmrade);
+    container.innerHTML = filtered.map(v => `
+      <div class="listing" onclick="openProfile(${v.id})" style="cursor:pointer;">
+        <div class="listing-avatar">${v.emoji}</div>
+        <div class="listing-body">
+          <div class="listing-name">${v.navn}</div>
+          <div class="listing-addr">${v.gate}, Oslo</div>
+          <div class="listing-tags">
+            ${v.tags.slice(0,3).map(t => `<span class="tag ${t==='Åpen nå'?'open':''}">${t}</span>`).join('')}
+          </div>
+        </div>
+        <div class="listing-meta">
+          <div class="listing-dist">${v.dist}</div>
+          <div class="listing-rating">★ ${v.rating} · ${v.besok} besøk</div>
+          <button class="listing-action" onclick="event.stopPropagation();openProfile(${v.id})">${v.open ? 'Se profil' : 'Se profil'}</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openProfile(id) {
+    const v = verter.find(x => x.id === id);
+    document.getElementById('profile-avatar').textContent = v.emoji;
+    document.getElementById('profile-name').textContent = v.navn;
+    document.getElementById('profile-area').textContent = v.gate + ' · ' + v.omradeNavn + ' · ' + v.dist;
+    document.getElementById('profile-rating').textContent = '★ ' + v.rating + ' · ' + v.besok + ' besøk · ' + (v.open ? '✅ Åpen nå' : '⏱ Sjekk tidspunkt');
+    document.getElementById('profile-tags').innerHTML = v.tags.map(t => `<span class="profile-tag">${t}</span>`).join('');
+    document.getElementById('profile-note').innerHTML = '💬 ' + v.notat;
+    document.getElementById('profile-reviews').innerHTML = '<div style="font-size:12px;font-weight:500;color:#999;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Anmeldelser</div>' + v.reviews.map(r => `<div class="review-item">${r.tekst} <span style="color:#bbb;font-size:11px;">${r.dato}</span></div>`).join('');
+    document.getElementById('profile-action-btn').textContent = v.open ? 'Gi beskjed om at jeg kommer →' : 'Send forespørsel →';
+    document.getElementById('profile-action-btn').onclick = () => { closeProfile(); showToast('Melding sendt til ' + v.navn + '!'); };
+    const modal = document.getElementById('profile-modal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProfile() {
+    document.getElementById('profile-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  renderListings();
+
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = '✓ ' + msg;
