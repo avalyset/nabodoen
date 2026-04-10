@@ -418,10 +418,11 @@
 
       <!-- Row 1: Segment tabs + Tilbud dropdown -->
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:0.75rem;">
-        <button class="seg-btn active" id="seg-alle"    onclick="selectSegment('alle')">Alle</button>
-        <button class="seg-btn"        id="seg-bydeler" onclick="selectSegment('bydeler')">🏙 Bydeler</button>
-        <button class="seg-btn"        id="seg-parker"  onclick="selectSegment('parker')">🌳 Parker</button>
-        <button class="seg-btn"        id="seg-oyer"    onclick="selectSegment('oyer')">⛵ Øyer & Strand</button>
+        <button class="seg-btn active" id="seg-alle"     onclick="selectSegment('alle')">Alle</button>
+        <button class="seg-btn"        id="seg-bydeler"  onclick="selectSegment('bydeler')">🏙 Bydeler</button>
+        <button class="seg-btn"        id="seg-parker"   onclick="selectSegment('parker')">🌳 Parker</button>
+        <button class="seg-btn"        id="seg-strender" onclick="selectSegment('strender')">🏖️ Strender</button>
+        <button class="seg-btn"        id="seg-oyer"     onclick="selectSegment('oyer')">⛵ Øyer</button>
         <div style="flex:1;min-width:8px;"></div>
         <div style="position:relative;">
           <select onchange="filterTilbud(this.value)" style="padding:9px 32px 9px 14px;border-radius:50px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:inherit;appearance:none;cursor:pointer;">
@@ -564,7 +565,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.6.2</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.6.3</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -794,7 +795,47 @@ const verter = [
   {id:42,navn:"Marit G.",emoji:"🏡",gate:"Lindøya — kolonihagen",omrade:"lindoya",omradeNavn:"⛵ Lindøya",dist:"55 m",rating:"4.9",besok:14,open:true,
    tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","☀️ Nødsolkrem","🚰 Fyll vannflaske","🧊 Kjøl medbrakt drikke","🛋️ Lån et pledd"],
    notat:"Kolonihagevert på Lindøya. Varm mat for barna, solkrem, vann og kjøleskap. Sommerfavoritt!",
-   reviews:[{tekst:"Barnefamiliens paradis! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom tilbake neste år!",dato:"3 dager siden"}]}
+   reviews:[{tekst:"Barnefamiliens paradis! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom tilbake neste år!",dato:"3 dager siden"}]},
+
+  // ─── PARADISBUKTA (Bygdøy) ───
+  {id:43,navn:"Camilla R.",emoji:"👩🏼‍🦱",gate:"Huk Aveny 48",omrade:"paradisbukta",omradeNavn:"🏖️ Paradisbukta",dist:"70 m",rating:"5.0",besok:32,open:true,
+   tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","Babyskiftebord","☀️ Nødsolkrem","🚰 Fyll vannflaske","🧊 Kjøl medbrakt drikke"],
+   notat:"Trebarnsmamma ved Paradisbukta. Skiftebord, solkrem, vann og kjøleskap. Rett ved strandstien. Sommersesong mai–sep.",
+   reviews:[{tekst:"Reddende engel på stranddag! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Alt barnefamilier trenger.",dato:"2 dager siden"}]},
+  {id:44,navn:"Ola F.",emoji:"👨🏻",gate:"Paradisbukta 12",omrade:"paradisbukta",omradeNavn:"🏖️ Paradisbukta",dist:"150 m",rating:"4.8",besok:19,open:true,
+   tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🚲 Luft til sykkel/ball","🔋 Lading","🌂 Nødparaply"],
+   notat:"Aktiv pensjonist ved stranden. Badminton, pumpe, lading og paraply. Alltid klar for lek på sandvolleybanen!",
+   reviews:[{tekst:"Sporty vert! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+
+  // ─── SØRENGA SJØBAD ───
+  {id:45,navn:"Leila N.",emoji:"👩🏽",gate:"Sørenga 35",omrade:"soerenga",omradeNavn:"🏖️ Sørenga sjøbad",dist:"90 m",rating:"5.0",besok:48,open:true,
+   tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","☀️ Nødsolkrem","🔋 Lading","🚰 Fyll vannflaske","Rullestolvennlig"],
+   notat:"Arkitekt og Sørenga-lokal. Lading, kjøleskap, solkrem og vann. Rullestolrampe. Rett ved sjøbadet.",
+   reviews:[{tekst:"Beste stoppet på Sørenga! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Hyggelig og super vert.",dato:"1 dag siden"}]},
+  {id:46,navn:"Tobias E.",emoji:"🧑🏻",gate:"Bispekaia 18",omrade:"soerenga",omradeNavn:"🏖️ Sørenga sjøbad",dist:"200 m",rating:"4.7",besok:24,open:true,
+   tags:["Åpen nå","🩺 Kan førstehjelp","💗 Hjertestarter","🌂 Nødparaply","📚 Lån en bok"],
+   notat:"Lege i 20-åra, hjemmekontor ved sjøen. Hjertestarter og førstehjelp. Paraply og bøker til utlån.",
+   reviews:[{tekst:"Lege-vert ved sjøbadet! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+
+  // ─── TJUVHOLMEN ───
+  {id:47,navn:"Ingeborg W.",emoji:"👩🏻‍🦳",gate:"Tjuvholmen allé 5",omrade:"tjuvholmen",omradeNavn:"🏖️ Tjuvholmen",dist:"80 m",rating:"4.9",besok:37,open:true,
+   tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🚰 Fyll vannflaske","📚 Lån en bok","🛋️ Lån et pledd","☀️ Nødsolkrem"],
+   notat:"Pensjonert kunstkurator ved Astrup Fearnley. Bøker, pledd, solkrem og kjøleskap. Kunstnerisk nabolag!",
+   reviews:[{tekst:"Kulturen og do i ett! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Unik og hyggelig vert.",dato:"2 dager siden"}]},
+  {id:48,navn:"Kwame A.",emoji:"👨🏿",gate:"Tjuvholmen allé 22",omrade:"tjuvholmen",omradeNavn:"🏖️ Tjuvholmen",dist:"160 m",rating:"4.8",besok:21,open:true,
+   tags:["Åpen nå","🔋 Lading","🎵 Musikk og stemning","🎸 Lån en gitar","👋 Bli med på kaffe"],
+   notat:"Musiker og designer fra Ghana. Lading, gitar og kaffe. Alltid god stemning. Inngang via kunstgalleriet.",
+   reviews:[{tekst:"Musikk, kaffe og do! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+
+  // ─── HVERVENBUKTA ───
+  {id:49,navn:"Ragnhild T.",emoji:"👩‍🦳",gate:"Hvervenveien 88",omrade:"hvervenbukta",omradeNavn:"🏖️ Hvervenbukta",dist:"65 m",rating:"5.0",besok:16,open:true,
+   tags:["Åpen nå","☀️ Nødsolkrem","🚰 Fyll vannflaske","🧊 Kjøl medbrakt drikke","🛋️ Lån et pledd","🌂 Nødparaply"],
+   notat:"Pensjonert lærer ved Oslofjorden. Rolig og familievennlig strand. Solkrem, vann, kjøleskap og pledd. Sørsidens skjulte perle!",
+   reviews:[{tekst:"Sørsidens beste vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Stille og koselig.",dato:"5 dager siden"}]},
+  {id:50,navn:"Priya S.",emoji:"👩🏽",gate:"Hvervenbukta badeplass",omrade:"hvervenbukta",omradeNavn:"🏖️ Hvervenbukta",dist:"120 m",rating:"4.9",besok:11,open:true,
+   tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","☀️ Nødsolkrem","🩺 Kan førstehjelp","🚰 Fyll vannflaske"],
+   notat:"Jordmor og tobarnsmamma ved Hvervenbukta. Varm mat, skiftebord, solkrem og førstehjelp. Perfekt for småbarnsfamilier!",
+   reviews:[{tekst:"Jordmor-vert ved fjorden! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]}
 ];
 
 const feedPosts = [
@@ -851,8 +892,14 @@ var segmentData = {
     {val:'slottsparken',   label:'🌳 Slottsparken'},
     {val:'thorshovparken', label:'🌳 Thorshovparken'}
   ],
+  strender: [
+    {val:'bygdoy',        label:'🏖️ Bygdøy / Huk'},
+    {val:'paradisbukta',  label:'🏖️ Paradisbukta'},
+    {val:'soerenga',      label:'🏖️ Sørenga sjøbad'},
+    {val:'tjuvholmen',    label:'🏖️ Tjuvholmen'},
+    {val:'hvervenbukta',  label:'🏖️ Hvervenbukta'}
+  ],
   oyer: [
-    {val:'bygdoy',      label:'🏖️ Bygdøy'},
     {val:'hovedoya',    label:'⛵ Hovedøya'},
     {val:'langoyene',   label:'⛵ Langøyene'},
     {val:'nakholmen',   label:'⛵ Nakholmen'},
