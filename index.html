@@ -537,17 +537,7 @@
             <option value="forstehjelp">🩺 Kan førstehjelp</option>
             <option value="hjertestarter">💗 Hjertestarter</option>
           </optgroup>
-          <optgroup label="── 🏖️ Strand &amp; Øyer">
-            <option value="bygdoy">🏖️ Bygdøy</option>
-            <option value="hovedoya">⛵ Hovedøya</option>
-            <option value="langoyene">⛵ Langøyene</option>
-            <option value="nakholmen">⛵ Nakholmen</option>
-            <option value="gressholmen">⛵ Gressholmen</option>
-            <option value="bleikoya">⛵ Bleikøya</option>
-            <option value="lindoya">⛵ Lindøya</option>
-            <option value="heggholmen">⛵ Heggholmen</option>
-            <option value="ulvoya">🏖️ Ulvøya</option>
-          </optgroup>
+
         </select>
         <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text-muted);">▼</span>
       </div>
@@ -673,7 +663,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.7.1</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.7.2</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -1012,7 +1002,7 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
   renderListings();
-  updateStats();
+  setTimeout(updateStats, 100);
   renderFeed();
   }
 
@@ -1095,13 +1085,7 @@
 
   const counterEl = document.getElementById('vert-counter');
   if (counterEl) {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 47, 1800);
-        observer.disconnect();
-      }
-    });
-    observer.observe(counterEl);
+    setTimeout(() => animateCounter(counterEl, 47, 1800), 600);
   }
 
   // Current vert for map/copy
@@ -1259,7 +1243,7 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
   renderListings();
-  updateStats();
+  setTimeout(updateStats, 100);
   renderFeed();
   }
 
@@ -1323,13 +1307,7 @@
 
   const counterEl = document.getElementById('vert-counter');
   if (counterEl) {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 47, 1800);
-        observer.disconnect();
-      }
-    });
-    observer.observe(counterEl);
+    setTimeout(() => animateCounter(counterEl, 47, 1800), 600);
   }
 
   // Current vert for map/copy
@@ -1487,7 +1465,7 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
   renderListings();
-  updateStats();
+  setTimeout(updateStats, 100);
   renderFeed();
 
   function showToast(msg) {
