@@ -459,56 +459,81 @@
     <p class="section-sub">Velg et område og klikk på en vert for å se profilen. Dette er hvordan det vil se ut når du er registrert.</p>
 
 
-    <!-- Search + Lucky + Stats -->
-    <div style="display:flex;gap:10px;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;">
-      <div class="search-wrap" style="flex:1;min-width:200px;">
+    <!-- Search + Dropdowns + Lucky -->
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:1rem;flex-wrap:wrap;">
+      <div class="search-wrap" style="flex:2;min-width:180px;">
         <span class="search-icon">🔍</span>
         <input type="text" id="search-input" placeholder="Søk etter gitar, hjertestarter, kaffe..." oninput="searchVerter()">
       </div>
-      <button class="lucky-btn" onclick="luckyVert()">🎲 Prøv lykken</button>
-    </div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;" id="stats-bar">
-      Laster...
-    </div>
 
-    <!-- Area filter -->
-    <div style="display:flex;gap:8px;margin:1.5rem 0;flex-wrap:wrap;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;" id="area-filter">
-      <button class="area-btn active" onclick="filterArea('alle')">Alle</button>
-      <button class="area-btn" onclick="filterArea('bislett')">Bislett</button>
-      <button class="area-btn" onclick="filterArea('frogner')">Frogner</button>
-      <button class="area-btn" onclick="filterArea('grunerlokka')">Grünerløkka</button>
-      <button class="area-btn" onclick="filterArea('gamlebyen')">Gamlebyen</button>
-      <button class="area-btn" onclick="filterArea('gronland')">Grønland</button>
-      <button class="area-btn" onclick="filterArea('hammersborg')">Hammersborg</button>
-      <button class="area-btn" onclick="filterArea('sagene')">Sagene</button>
-      <button class="area-btn" onclick="filterArea('bjolsen')">Bjølsen</button>
-      <button class="area-btn" onclick="filterArea('torshov')">Torshov</button>
-      <button class="area-btn" onclick="filterArea('majorstuen')">Majorstuen</button>
-      <button class="area-btn" onclick="filterArea('marienlyst')">Marienlyst-jordene</button>
-      <button class="area-btn" onclick="filterArea('cuba')">Cuba — Grünerløkka</button>
-      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('thorshovparken')">🌳 Thorshovparken</button>
-      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('frognerparken')">🌳 Frognerparken</button>
-      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('sthanshaugen')">🌳 St. Hanshaugen</button>
-      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('sofienberg')">🌳 Sofienbergparken</button>
-      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('oyenparken')">🌳 Tøyenparken</button>
-      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('slottsparken')">🌳 Slottsparken</button>
-      <button class="area-btn" style="background:#fff8e1;color:#856404;border-color:#ffc107;" onclick="filterTag('lading')">🔋 Lading</button>
-      <button class="area-btn" style="background:#e3f2fd;color:#0d47a1;border-color:#90caf9;" onclick="filterTag('kjol')">🧊 Kjøl medbrakt drikke</button>
-      <button class="area-btn" style="background:#e3f2fd;color:#1565c0;border-color:#90caf9;" onclick="filterTag('vann')">🚰 Fyll vannflaske</button>
-      <button class="area-btn" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1;" onclick="filterTag('solkrem')">☀️ Nødsolkrem</button>
-      <button class="area-btn" style="background:#f3e5f5;color:#4a148c;border-color:#ce93d8;" onclick="filterTag('bok')">📚 Lån en bok</button>
-      <button class="area-btn" style="background:#f1f8e9;color:#33691e;border-color:#aed581;" onclick="filterTag('luft')">🚲 Luft til sykkel/ball</button>
-      <button class="area-btn" style="background:#ffebee;color:#b71c1c;border-color:#ef9a9a;" onclick="filterTag('forstehjelp')">🩺 Kan førstehjelp</button>
-      <button class="area-btn" style="background:#ffebee;color:#b71c1c;border-color:#ef9a9a;" onclick="filterTag('hjertestarter')">💗 Hjertestarter</button>
-      <button class="area-btn" style="background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7;" onclick="filterTag('sport')">🏸 Lån badminton</button>
-      <button class="area-btn" style="background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7;" onclick="filterTag('fotball')">⚽ Bli med å spille</button>
-      <button class="area-btn" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1;" onclick="filterTag('musikk')">🎵 Musikk og stemning</button>
-      <button class="area-btn" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1;" onclick="filterTag('gitar')">🎸 Lån en gitar</button>
-      <button class="area-btn" style="background:#fff8e1;color:#f57f17;border-color:#ffe082;" onclick="filterTag('pledd')">🛋️ Lån et pledd</button>
-      <button class="area-btn" style="background:#e8eaf6;color:#283593;border-color:#9fa8da;" onclick="filterTag('sosial')">👋 Bli med på kaffe</button>
-      <button class="area-btn" style="background:#e8eaf6;color:#1a237e;border-color:#9fa8da;" onclick="filterTag('paraply')">🌂 Nødparaply</button>
-      <button class="area-btn" style="background:#fff3e0;color:#e65100;border-color:#ffcc80;" onclick="filterTag('barnemat')">🍼 Varme barnemat/melk</button>
+      <div style="position:relative;flex:1;min-width:150px;">
+        <select id="sted-select" onchange="filterSted(this.value)"
+          style="width:100%;padding:10px 36px 10px 14px;border-radius:50px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:inherit;appearance:none;cursor:pointer;transition:border-color 0.15s;">
+          <option value="alle">📍 Alle steder</option>
+          <optgroup label="── Bydeler">
+            <option value="bislett">Bislett</option>
+            <option value="frogner">Frogner</option>
+            <option value="grunerlokka">Grünerløkka</option>
+            <option value="cuba">Cuba — Grünerløkka</option>
+            <option value="gamlebyen">Gamlebyen</option>
+            <option value="gronland">Grønland</option>
+            <option value="hammersborg">Hammersborg</option>
+            <option value="sagene">Sagene</option>
+            <option value="bjolsen">Bjølsen</option>
+            <option value="torshov">Torshov</option>
+            <option value="majorstuen">Majorstuen</option>
+            <option value="marienlyst">Marienlyst-jordene</option>
+          </optgroup>
+          <optgroup label="── 🌳 Parker">
+            <option value="frognerparken">🌳 Frognerparken</option>
+            <option value="sthanshaugen">🌳 St. Hanshaugen</option>
+            <option value="sofienberg">🌳 Sofienbergparken</option>
+            <option value="oyenparken">🌳 Tøyenparken</option>
+            <option value="slottsparken">🌳 Slottsparken</option>
+            <option value="thorshovparken">🌳 Thorshovparken</option>
+          </optgroup>
+        </select>
+        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text-muted);">▼</span>
+      </div>
+
+      <div style="position:relative;flex:1;min-width:160px;">
+        <select id="tilbud-select" onchange="filterTilbud(this.value)"
+          style="width:100%;padding:10px 36px 10px 14px;border-radius:50px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:inherit;appearance:none;cursor:pointer;transition:border-color 0.15s;">
+          <option value="alle">🎁 Alle tilbud</option>
+          <optgroup label="── Basis">
+            <option value="lading">🔋 Lading</option>
+            <option value="kjol">🧊 Kjøl medbrakt drikke</option>
+            <option value="vann">🚰 Fyll vannflaske</option>
+            <option value="solkrem">☀️ Nødsolkrem</option>
+            <option value="paraply">🌂 Nødparaply</option>
+          </optgroup>
+          <optgroup label="── Sosialt">
+            <option value="kaffe">👋 Bli med på kaffe</option>
+            <option value="musikk">🎵 Musikk og stemning</option>
+            <option value="gitar">🎸 Lån en gitar</option>
+            <option value="bok">📚 Lån en bok</option>
+            <option value="pledd">🛋️ Lån et pledd</option>
+          </optgroup>
+          <optgroup label="── Sport & lek">
+            <option value="sport">🏸 Lån badminton</option>
+            <option value="fotball">⚽ Bli med å spille</option>
+            <option value="luft">🚲 Luft til sykkel/ball</option>
+          </optgroup>
+          <optgroup label="── Familie">
+            <option value="barnemat">🍼 Varme barnemat/melk</option>
+          </optgroup>
+          <optgroup label="── Beredskap">
+            <option value="forstehjelp">🩺 Kan førstehjelp</option>
+            <option value="hjertestarter">💗 Hjertestarter</option>
+          </optgroup>
+        </select>
+        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text-muted);">▼</span>
+      </div>
+
+      <button class="lucky-btn" onclick="luckyVert()" style="white-space:nowrap;">🎲 Prøv lykken</button>
     </div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:1.25rem;" id="stats-bar">Laster...</div>
+
 
     <div class="listings fade-in" id="listings-container"></div>
   </div>
@@ -613,7 +638,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.6.0</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.6.1</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -922,6 +947,21 @@
   renderFeed();
   }
 
+
+  function filterSted(val) {
+    document.getElementById('tilbud-select').value = 'alle';
+    document.getElementById('search-input').value = '';
+    aktivtOmrade = val;
+    renderListings();
+  }
+
+  function filterTilbud(val) {
+    document.getElementById('sted-select').value = 'alle';
+    document.getElementById('search-input').value = '';
+    aktivtOmrade = 'tag_' + val;
+    renderListings();
+  }
+
   function filterArea(omrade) {
     aktivtOmrade = omrade;
     document.querySelectorAll('.area-btn').forEach(b => b.classList.remove('active'));
@@ -1111,7 +1151,7 @@
   function renderListings() {
     const container = document.getElementById('listings-container');
     let filtered;
-    if (aktivtOmrade === 'alle') filtered = verter;
+    if (aktivtOmrade === 'alle' || aktivtOmrade === 'tag_alle') filtered = verter;
     else if (aktivtOmrade === 'tag_lading') filtered = verter.filter(v => v.tags.some(t => t.includes('Lading')));
     else if (aktivtOmrade === 'tag_kjol') filtered = verter.filter(v => v.tags.some(t => t.includes('Kjøl')));
     else if (aktivtOmrade === 'tag_vann') filtered = verter.filter(v => v.tags.some(t => t.includes('vannflaske')));
