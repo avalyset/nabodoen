@@ -398,6 +398,8 @@
       <button class="area-btn" onclick="filterArea('torshov')">Torshov</button>
       <button class="area-btn" onclick="filterArea('majorstuen')">Majorstuen</button>
       <button class="area-btn" onclick="filterArea('marienlyst')">Marienlyst-jordene</button>
+      <button class="area-btn" onclick="filterArea('cuba')">Cuba — Grünerløkka</button>
+      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('thorshovparken')">🌳 Thorshovparken</button>
       <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('frognerparken')">🌳 Frognerparken</button>
       <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('sthanshaugen')">🌳 St. Hanshaugen</button>
       <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('sofienberg')">🌳 Sofienbergparken</button>
@@ -489,7 +491,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.3.2</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.3.3</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -529,7 +531,9 @@
     {id:29,navn:"Astrid M.",emoji:"👩‍🦳",gate:"Parkveien 18",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"95 m",rating:"5.0",besok:71,open:true,tags:["Åpen nå","Hotzone","Prestisje"],notat:"Rett ved Slottsparken. 1. etasje, alltid åpen på dagtid.",reviews:[{tekst:"Beste beliggenhet i Oslo! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Livredder under konsert i parken!",dato:"2 dager siden"}]},
     {id:30,navn:"Henrik P.",emoji:"👨‍🦱",gate:"Wergelandsveien 5",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"180 m",rating:"4.8",besok:33,open:true,tags:["Åpen nå","Hotzone","Stille"],notat:"Rolig gate ved Slottsparken. Ring på 5B.",reviews:[{tekst:"Perfekt stopp! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
     {id:31,navn:"Camilla B.",emoji:"👩🏻‍🦰",gate:"Marienlystveien 8",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"220 m",rating:"4.8",besok:26,open:true,tags:["Åpen nå","Nær NRK","Romslig"],notat:"Nær NRK-bygget. 3. etasje, ring på 8C.",reviews:[{tekst:"Hyggelig vert nær NRK! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
-    {id:32,navn:"Øystein K.",emoji:"👨🏻‍🦳",gate:"Røa allé 3",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"340 m",rating:"4.7",besok:13,open:true,tags:["Åpen nå","Parkering"],notat:"Lett å finne, rett ved parkeringsplassen. Ring på.",reviews:[{tekst:"Veldig hjelpsom! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]}
+    {id:32,navn:"Øystein K.",emoji:"👨🏻‍🦳",gate:"Røa allé 3",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"340 m",rating:"4.7",besok:13,open:true,tags:["Åpen nå","Parkering"],notat:"Lett å finne, rett ved parkeringsplassen. Ring på.",reviews:[{tekst:"Veldig hjelpsom! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:33,navn:"Diego R.",emoji:"👨🏽",gate:"Helgesens gate 22",omrade:"cuba",omradeNavn:"Cuba — Grünerløkka",dist:"170 m",rating:"4.9",besok:31,open:true,tags:["Åpen nå","Kaffe tilbys","Latinsk stemning"],notat:"Velkommen! Cubansk musikk og kaffe. 1. etasje, ring på 22B.",reviews:[{tekst:"Beste verten på Cuba! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kaffe og god stemning!",dato:"2 dager siden"}]},
+    {id:34,navn:"Turid V.",emoji:"👩‍🦳",gate:"Vogts gate 12",omrade:"thorshovparken",omradeNavn:"🌳 Thorshovparken",dist:"130 m",rating:"5.0",besok:27,open:true,tags:["Åpen nå","Hotzone","Nær lekeplass"],notat:"Rett ved Thorshovparken. Barnefamilier velkomne! Ring på 12A.",reviews:[{tekst:"Perfekt ved parken! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Snilleste verten!",dato:"3 dager siden"}]}
   ];
 
   let aktivtOmrade = 'alle';
@@ -554,7 +558,7 @@
   if (counterEl) {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 32, 1800);
+        animateCounter(counterEl, 34, 1800);
         observer.disconnect();
       }
     });
@@ -662,7 +666,7 @@
   if (counterEl) {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 32, 1800);
+        animateCounter(counterEl, 34, 1800);
         observer.disconnect();
       }
     });
