@@ -390,6 +390,19 @@
       <button class="area-btn" onclick="filterArea('bislett')">Bislett</button>
       <button class="area-btn" onclick="filterArea('frogner')">Frogner</button>
       <button class="area-btn" onclick="filterArea('grunerlokka')">Grünerløkka</button>
+      <button class="area-btn" onclick="filterArea('gamlebyen')">Gamlebyen</button>
+      <button class="area-btn" onclick="filterArea('gronland')">Grønland</button>
+      <button class="area-btn" onclick="filterArea('hammersborg')">Hammersborg</button>
+      <button class="area-btn" onclick="filterArea('sagene')">Sagene</button>
+      <button class="area-btn" onclick="filterArea('bjolsen')">Bjølsen</button>
+      <button class="area-btn" onclick="filterArea('torshov')">Torshov</button>
+      <button class="area-btn" onclick="filterArea('majorstuen')">Majorstuen</button>
+      <button class="area-btn" onclick="filterArea('marienlyst')">Marienlyst</button>
+      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('frognerparken')">🌳 Frognerparken</button>
+      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('sthanshaugen')">🌳 St. Hanshaugen</button>
+      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('sofienberg')">🌳 Sofienbergparken</button>
+      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('oyenparken')">🌳 Tøyenparken</button>
+      <button class="area-btn" style="background:#e8f5ed;color:#2d5a3d;border-color:#a8d5b5;" onclick="filterArea('slottsparken')">🌳 Slottsparken</button>
     </div>
 
     <div class="listings" id="listings-container"></div>
@@ -476,7 +489,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.3.0</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.3.1</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -485,68 +498,38 @@
 
 <script>
   const verter = [
-    {
-      id:1, navn:"Marta H.", emoji:"👩", gate:"Pilestredet 42", omrade:"bislett", omradeNavn:"Bislett",
-      dist:"80 m", rating:"4.9", besok:38, open:true,
-      tags:["Åpen nå","Rullestolvennlig","Heis","WC + dusj"],
-      notat:"Ring på, 3. etasje til venstre. Heis finnes. Maks 5 min, takk! 🌿",
-      reviews:[
-        {tekst:"Super hyggelig vert, rent og fint! ⭐⭐⭐⭐⭐", dato:"3 dager siden"},
-        {tekst:"Rask respons, veldig hjelpsom.", dato:"1 uke siden"},
-        {tekst:"Anbefales! Perfekt da toget var forsinket.", dato:"2 uker siden"}
-      ]
-    },
-    {
-      id:2, navn:"Per K.", emoji:"👨‍🦳", gate:"Ullevålsveien 12", omrade:"bislett", omradeNavn:"Bislett",
-      dist:"210 m", rating:"4.7", besok:21, open:true,
-      tags:["Åpen nå","Babyskiftebord","Barnevennlig"],
-      notat:"Ring på knapp 4. Vanligvis hjemme på dagtid. Barnefamilier spesielt velkomne!",
-      reviews:[
-        {tekst:"Fantastisk hjelp med babyskift! ⭐⭐⭐⭐⭐", dato:"1 uke siden"},
-        {tekst:"Veldig imøtekommende.", dato:"3 uker siden"}
-      ]
-    },
-    {
-      id:3, navn:"Amina S.", emoji:"👩🏾", gate:"Frognerveien 8", omrade:"frogner", omradeNavn:"Frogner",
-      dist:"340 m", rating:"5.0", besok:14, open:false,
-      tags:["Kun 08–20","Parfymefri","Allergivennlig"],
-      notat:"Vennligst book i appen, 5 min maks. Parfymefri sone pga allergi. Takk for forståelsen!",
-      reviews:[
-        {tekst:"Utrolig snill og ryddig. 5 stjerner! ⭐⭐⭐⭐⭐", dato:"5 dager siden"},
-        {tekst:"Alltid ren og velorganisert.", dato:"2 uker siden"}
-      ]
-    },
-    {
-      id:4, navn:"Jonas B.", emoji:"🧔", gate:"Kirkevegen 71", omrade:"frogner", omradeNavn:"Frogner",
-      dist:"410 m", rating:"4.8", besok:9, open:true,
-      tags:["Åpen nå","Hund i huset","Romslig"],
-      notat:"Ring på, første etasje til høyre. Hunden er snill! Åpen de fleste dager.",
-      reviews:[
-        {tekst:"Hunden er kjempesøt! ⭐⭐⭐⭐⭐", dato:"2 dager siden"},
-        {tekst:"Hyggelig kar, anbefales.", dato:"1 uke siden"}
-      ]
-    },
-    {
-      id:5, navn:"Ingrid L.", emoji:"👩‍🦰", gate:"Thorvald Meyers gate 34", omrade:"grunerlokka", omradeNavn:"Grünerløkka",
-      dist:"180 m", rating:"4.9", besok:52, open:true,
-      tags:["Åpen nå","Kaffe tilbys","Hyggelig"],
-      notat:"Kom innom! Tilbyr gjerne en kopp kaffe. 2. etasje, ingen heis dessverre.",
-      reviews:[
-        {tekst:"Fikk kaffe og en hyggelig prat! Oslo på sitt beste. ⭐⭐⭐⭐⭐", dato:"i dag"},
-        {tekst:"Supervert, veldig hjelpsom.", dato:"3 dager siden"},
-        {tekst:"Beste Nabodo-opplevelse hittil!", dato:"1 uke siden"}
-      ]
-    },
-    {
-      id:6, navn:"Lars O.", emoji:"👨‍🦲", gate:"Grüners gate 12", omrade:"grunerlokka", omradeNavn:"Grünerløkka",
-      dist:"290 m", rating:"4.6", besok:17, open:true,
-      tags:["Åpen nå","Rullestolvennlig","Inngang bakgård"],
-      notat:"Inngang via bakgård. Ring på intercom 'Lars'. Rullestolrampe tilgjengelig.",
-      reviews:[
-        {tekst:"Tilgjengelig og hjelpsom! ⭐⭐⭐⭐⭐", dato:"4 dager siden"},
-        {tekst:"God adkomst for rullestol.", dato:"2 uker siden"}
-      ]
-    }
+    {id:1,navn:"Marta H.",emoji:"👩",gate:"Pilestredet 42",omrade:"bislett",omradeNavn:"Bislett",dist:"80 m",rating:"4.9",besok:38,open:true,tags:["Åpen nå","Rullestolvennlig","Heis"],notat:"Ring på, 3. etasje til venstre. Heis finnes. Maks 5 min!",reviews:[{tekst:"Super hyggelig vert! ⭐⭐⭐⭐⭐",dato:"3 dager siden"},{tekst:"Rask respons.",dato:"1 uke siden"}]},
+    {id:2,navn:"Per K.",emoji:"👨‍🦳",gate:"Ullevålsveien 12",omrade:"bislett",omradeNavn:"Bislett",dist:"210 m",rating:"4.7",besok:21,open:true,tags:["Åpen nå","Babyskiftebord"],notat:"Ring på knapp 4. Barnefamilier velkomne!",reviews:[{tekst:"Fantastisk hjelp med babyskift! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:3,navn:"Amina S.",emoji:"👩🏾",gate:"Frognerveien 8",omrade:"frogner",omradeNavn:"Frogner",dist:"340 m",rating:"5.0",besok:14,open:false,tags:["Kun 08–20","Parfymefri"],notat:"Book i forkant, 5 min maks. Parfymefri sone pga allergi.",reviews:[{tekst:"Utrolig snill og ryddig. ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+    {id:4,navn:"Jonas B.",emoji:"🧔",gate:"Elisenbergveien 4",omrade:"frogner",omradeNavn:"Frogner",dist:"410 m",rating:"4.8",besok:9,open:true,tags:["Åpen nå","Hund i huset"],notat:"Ring på, første etasje. Hunden er snill!",reviews:[{tekst:"Hunden er kjempesøt! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:5,navn:"Ingrid L.",emoji:"👩‍🦰",gate:"Thorvald Meyers gate 34",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"180 m",rating:"4.9",besok:52,open:true,tags:["Åpen nå","Kaffe tilbys"],notat:"Kom innom! Tilbyr gjerne en kopp kaffe. 2. etasje.",reviews:[{tekst:"Fikk kaffe og hyggelig prat! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste Nabodo-opplevelse!",dato:"1 uke siden"}]},
+    {id:6,navn:"Lars O.",emoji:"👨‍🦲",gate:"Grüners gate 12",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"290 m",rating:"4.6",besok:17,open:true,tags:["Åpen nå","Rullestolvennlig"],notat:"Inngang via bakgård. Ring på intercom 'Lars'.",reviews:[{tekst:"God adkomst for rullestol. ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:7,navn:"Fatima A.",emoji:"👩🏽",gate:"Schweigaards gate 22",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"320 m",rating:"4.8",besok:11,open:true,tags:["Åpen nå","Rullestolvennlig"],notat:"Første etasje, trykk på ringeklokken. Alltid åpen på dagtid.",reviews:[{tekst:"Veldig hyggelig og hjelpsomm! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:8,navn:"Ravi P.",emoji:"👨🏽",gate:"Mosseveien 3",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"480 m",rating:"4.5",besok:8,open:true,tags:["Åpen nå","Stille nabolag"],notat:"Ring på nummer 8. Hyggelig å hjelpe naboer.",reviews:[{tekst:"Rask og vennlig! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:9,navn:"Yasmin H.",emoji:"👩🏽‍🦱",gate:"Tøyengata 18",omrade:"gronland",omradeNavn:"Grønland",dist:"150 m",rating:"5.0",besok:29,open:true,tags:["Åpen nå","Barnevennlig","Hyggelig"],notat:"Ring på, 2. etasje. Alltid hjemme på dagtid og ettermiddag.",reviews:[{tekst:"Beste verten på Grønland! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Varmt og imøtekommende hjem.",dato:"3 dager siden"}]},
+    {id:10,navn:"Ole T.",emoji:"👴",gate:"Grønlandsleiret 14",omrade:"gronland",omradeNavn:"Grønland",dist:"240 m",rating:"4.7",besok:19,open:false,tags:["Kun 09–18","Pensjonist"],notat:"Ring på knapp 2B. Åpen hverdager 9–18.",reviews:[{tekst:"Snill gammel mann, anbefales! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+    {id:11,navn:"Kari N.",emoji:"👩‍🦳",gate:"Akersbakken 7",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"200 m",rating:"4.9",besok:34,open:true,tags:["Åpen nå","Heis","Sentralt"],notat:"Heis til 4. etasje, ring på 4C. Maks 5 min.",reviews:[{tekst:"Perfekt beliggenhet og supersnill! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Alltid ren og fin.",dato:"4 dager siden"}]},
+    {id:12,navn:"Bjørn A.",emoji:"🧓",gate:"Fredensborgveien 6",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"310 m",rating:"4.6",besok:12,open:true,tags:["Åpen nå","Bakgårdsinng."],notat:"Inngang via bakgård, porta er åpen på dagtid.",reviews:[{tekst:"Lett å finne og hyggelig vert. ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:13,navn:"Silje M.",emoji:"👩‍🦱",gate:"Sandakerveien 24",omrade:"sagene",omradeNavn:"Sagene",dist:"260 m",rating:"4.8",besok:23,open:true,tags:["Åpen nå","Lyst og fint"],notat:"3. etasje, trykk på klokken. Hjemme de fleste dager.",reviews:[{tekst:"Hjertelig og imøtekommende! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:14,navn:"Erik S.",emoji:"🧑‍🦰",gate:"Treschows gate 8",omrade:"sagene",omradeNavn:"Sagene",dist:"390 m",rating:"4.5",besok:7,open:true,tags:["Åpen nå","Nær Myraløkka"],notat:"Rett ved Myraløkka park. Ring på 14C.",reviews:[{tekst:"Flott beliggenhet nær parken! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:15,navn:"Nora B.",emoji:"👱‍♀️",gate:"Bjølsenveien 12",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"300 m",rating:"4.7",besok:15,open:true,tags:["Åpen nå","Rolig gate"],notat:"2. etasje til høyre. Hyggelig å hjelpe naboer.",reviews:[{tekst:"Veldig snill vert! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:16,navn:"Tor H.",emoji:"👨‍🦱",gate:"Dælenenggata 5",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"420 m",rating:"4.6",besok:10,open:false,tags:["Kun 08–17","Pendler"],notat:"Hjemme etter kl 17. Ring på i god tid.",reviews:[{tekst:"God vert når han er hjemme! ⭐⭐⭐⭐",dato:"2 uker siden"}]},
+    {id:17,navn:"Hanne G.",emoji:"👩",gate:"Torshovgata 18",omrade:"torshov",omradeNavn:"Torshov",dist:"190 m",rating:"5.0",besok:41,open:true,tags:["Åpen nå","Kaffe tilbys","Toppscore"],notat:"Kom innom, alltid kaffe på! 1. etasje, ring på 18A.",reviews:[{tekst:"Den beste! Kaffe og hyggelig prat! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Anbefales på det varmeste.",dato:"2 dager siden"}]},
+    {id:18,navn:"Magnus T.",emoji:"🧔‍♂️",gate:"Vogts gate 34",omrade:"torshov",omradeNavn:"Torshov",dist:"350 m",rating:"4.7",besok:18,open:true,tags:["Åpen nå","Stor leilighet"],notat:"4. etasje med heis. Ring på intercom 'Magnus'.",reviews:[{tekst:"Romslig og hyggelig! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+    {id:19,navn:"Line W.",emoji:"👩‍🦰",gate:"Majorstuvegen 22",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"130 m",rating:"4.9",besok:47,open:true,tags:["Åpen nå","Rullestolvennlig","Heis"],notat:"Sentralt på Majorstuen. Heis til 3. etasje. Alltid åpen på dagtid.",reviews:[{tekst:"Perfekt beliggenhet! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Rask og vennlig.",dato:"3 dager siden"}]},
+    {id:20,navn:"Petter L.",emoji:"👨",gate:"Kirkeveien 58",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"270 m",rating:"4.6",besok:22,open:true,tags:["Åpen nå","Nær t-bane"],notat:"Rett ved Majorstuen t-bane. Ring på 58B.",reviews:[{tekst:"Veldig praktisk plassering! ⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:21,navn:"Sofia R.",emoji:"👩🏻",gate:"Frognerveien 42",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"90 m",rating:"5.0",besok:63,open:true,tags:["Åpen nå","Hotzone","Nær parken"],notat:"Rett ved Frognerparken inngang. 1. etasje, ring på.",reviews:[{tekst:"Livredder i parken! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt etter pikniken!",dato:"2 dager siden"},{tekst:"Stjernevert!",dato:"3 dager siden"}]},
+    {id:22,navn:"Anders K.",emoji:"👨‍🦳",gate:"Frognerparkveien 8",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"140 m",rating:"4.9",besok:38,open:true,tags:["Åpen nå","Hotzone","Parkutsikt"],notat:"Utsikt mot parken. Ring på 8A, 2. etasje.",reviews:[{tekst:"Fantastisk vert nær parken! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:23,navn:"Marie S.",emoji:"👩‍🦳",gate:"Hegdehaugsveien 14",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"110 m",rating:"4.9",besok:55,open:true,tags:["Åpen nå","Hotzone","Toppetasje"],notat:"Toppetasje med utsikt. Heis finnes. Ring på 14D.",reviews:[{tekst:"Best utsikt i Oslo og snilleste vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt stopp under spasertur.",dato:"1 dag siden"}]},
+    {id:24,navn:"Kristian O.",emoji:"🧑",gate:"St. Hanshaugen 3",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"200 m",rating:"4.7",besok:29,open:true,tags:["Åpen nå","Hotzone"],notat:"Rett ved parken. Ring på ringeklokken.",reviews:[{tekst:"Perfekt beliggenhet! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:25,navn:"Aisha M.",emoji:"👩🏾‍🦱",gate:"Sofienberggata 8",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"80 m",rating:"5.0",besok:44,open:true,tags:["Åpen nå","Hotzone","Nær grillplass"],notat:"Nabo til Sofienbergparken. 2. etasje, alltid åpen!",reviews:[{tekst:"Reddet piknik-dagen vår! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Super vert!",dato:"3 dager siden"}]},
+    {id:26,navn:"Thomas B.",emoji:"👨🏻",gate:"Helgesens gate 5",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"160 m",rating:"4.8",besok:21,open:true,tags:["Åpen nå","Hotzone"],notat:"Ring på 5C. Hjemme de fleste dager.",reviews:[{tekst:"Hyggelig nabo! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:27,navn:"Lena F.",emoji:"👩‍🦱",gate:"Seilduksgata 14",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"120 m",rating:"4.9",besok:37,open:true,tags:["Åpen nå","Hotzone","Barnefamilier"],notat:"Nær Tøyenparken. Barnefamilier spesielt velkomne! Ring på 14A.",reviews:[{tekst:"Fantastisk vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Reddet barna i parken!",dato:"2 dager siden"}]},
+    {id:28,navn:"Geir A.",emoji:"🧔",gate:"Tøyengata 44",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"230 m",rating:"4.6",besok:14,open:true,tags:["Åpen nå","Hotzone"],notat:"Ring på intercom. Åpen alle dager.",reviews:[{tekst:"Bra vert og praktisk beliggenhet. ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+    {id:29,navn:"Astrid M.",emoji:"👩‍🦳",gate:"Parkveien 18",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"95 m",rating:"5.0",besok:71,open:true,tags:["Åpen nå","Hotzone","Prestisje"],notat:"Rett ved Slottsparken. 1. etasje, alltid åpen på dagtid.",reviews:[{tekst:"Beste beliggenhet i Oslo! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Livredder under konsert i parken!",dato:"2 dager siden"}]},
+    {id:30,navn:"Henrik P.",emoji:"👨‍🦱",gate:"Wergelandsveien 5",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"180 m",rating:"4.8",besok:33,open:true,tags:["Åpen nå","Hotzone","Stille"],notat:"Rolig gate ved Slottsparken. Ring på 5B.",reviews:[{tekst:"Perfekt stopp! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:31,navn:"Camilla B.",emoji:"👩🏻‍🦰",gate:"Marienlystveien 8",omrade:"marienlyst",omradeNavn:"Marienlyst",dist:"220 m",rating:"4.8",besok:26,open:true,tags:["Åpen nå","Nær NRK","Romslig"],notat:"Nær NRK-bygget. 3. etasje, ring på 8C.",reviews:[{tekst:"Hyggelig vert nær NRK! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:32,navn:"Øystein K.",emoji:"👨🏻‍🦳",gate:"Røa allé 3",omrade:"marienlyst",omradeNavn:"Marienlyst",dist:"340 m",rating:"4.7",besok:13,open:true,tags:["Åpen nå","Parkering"],notat:"Lett å finne, rett ved parkeringsplassen. Ring på.",reviews:[{tekst:"Veldig hjelpsom! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]}
   ];
 
   let aktivtOmrade = 'alle';
@@ -571,7 +554,7 @@
   if (counterEl) {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 12, 1200);
+        animateCounter(counterEl, 32, 1800);
         observer.disconnect();
       }
     });
@@ -679,7 +662,7 @@
   if (counterEl) {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 12, 1200);
+        animateCounter(counterEl, 32, 1800);
         observer.disconnect();
       }
     });
