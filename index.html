@@ -492,6 +492,18 @@
             <option value="slottsparken">🌳 Slottsparken</option>
             <option value="thorshovparken">🌳 Thorshovparken</option>
           </optgroup>
+          <optgroup label="── 🏖️ Strand &amp; Øyer">
+            <option value="bygdoy">🏖️ Bygdøy</option>
+            <option value="hovedoya">⛵ Hovedøya</option>
+            <option value="langoyene">⛵ Langøyene</option>
+            <option value="nakholmen">⛵ Nakholmen</option>
+            <option value="gressholmen">⛵ Gressholmen</option>
+            <option value="bleikoya">⛵ Bleikøya</option>
+            <option value="lindoya">⛵ Lindøya</option>
+            <option value="heggholmen">⛵ Heggholmen</option>
+            <option value="ulvoya">🏖️ Ulvøya</option>
+            <option value="nesoddtangen">⛵ Nesoddtangen</option>
+          </optgroup>
         </select>
         <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text-muted);">▼</span>
       </div>
@@ -526,14 +538,39 @@
             <option value="forstehjelp">🩺 Kan førstehjelp</option>
             <option value="hjertestarter">💗 Hjertestarter</option>
           </optgroup>
+          <optgroup label="── 🏖️ Strand &amp; Øyer">
+            <option value="bygdoy">🏖️ Bygdøy</option>
+            <option value="hovedoya">⛵ Hovedøya</option>
+            <option value="langoyene">⛵ Langøyene</option>
+            <option value="nakholmen">⛵ Nakholmen</option>
+            <option value="gressholmen">⛵ Gressholmen</option>
+            <option value="bleikoya">⛵ Bleikøya</option>
+            <option value="lindoya">⛵ Lindøya</option>
+            <option value="heggholmen">⛵ Heggholmen</option>
+            <option value="ulvoya">🏖️ Ulvøya</option>
+            <option value="nesoddtangen">⛵ Nesoddtangen</option>
+          </optgroup>
         </select>
         <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text-muted);">▼</span>
       </div>
 
-      <button class="lucky-btn" onclick="luckyVert()" style="white-space:nowrap;">🎲 Prøv lykken</button>
     </div>
     <div style="font-size:13px;color:var(--text-muted);margin-bottom:1.25rem;" id="stats-bar">Laster...</div>
 
+
+
+    <!-- BÅTRUTER -->
+    <div id="ferry-panel" style="display:none;background:linear-gradient(135deg,#0c3547,#1a5f7a);border-radius:16px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;color:#fff;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(168,213,255,0.7);margin-bottom:3px;">Båtruter fra Aker Brygge</div>
+          <div style="font-size:17px;font-weight:500;" id="ferry-title">Velg destinasjon</div>
+        </div>
+        <div style="font-size:12px;color:rgba(168,213,255,0.6);" id="ferry-updated"></div>
+      </div>
+      <div id="ferry-times" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      <div style="font-size:11px;color:rgba(168,213,255,0.5);margin-top:10px;">Ruter operert av Ruter AS · Linje B1/B2/B3</div>
+    </div>
 
     <div class="listings fade-in" id="listings-container"></div>
   </div>
@@ -638,7 +675,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.6.1</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.7.0</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -814,6 +851,40 @@
      reviews:[{tekst:"Lege-vert ved Slottsparken! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
 
     // THORSHOVPARKEN
+
+    // STRAND & ØYER
+    {id:40,navn:"Kari B.",emoji:"👩‍🦳",gate:"Huk Aveny 1",omrade:"bygdoy",omradeNavn:"🏖️ Bygdøy",dist:"fra båten",rating:"5.0",besok:44,open:true,
+     tags:["Åpen nå","🧊 Kjøl medbrakt drikke","☀️ Nødsolkrem","🌂 Nødparaply","🚰 Fyll vannflaske"],
+     notat:"Rett ved Huk badestrand. Kjøleskap, solkrem og vann til strandgjester. Ring på ved porten.",
+     reviews:[{tekst:"Livredder på stranden! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt strandstop.",dato:"2 dager siden"}]},
+    {id:41,navn:"Birger N.",emoji:"🧔‍♂️",gate:"Bygdøynesveien 8",omrade:"bygdoy",omradeNavn:"🏖️ Bygdøy",dist:"fra båten",rating:"4.8",besok:31,open:true,
+     tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🔋 Lading","🚲 Luft til sykkel/ball"],
+     notat:"Aktiv Bygdøy-beboer. Badminton, pumpe og lading. Åpen alle somredrager.",
+     reviews:[{tekst:"Badminton på Bygdøy! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:42,navn:"Solveig H.",emoji:"👩🏻",gate:"Hovedøya ferjekai",omrade:"hovedoya",omradeNavn:"⛵ Hovedøya",dist:"på øya",rating:"5.0",besok:28,open:true,
+     tags:["Åpen nå","Hotzone","☀️ Nødsolkrem","🧊 Kjøl medbrakt drikke","🛋️ Lån et pledd","🌂 Nødparaply"],
+     notat:"Sommerhytte på Hovedøya. Solkrem, kjøleskap og pledd. Finn meg ved den røde hytta.",
+     reviews:[{tekst:"Øy-eventyr med Nabodo! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:43,navn:"Lars E.",emoji:"👨",gate:"Langøyene sørside",omrade:"langoyene",omradeNavn:"⛵ Langøyene",dist:"på øya",rating:"4.9",besok:19,open:true,
+     tags:["Åpen nå","Hotzone","🏖️ Strandplikt","☀️ Nødsolkrem","🚰 Fyll vannflaske","🩺 Kan førstehjelp"],
+     notat:"Langøyene-vert ved campingplassen. Førstehjelp, vann og solkrem. Lett å finne.",
+     reviews:[{tekst:"Perfekt på Langøyene! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:44,navn:"Mette S.",emoji:"👩🏼",gate:"Nakholmen brygge",omrade:"nakholmen",omradeNavn:"⛵ Nakholmen",dist:"på øya",rating:"5.0",besok:22,open:true,
+     tags:["Åpen nå","Hotzone","🎸 Lån en gitar","🛋️ Lån et pledd","🧊 Kjøl medbrakt drikke"],
+     notat:"Sommerhytte ved brygga. Gitar, pledd og kjøleskap. Kom innom for en prat!",
+     reviews:[{tekst:"Gitarkveld på Nakholmen! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:45,navn:"Tor A.",emoji:"🧓",gate:"Gressholmen kai",omrade:"gressholmen",omradeNavn:"⛵ Gressholmen",dist:"på øya",rating:"4.8",besok:15,open:true,
+     tags:["Åpen nå","Hotzone","💗 Hjertestarter","🩺 Kan førstehjelp","🚰 Fyll vannflaske"],
+     notat:"Pensjonert lege med sommerhytte. Hjertestarter og førstehjelp tilgjengelig på øya.",
+     reviews:[{tekst:"Trygg lege på øya! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:46,navn:"Nina K.",emoji:"👩🏽",gate:"Bleikøya vest",omrade:"bleikoya",omradeNavn:"⛵ Bleikøya",dist:"på øya",rating:"4.9",besok:11,open:true,
+     tags:["Åpen nå","Hotzone","🎵 Musikk og stemning","🎸 Lån en gitar","🛋️ Lån et pledd"],
+     notat:"Kunstner med sommeratelier på Bleikøya. Gitar, musikk og pledd. Velkommen!",
+     reviews:[{tekst:"Kunstner-vert på Bleikøya! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+    {id:47,navn:"Pål O.",emoji:"👨🏻",gate:"Lindøya brygge",omrade:"lindoya",omradeNavn:"⛵ Lindøya",dist:"på øya",rating:"4.7",besok:18,open:true,
+     tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🏸 Lån badminton","⚽ Bli med å spille"],
+     notat:"Aktiv Lindøya-beboer. Badminton og kjøleskap. Finn meg ved det gule huset.",
+     reviews:[{tekst:"Sport og sol på Lindøya! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
     {id:34,navn:"Turid V.",emoji:"👩‍🦳",gate:"Vogts gate 12",omrade:"thorshovparken",omradeNavn:"🌳 Thorshovparken",dist:"130 m",rating:"5.0",besok:27,open:true,
      tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🏸 Lån badminton","Barnefamilier","🛋️ Lån et pledd"],
      notat:"Barnehageansatt nær parken. Badminton, varm barnemat og paraply. Ring på 12A.",
@@ -948,10 +1019,57 @@
   }
 
 
+
+  // Ferry schedules (Ruter B-lines from Aker Brygge)
+  const ferryRoutes = {
+    bygdoy:      { linje:"B9", navn:"Bygdøy", tider:["10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","15:00","16:00","17:00","18:00"] },
+    hovedoya:    { linje:"B1", navn:"Hovedøya", tider:["09:30","10:00","10:30","11:00","11:30","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"] },
+    langoyene:   { linje:"B2", navn:"Langøyene", tider:["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"] },
+    nakholmen:   { linje:"B3", navn:"Nakholmen", tider:["09:45","10:45","11:45","12:45","13:45","14:45","15:45","16:45","17:45","18:45"] },
+    gressholmen: { linje:"B1", navn:"Gressholmen", tider:["09:30","10:30","11:30","12:30","13:30","14:30","15:30","16:30","17:30","18:30"] },
+    bleikoya:    { linje:"B3", navn:"Bleikøya", tider:["10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"] },
+    lindoya:     { linje:"B2", navn:"Lindøya", tider:["09:00","10:30","12:00","13:30","15:00","16:30","18:00"] },
+    nesoddtangen:{ linje:"B11", navn:"Nesoddtangen", tider:["07:00","08:00","09:00","10:00","12:00","14:00","16:00","17:30","19:00"] },
+  };
+
+  function showFerry(omrade) {
+    const panel = document.getElementById('ferry-panel');
+    const route = ferryRoutes[omrade];
+    if (!route) { panel.style.display = 'none'; return; }
+
+    panel.style.display = 'block';
+    document.getElementById('ferry-title').textContent = route.linje + ' → ' + route.navn + ' (fra Aker Brygge)';
+    document.getElementById('ferry-updated').textContent = 'Oppdatert: ' + new Date().toLocaleTimeString('nb-NO', {hour:'2-digit',minute:'2-digit'});
+
+    const now = new Date();
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+
+    const timesHtml = route.tider.map(t => {
+      const [h, m] = t.split(':').map(Number);
+      const tidMins = h * 60 + m;
+      const diff = tidMins - nowMins;
+      let status, color, bg;
+      if (diff < 0) { status = 'Gått'; color = '#999'; bg = 'rgba(255,255,255,0.05)'; }
+      else if (diff <= 15) { status = 'Om ' + diff + ' min'; color = '#fbbf24'; bg = 'rgba(251,191,36,0.15)'; }
+      else if (diff <= 45) { status = diff + ' min'; color = '#34d399'; bg = 'rgba(52,211,153,0.15)'; }
+      else { status = t; color = 'rgba(168,213,255,0.7)'; bg = 'rgba(255,255,255,0.05)'; }
+      return \`<div style="background:\${bg};border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 12px;text-align:center;min-width:72px;">
+        <div style="font-size:15px;font-weight:500;color:#fff;">\${t}</div>
+        <div style="font-size:11px;color:\${color};">\${status}</div>
+      </div>\`;
+    }).join('');
+
+    document.getElementById('ferry-times').innerHTML = timesHtml;
+  }
+
+  // Patch filterSted to show ferry
+  const origFilterSted = filterSted;
+
   function filterSted(val) {
     document.getElementById('tilbud-select').value = 'alle';
     document.getElementById('search-input').value = '';
     aktivtOmrade = val;
+    showFerry(val);
     renderListings();
   }
 
@@ -982,7 +1100,7 @@
   if (counterEl) {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 34, 1800);
+        animateCounter(counterEl, 47, 1800);
         observer.disconnect();
       }
     });
@@ -1210,7 +1328,7 @@
   if (counterEl) {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        animateCounter(counterEl, 34, 1800);
+        animateCounter(counterEl, 47, 1800);
         observer.disconnect();
       }
     });
