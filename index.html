@@ -415,6 +415,7 @@
       <button class="area-btn" style="background:#ffebee;color:#b71c1c;border-color:#ef9a9a;" onclick="filterTag('hjertestarter')">💗 Hjertestarter</button>
       <button class="area-btn" style="background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7;" onclick="filterTag('sport')">🏸 Lån badminton</button>
       <button class="area-btn" style="background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7;" onclick="filterTag('fotball')">⚽ Bli med å spille</button>
+      <button class="area-btn" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1;" onclick="filterTag('musikk')">🎵 Musikk og stemning</button>
       <button class="area-btn" style="background:#e8eaf6;color:#1a237e;border-color:#9fa8da;" onclick="filterTag('paraply')">🌂 Nødparaply</button>
       <button class="area-btn" style="background:#fff3e0;color:#e65100;border-color:#ffcc80;" onclick="filterTag('barnemat')">🍼 Varme barnemat/melk</button>
     </div>
@@ -503,7 +504,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.3.8</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v1.4.0</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
 </footer>
 
@@ -512,40 +513,177 @@
 
 <script>
   const verter = [
-    {id:1,navn:"Marta H.",emoji:"👩",gate:"Pilestredet 42",omrade:"bislett",omradeNavn:"Bislett",dist:"80 m",rating:"4.9",besok:38,open:true,tags:["Åpen nå","Rullestolvennlig","Heis"],notat:"Ring på, 3. etasje til venstre. Heis finnes. Maks 5 min!",reviews:[{tekst:"Super hyggelig vert! ⭐⭐⭐⭐⭐",dato:"3 dager siden"},{tekst:"Rask respons.",dato:"1 uke siden"}]},
-    {id:2,navn:"Per K.",emoji:"👨‍🦳",gate:"Ullevålsveien 12",omrade:"bislett",omradeNavn:"Bislett",dist:"210 m",rating:"4.7",besok:21,open:true,tags:["Åpen nå","Babyskiftebord"],notat:"Ring på knapp 4. Barnefamilier velkomne!",reviews:[{tekst:"Fantastisk hjelp med babyskift! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
-    {id:3,navn:"Amina S.",emoji:"👩🏾",gate:"Frognerveien 8",omrade:"frogner",omradeNavn:"Frogner",dist:"340 m",rating:"5.0",besok:14,open:false,tags:["Kun 08–20","Parfymefri"],notat:"Book i forkant, 5 min maks. Parfymefri sone pga allergi.",reviews:[{tekst:"Utrolig snill og ryddig. ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
-    {id:4,navn:"Jonas B.",emoji:"🧔",gate:"Elisenbergveien 4",omrade:"frogner",omradeNavn:"Frogner",dist:"410 m",rating:"4.8",besok:9,open:true,tags:["Åpen nå","Hund i huset"],notat:"Ring på, første etasje. Hunden er snill!",reviews:[{tekst:"Hunden er kjempesøt! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-    {id:5,navn:"Ingrid L.",emoji:"👩‍🦰",gate:"Thorvald Meyers gate 34",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"180 m",rating:"4.9",besok:52,open:true,tags:["Åpen nå","Kaffe tilbys","🔋 Lading"],notat:"Kom innom! Kaffe, lading og hyggelig prat. 2. etasje.",reviews:[{tekst:"Fikk kaffe og hyggelig prat! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste Nabodo-opplevelse!",dato:"1 uke siden"}]},
-    {id:6,navn:"Lars O.",emoji:"👨‍🦲",gate:"Grüners gate 12",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"290 m",rating:"4.6",besok:17,open:true,tags:["Åpen nå","Rullestolvennlig"],notat:"Inngang via bakgård. Ring på intercom 'Lars'.",reviews:[{tekst:"God adkomst for rullestol. ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
-    {id:7,navn:"Fatima A.",emoji:"👩🏽",gate:"Schweigaards gate 22",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"320 m",rating:"4.8",besok:11,open:true,tags:["Åpen nå","Rullestolvennlig"],notat:"Første etasje, trykk på ringeklokken. Alltid åpen på dagtid.",reviews:[{tekst:"Veldig hyggelig og hjelpsomm! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-    {id:8,navn:"Ravi P.",emoji:"👨🏽",gate:"Mosseveien 3",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"480 m",rating:"4.5",besok:8,open:true,tags:["Åpen nå","Stille nabolag"],notat:"Ring på nummer 8. Hyggelig å hjelpe naboer.",reviews:[{tekst:"Rask og vennlig! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
-    {id:9,navn:"Yasmin H.",emoji:"👩🏽‍🦱",gate:"Tøyengata 18",omrade:"gronland",omradeNavn:"Grønland",dist:"150 m",rating:"5.0",besok:29,open:true,tags:["Åpen nå","Barnevennlig","Hyggelig"],notat:"Ring på, 2. etasje. Alltid hjemme på dagtid og ettermiddag.",reviews:[{tekst:"Beste verten på Grønland! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Varmt og imøtekommende hjem.",dato:"3 dager siden"}]},
-    {id:10,navn:"Ole T.",emoji:"👴",gate:"Grønlandsleiret 14",omrade:"gronland",omradeNavn:"Grønland",dist:"240 m",rating:"4.7",besok:19,open:false,tags:["Kun 09–18","Pensjonist"],notat:"Ring på knapp 2B. Åpen hverdager 9–18.",reviews:[{tekst:"Snill gammel mann, anbefales! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
-    {id:11,navn:"Kari N.",emoji:"👩‍🦳",gate:"Akersbakken 7",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"200 m",rating:"4.9",besok:34,open:true,tags:["Åpen nå","Heis","Sentralt"],notat:"Heis til 4. etasje, ring på 4C. Maks 5 min.",reviews:[{tekst:"Perfekt beliggenhet og supersnill! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Alltid ren og fin.",dato:"4 dager siden"}]},
-    {id:12,navn:"Bjørn A.",emoji:"🧓",gate:"Fredensborgveien 6",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"310 m",rating:"4.6",besok:12,open:true,tags:["Åpen nå","Bakgårdsinng."],notat:"Inngang via bakgård, porta er åpen på dagtid.",reviews:[{tekst:"Lett å finne og hyggelig vert. ⭐⭐⭐⭐",dato:"1 uke siden"}]},
-    {id:13,navn:"Silje M.",emoji:"👩‍🦱",gate:"Sandakerveien 24",omrade:"sagene",omradeNavn:"Sagene",dist:"260 m",rating:"4.8",besok:23,open:true,tags:["Åpen nå","Lyst og fint"],notat:"3. etasje, trykk på klokken. Hjemme de fleste dager.",reviews:[{tekst:"Hjertelig og imøtekommende! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-    {id:14,navn:"Erik S.",emoji:"🧑‍🦰",gate:"Treschows gate 8",omrade:"sagene",omradeNavn:"Sagene",dist:"390 m",rating:"4.5",besok:7,open:true,tags:["Åpen nå","Nær Myraløkka"],notat:"Rett ved Myraløkka park. Ring på 14C.",reviews:[{tekst:"Flott beliggenhet nær parken! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
-    {id:15,navn:"Nora B.",emoji:"👱‍♀️",gate:"Bjølsenveien 12",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"300 m",rating:"4.7",besok:15,open:true,tags:["Åpen nå","Rolig gate"],notat:"2. etasje til høyre. Hyggelig å hjelpe naboer.",reviews:[{tekst:"Veldig snill vert! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
-    {id:16,navn:"Tor H.",emoji:"👨‍🦱",gate:"Dælenenggata 5",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"420 m",rating:"4.6",besok:10,open:false,tags:["Kun 08–17","Pendler"],notat:"Hjemme etter kl 17. Ring på i god tid.",reviews:[{tekst:"God vert når han er hjemme! ⭐⭐⭐⭐",dato:"2 uker siden"}]},
-    {id:17,navn:"Hanne G.",emoji:"👩",gate:"Torshovgata 18",omrade:"torshov",omradeNavn:"Torshov",dist:"190 m",rating:"5.0",besok:41,open:true,tags:["Åpen nå","Kaffe tilbys","Toppscore"],notat:"Kom innom, alltid kaffe på! 1. etasje, ring på 18A.",reviews:[{tekst:"Den beste! Kaffe og hyggelig prat! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Anbefales på det varmeste.",dato:"2 dager siden"}]},
-    {id:18,navn:"Magnus T.",emoji:"🧔‍♂️",gate:"Vogts gate 34",omrade:"torshov",omradeNavn:"Torshov",dist:"350 m",rating:"4.7",besok:18,open:true,tags:["Åpen nå","Stor leilighet"],notat:"4. etasje med heis. Ring på intercom 'Magnus'.",reviews:[{tekst:"Romslig og hyggelig! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
-    {id:19,navn:"Line W.",emoji:"👩‍🦰",gate:"Majorstuvegen 22",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"130 m",rating:"4.9",besok:47,open:true,tags:["Åpen nå","Rullestolvennlig","Heis"],notat:"Sentralt på Majorstuen. Heis til 3. etasje. Alltid åpen på dagtid.",reviews:[{tekst:"Perfekt beliggenhet! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Rask og vennlig.",dato:"3 dager siden"}]},
-    {id:20,navn:"Petter L.",emoji:"👨",gate:"Kirkeveien 58",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"270 m",rating:"4.6",besok:22,open:true,tags:["Åpen nå","Nær t-bane"],notat:"Rett ved Majorstuen t-bane. Ring på 58B.",reviews:[{tekst:"Veldig praktisk plassering! ⭐⭐⭐⭐",dato:"4 dager siden"}]},
-    {id:21,navn:"Sofia R.",emoji:"👩🏻",gate:"Frognerveien 42",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"90 m",rating:"5.0",besok:63,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","🚰 Fyll vannflaske","☀️ Nødsolkrem","🩺 Kan førstehjelp","💗 Hjertestarter","🌂 Nødparaply"],notat:"Rett ved Frognerparken inngang. Har kjøleskap til medbrakt drikke og lading. 1. etasje, ring på.",reviews:[{tekst:"Livredder i parken! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt etter pikniken!",dato:"2 dager siden"},{tekst:"Stjernevert!",dato:"3 dager siden"}]},
-    {id:22,navn:"Anders K.",emoji:"👨‍🦳",gate:"Frognerparkveien 8",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"140 m",rating:"4.9",besok:38,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke"],notat:"Utsikt mot parken. Kjøleskap til medbrakt drikke — bare å spørre! Ring på 8A, 2. etasje.",reviews:[{tekst:"Fantastisk vert nær parken! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
-    {id:23,navn:"Marie S.",emoji:"👩‍🦳",gate:"Hegdehaugsveien 14",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"110 m",rating:"4.9",besok:55,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","📚 Lån en bok","🚰 Fyll vannflaske","🩺 Kan førstehjelp"],notat:"Toppetasje med utsikt. Kjøleskap og lading tilgjengelig for parkgjester! Heis finnes. Ring på 14D.",reviews:[{tekst:"Best utsikt i Oslo og snilleste vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt stopp under spasertur.",dato:"1 dag siden"}]},
-    {id:24,navn:"Kristian O.",emoji:"🧑",gate:"St. Hanshaugen 3",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"200 m",rating:"4.7",besok:29,open:true,tags:["Åpen nå","Hotzone"],notat:"Rett ved parken. Ring på ringeklokken.",reviews:[{tekst:"Perfekt beliggenhet! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
-    {id:25,navn:"Aisha M.",emoji:"👩🏾‍🦱",gate:"Sofienberggata 8",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"80 m",rating:"5.0",besok:44,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","☀️ Nødsolkrem","🚲 Luft til sykkel/ball","💗 Hjertestarter","🏸 Lån badminton","⚽ Bli med å spille"],notat:"Nabo til Sofienbergparken. Perfekt å kjøle ned drikken etter grillparty! 2. etasje, alltid åpen!",reviews:[{tekst:"Reddet piknik-dagen vår! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Super vert!",dato:"3 dager siden"}]},
-    {id:26,navn:"Thomas B.",emoji:"👨🏻",gate:"Helgesens gate 5",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"160 m",rating:"4.8",besok:21,open:true,tags:["Åpen nå","Hotzone"],notat:"Ring på 5C. Hjemme de fleste dager.",reviews:[{tekst:"Hyggelig nabo! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
-    {id:27,navn:"Lena F.",emoji:"👩‍🦱",gate:"Seilduksgata 14",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"120 m",rating:"4.9",besok:37,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","Barnefamilier","🚰 Fyll vannflaske","☀️ Nødsolkrem","🏸 Lån badminton","⚽ Bli med å spille","🌂 Nødparaply","🍼 Varme barnemat/melk"],notat:"Nær Tøyenparken. Barnefamilier velkomne — kjøleskap til barnas drikke! Ring på 14A.",reviews:[{tekst:"Fantastisk vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Reddet barna i parken!",dato:"2 dager siden"}]},
-    {id:28,navn:"Geir A.",emoji:"🧔",gate:"Tøyengata 44",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"230 m",rating:"4.6",besok:14,open:true,tags:["Åpen nå","Hotzone"],notat:"Ring på intercom. Åpen alle dager.",reviews:[{tekst:"Bra vert og praktisk beliggenhet. ⭐⭐⭐⭐",dato:"1 uke siden"}]},
-    {id:29,navn:"Astrid M.",emoji:"👩‍🦳",gate:"Parkveien 18",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"95 m",rating:"5.0",besok:71,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","🚰 Fyll vannflaske","📚 Lån en bok"],notat:"Rett ved Slottsparken. Kjøleskap og lading for parkbesøkende. 1. etasje, alltid åpen på dagtid.",reviews:[{tekst:"Beste beliggenhet i Oslo! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Livredder under konsert i parken!",dato:"2 dager siden"}]},
-    {id:30,navn:"Henrik P.",emoji:"👨‍🦱",gate:"Wergelandsveien 5",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"180 m",rating:"4.8",besok:33,open:true,tags:["Åpen nå","Hotzone","Stille"],notat:"Rolig gate ved Slottsparken. Ring på 5B.",reviews:[{tekst:"Perfekt stopp! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
-    {id:31,navn:"Camilla B.",emoji:"👩🏻‍🦰",gate:"Marienlystveien 8",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"220 m",rating:"4.8",besok:26,open:true,tags:["Åpen nå","Nær NRK","Romslig"],notat:"Nær NRK-bygget. 3. etasje, ring på 8C.",reviews:[{tekst:"Hyggelig vert nær NRK! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
-    {id:32,navn:"Øystein K.",emoji:"👨🏻‍🦳",gate:"Røa allé 3",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"340 m",rating:"4.7",besok:13,open:true,tags:["Åpen nå","Parkering"],notat:"Lett å finne, rett ved parkeringsplassen. Ring på.",reviews:[{tekst:"Veldig hjelpsom! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
-    {id:33,navn:"Diego R.",emoji:"👨🏽",gate:"Helgesens gate 22",omrade:"cuba",omradeNavn:"Cuba — Grünerløkka",dist:"170 m",rating:"4.9",besok:31,open:true,tags:["Åpen nå","Kaffe tilbys","Latinsk stemning"],notat:"Velkommen! Cubansk musikk og kaffe. 1. etasje, ring på 22B.",reviews:[{tekst:"Beste verten på Cuba! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kaffe og god stemning!",dato:"2 dager siden"}]},
-    {id:34,navn:"Turid V.",emoji:"👩‍🦳",gate:"Vogts gate 12",omrade:"thorshovparken",omradeNavn:"🌳 Thorshovparken",dist:"130 m",rating:"5.0",besok:27,open:true,tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","Nær lekeplass","🚲 Luft til sykkel/ball","☀️ Nødsolkrem","🏸 Lån badminton","⚽ Bli med å spille","🌂 Nødparaply","🍼 Varme barnemat/melk"],notat:"Rett ved Thorshovparken. Kjøl medbrakt drikke til barna! Ring på 12A.",reviews:[{tekst:"Perfekt ved parken! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Snilleste verten!",dato:"3 dager siden"}]}
+    // BISLETT
+    {id:1,navn:"Marta H.",emoji:"👩",gate:"Pilestredet 42",omrade:"bislett",omradeNavn:"Bislett",dist:"80 m",rating:"4.9",besok:38,open:true,
+     tags:["Åpen nå","Rullestolvennlig","Heis","🚰 Fyll vannflaske","🩺 Kan førstehjelp","💗 Hjertestarter"],
+     notat:"Sykepleier hjemme på dagtid. Har hjertestarter og førstehjelpsutdanning. Heis til 3. etasje.",
+     reviews:[{tekst:"Reddende engel! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Sykepleier og supervert.",dato:"3 dager siden"}]},
+    {id:2,navn:"Per K.",emoji:"👨‍🦳",gate:"Ullevålsveien 12",omrade:"bislett",omradeNavn:"Bislett",dist:"210 m",rating:"4.7",besok:21,open:true,
+     tags:["Åpen nå","Babyskiftebord","🍼 Varme barnemat/melk","🌂 Nødparaply","Barnevennlig"],
+     notat:"Bestefar hjemme på dagtid. Alltid varm melk og tørr paraply klar for barnefamilier!",
+     reviews:[{tekst:"Beste bestefar-vert! ⭐⭐⭐⭐⭐",dato:"1 uke siden"},{tekst:"Varm melk og god stemning.",dato:"2 uker siden"}]},
+
+    // FROGNER
+    {id:3,navn:"Amina S.",emoji:"👩🏾",gate:"Frognerveien 8",omrade:"frogner",omradeNavn:"Frogner",dist:"340 m",rating:"5.0",besok:14,open:false,
+     tags:["Kun 08–20","Parfymefri","Allergivennlig","🚰 Fyll vannflaske"],
+     notat:"Allergi i husholdningen — parfymefri sone. Fyll gjerne vannflasken. Book i forkant.",
+     reviews:[{tekst:"Utrolig hensynsfull vert. ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+    {id:4,navn:"Jonas B.",emoji:"🧔",gate:"Elisenbergveien 4",omrade:"frogner",omradeNavn:"Frogner",dist:"410 m",rating:"4.8",besok:9,open:true,
+     tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","Hund i huset"],
+     notat:"Aktiv Frogner-fyr med badmintonracketer til utlån. Førstehjelpsutdannet. Hunden er snill!",
+     reviews:[{tekst:"Spilte badminton og fikk do-stopp! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+
+    // GRÜNERLØKKA
+    {id:5,navn:"Ingrid L.",emoji:"👩‍🦰",gate:"Thorvald Meyers gate 34",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"180 m",rating:"4.9",besok:52,open:true,
+     tags:["Åpen nå","Kaffe tilbys","🔋 Lading","📚 Lån en bok","🌂 Nødparaply"],
+     notat:"Hjemmekontor-dame. Kaffe, lading, bøker og paraply. Grünerløkkas hyggeligste stopp!",
+     reviews:[{tekst:"Kaffe, lading og god prat! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste Nabodo-vert!",dato:"3 dager siden"}]},
+    {id:6,navn:"Lars O.",emoji:"👨‍🦲",gate:"Grüners gate 12",omrade:"grunerlokka",omradeNavn:"Grünerløkka",dist:"290 m",rating:"4.6",besok:17,open:true,
+     tags:["Åpen nå","Rullestolvennlig","🚲 Luft til sykkel/ball","🔋 Lading","Inngang bakgård"],
+     notat:"Syklist og teknolog. Pumpe, lading og rullestolrampe. Inngang via bakgård.",
+     reviews:[{tekst:"Fikk luftet sykkelen og ladet! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+
+    // GAMLEBYEN
+    {id:7,navn:"Fatima A.",emoji:"👩🏽",gate:"Schweigaards gate 22",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"320 m",rating:"4.8",besok:11,open:true,
+     tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🌂 Nødparaply","Rullestolvennlig"],
+     notat:"Småbarnsmamma hjemme. Alltid klar for barnefamilier — varm mat, skiftebord og paraply.",
+     reviews:[{tekst:"Livredder med to barn i regnværet! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:8,navn:"Ravi P.",emoji:"👨🏽",gate:"Mosseveien 3",omrade:"gamlebyen",omradeNavn:"Gamlebyen",dist:"480 m",rating:"4.5",besok:8,open:true,
+     tags:["Åpen nå","🔋 Lading","📚 Lån en bok","☀️ Nødsolkrem"],
+     notat:"Hjemmekontor. Lading, bøker og solkrem. Stille nabolag.",
+     reviews:[{tekst:"Praktisk og hyggelig! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+
+    // GRØNLAND
+    {id:9,navn:"Yasmin H.",emoji:"👩🏽‍🦱",gate:"Tøyengata 18",omrade:"gronland",omradeNavn:"Grønland",dist:"150 m",rating:"5.0",besok:29,open:true,
+     tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🧊 Kjøl medbrakt drikke","🌂 Nødparaply"],
+     notat:"Familiehjem med alt du trenger. Varm mat, kjøleskap og paraply. Alltid hjemme på dagtid.",
+     reviews:[{tekst:"Beste familieverten! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Alt var klart og varmt.",dato:"3 dager siden"}]},
+    {id:10,navn:"Ole T.",emoji:"👴",gate:"Grønlandsleiret 14",omrade:"gronland",omradeNavn:"Grønland",dist:"240 m",rating:"4.7",besok:19,open:false,
+     tags:["Kun 09–18","💗 Hjertestarter","🩺 Kan førstehjelp","📚 Lån en bok"],
+     notat:"Pensjonert lege. Har hjertestarter og medisinsk utstyr. Åpen hverdager 9–18.",
+     reviews:[{tekst:"Lege-vert — tryggeste stopp i Oslo! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+
+    // HAMMERSBORG
+    {id:11,navn:"Kari N.",emoji:"👩‍🦳",gate:"Akersbakken 7",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"200 m",rating:"4.9",besok:34,open:true,
+     tags:["Åpen nå","Heis","🔋 Lading","🚰 Fyll vannflaske","☀️ Nødsolkrem","🌂 Nødparaply"],
+     notat:"Alltid forberedt på Oslo-været! Heis til 4. etasje. Lading, vann, solkrem og paraply.",
+     reviews:[{tekst:"Perfekt for alle slags vær! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Som en liten kiosk!",dato:"4 dager siden"}]},
+    {id:12,navn:"Bjørn A.",emoji:"🧓",gate:"Fredensborgveien 6",omrade:"hammersborg",omradeNavn:"Hammersborg",dist:"310 m",rating:"4.6",besok:12,open:true,
+     tags:["Åpen nå","🩺 Kan førstehjelp","💗 Hjertestarter","🚲 Luft til sykkel/ball"],
+     notat:"Aktiv pensjonist med førstehjelp og hjertestarter. Pumpe til sykkel. Inngang bakgård.",
+     reviews:[{tekst:"Trygg og hjelpsom! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+
+    // SAGENE
+    {id:13,navn:"Silje M.",emoji:"👩‍🦱",gate:"Sandakerveien 24",omrade:"sagene",omradeNavn:"Sagene",dist:"260 m",rating:"4.8",besok:23,open:true,
+     tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🚲 Luft til sykkel/ball","🔋 Lading"],
+     notat:"Sportslig dame med masse utstyr. Badminton, pumpe og lading. Alltid klar for en kamp!",
+     reviews:[{tekst:"Spilte badminton etterpå! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+    {id:14,navn:"Erik S.",emoji:"🧑‍🦰",gate:"Treschows gate 8",omrade:"sagene",omradeNavn:"Sagene",dist:"390 m",rating:"4.5",besok:7,open:true,
+     tags:["Åpen nå","📚 Lån en bok","🌂 Nødparaply","Nær Myraløkka"],
+     notat:"Rett ved Myraløkka park. Bøker og paraply til låns. Rolig nabolag.",
+     reviews:[{tekst:"Hyggelig stopp nær parken! ⭐⭐⭐⭐",dato:"1 uke siden"}]},
+
+    // BJØLSEN
+    {id:15,navn:"Nora B.",emoji:"👱‍♀️",gate:"Bjølsenveien 12",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"300 m",rating:"4.7",besok:15,open:true,
+     tags:["Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","🧊 Kjøl medbrakt drikke","Rolig gate"],
+     notat:"Tobarnsmamma. Alt for barnefamilier — varm mat, kjøleskap og skiftebord.",
+     reviews:[{tekst:"Perfekt for småbarnsforeldre! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+    {id:16,navn:"Tor H.",emoji:"👨‍🦱",gate:"Dælenenggata 5",omrade:"bjolsen",omradeNavn:"Bjølsen",dist:"420 m",rating:"4.6",besok:10,open:false,
+     tags:["Kun 17–22","🔋 Lading","⚽ Bli med å spille","🏸 Lån badminton"],
+     notat:"Jobber på dagtid, hjemme fra 17. Badminton og fotball i kveldstimene!",
+     reviews:[{tekst:"Kveldssport med naboer! ⭐⭐⭐⭐",dato:"2 uker siden"}]},
+
+    // TORSHOV
+    {id:17,navn:"Hanne G.",emoji:"👩",gate:"Torshovgata 18",omrade:"torshov",omradeNavn:"Torshov",dist:"190 m",rating:"5.0",besok:41,open:true,
+     tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🌂 Nødparaply","📚 Lån en bok","🚰 Fyll vannflaske"],
+     notat:"Torshov-husmorens alt-i-ett. Kaffe, kjøleskap, bøker, paraply og vann. 1. etasje.",
+     reviews:[{tekst:"Torshov på sitt beste! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom for do, ble for kaffe.",dato:"2 dager siden"}]},
+    {id:18,navn:"Magnus T.",emoji:"🧔‍♂️",gate:"Vogts gate 34",omrade:"torshov",omradeNavn:"Torshov",dist:"350 m",rating:"4.7",besok:18,open:true,
+     tags:["Åpen nå","🔋 Lading","🚲 Luft til sykkel/ball","🩺 Kan førstehjelp","Heis"],
+     notat:"Ingeniør og syklist. Lading, pumpe og førstehjelp. Heis til 4. etasje.",
+     reviews:[{tekst:"Teknisk vert med alt utstyr! ⭐⭐⭐⭐⭐",dato:"5 dager siden"}]},
+
+    // MAJORSTUEN
+    {id:19,navn:"Line W.",emoji:"👩‍🦰",gate:"Majorstuvegen 22",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"130 m",rating:"4.9",besok:47,open:true,
+     tags:["Åpen nå","Rullestolvennlig","Heis","🔋 Lading","☀️ Nødsolkrem","🌂 Nødparaply"],
+     notat:"Sentralt på Majorstuen. Forberedt på alt slags vær. Heis, lading, solkrem og paraply.",
+     reviews:[{tekst:"Perfekt plassering! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Alltid klar med paraply.",dato:"3 dager siden"}]},
+    {id:20,navn:"Petter L.",emoji:"👨",gate:"Kirkeveien 58",omrade:"majorstuen",omradeNavn:"Majorstuen",dist:"270 m",rating:"4.6",besok:22,open:true,
+     tags:["Åpen nå","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","Nær t-bane"],
+     notat:"Aktiv fyr rett ved Majorstuen t-bane. Badminton til utlån og førstehjelp.",
+     reviews:[{tekst:"Sportslig og hjelpsom! ⭐⭐⭐⭐",dato:"4 dager siden"}]},
+
+    // MARIENLYST-JORDENE
+    {id:31,navn:"Camilla B.",emoji:"👩🏻‍🦰",gate:"Marienlystveien 8",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"220 m",rating:"4.8",besok:26,open:true,
+     tags:["Åpen nå","🔋 Lading","📚 Lån en bok","🚰 Fyll vannflaske","Nær NRK"],
+     notat:"Journalist nær NRK. Lading, bøker og vann. 3. etasje.",
+     reviews:[{tekst:"Hyggelig mediemenneske! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+    {id:32,navn:"Øystein K.",emoji:"👨🏻‍🦳",gate:"Røa allé 3",omrade:"marienlyst",omradeNavn:"Marienlyst-jordene",dist:"340 m",rating:"4.7",besok:13,open:true,
+     tags:["Åpen nå","💗 Hjertestarter","🩺 Kan førstehjelp","🌂 Nødparaply"],
+     notat:"Ambulansesjåfør. Hjertestarter og fullt førstehjelpsutustyr tilgjengelig.",
+     reviews:[{tekst:"Tryggeste verten i Oslo! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
+
+    // CUBA — GRÜNERLØKKA
+    {id:33,navn:"Diego R.",emoji:"👨🏽",gate:"Helgesens gate 22",omrade:"cuba",omradeNavn:"Cuba — Grünerløkka",dist:"170 m",rating:"4.9",besok:31,open:true,
+     tags:["Åpen nå","Kaffe tilbys","🧊 Kjøl medbrakt drikke","🎵 Musikk og stemning","🌂 Nødparaply"],
+     notat:"Cubansk musikk og kaffe. Kjøleskap og paraply klar. 1. etasje, ring på 22B.",
+     reviews:[{tekst:"Kaffe, salsa og do! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste stemning i Oslo.",dato:"2 dager siden"}]},
+
+    // PARKER — FROGNERPARKEN
+    {id:21,navn:"Sofia R.",emoji:"👩🏻",gate:"Frognerveien 42",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"90 m",rating:"5.0",besok:63,open:true,
+     tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🚰 Fyll vannflaske","☀️ Nødsolkrem","💗 Hjertestarter","🩺 Kan førstehjelp"],
+     notat:"Lege hjemme på fridagen. Hjertestarter, førstehjelp, kjøleskap og solkrem. Rett ved parkinngangen.",
+     reviews:[{tekst:"Lege-vert ved Frognerparken! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Trygg og fantastisk!",dato:"2 dager siden"}]},
+    {id:22,navn:"Anders K.",emoji:"👨‍🦳",gate:"Frognerparkveien 8",omrade:"frognerparken",omradeNavn:"🌳 Frognerparken",dist:"140 m",rating:"4.9",besok:38,open:true,
+     tags:["Åpen nå","Hotzone","🏸 Lån badminton","⚽ Bli med å spille","🚲 Luft til sykkel/ball","🔋 Lading"],
+     notat:"Aktiv far med sportsutstyr. Badminton, fotball, pumpe og lading. Alltid klar for lek!",
+     reviews:[{tekst:"Fantastisk sporty vert! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
+
+    // ST. HANSHAUGEN
+    {id:23,navn:"Marie S.",emoji:"👩‍🦳",gate:"Hegdehaugsveien 14",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"110 m",rating:"4.9",besok:55,open:true,
+     tags:["Åpen nå","Hotzone","🧊 Kjøl medbrakt drikke","🔋 Lading","📚 Lån en bok","🌂 Nødparaply","🚰 Fyll vannflaske"],
+     notat:"Pensjonert bibliotekar. Bøker, kjøleskap, lading og paraply. Heis finnes. Ring på 14D.",
+     reviews:[{tekst:"Bibliotek og do i ett! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Kom for do, fikk bok.",dato:"1 dag siden"}]},
+    {id:24,navn:"Kristian O.",emoji:"🧑",gate:"St. Hanshaugen 3",omrade:"sthanshaugen",omradeNavn:"🌳 St. Hanshaugen",dist:"200 m",rating:"4.7",besok:29,open:true,
+     tags:["Åpen nå","Hotzone","🏸 Lån badminton","⚽ Bli med å spille","🩺 Kan førstehjelp","☀️ Nødsolkrem"],
+     notat:"Fysioterapeut og badmintonspiller. Alltid klar for en kamp! Førstehjelp tilgjengelig.",
+     reviews:[{tekst:"Spilte badminton og fikk hjelp! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]},
+
+    // SOFIENBERGPARKEN
+    {id:25,navn:"Aisha M.",emoji:"👩🏾‍🦱",gate:"Sofienberggata 8",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"80 m",rating:"5.0",besok:44,open:true,
+     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","Babyskiftebord","🌂 Nødparaply","🧊 Kjøl medbrakt drikke"],
+     notat:"Trebarnsmamma nabo til parken. Varm mat, skiftebord, kjøleskap og paraply. Alltid åpen!",
+     reviews:[{tekst:"Reddet piknik-dagen! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Beste familieverter!",dato:"3 dager siden"}]},
+    {id:26,navn:"Thomas B.",emoji:"👨🏻",gate:"Helgesens gate 5",omrade:"sofienberg",omradeNavn:"🌳 Sofienbergparken",dist:"160 m",rating:"4.8",besok:21,open:true,
+     tags:["Åpen nå","Hotzone","🔋 Lading","🚲 Luft til sykkel/ball","⚽ Bli med å spille","☀️ Nødsolkrem"],
+     notat:"Syklist og fotballspiller. Lading, pumpe og solkrem. Alltid klar for en kamp i parken!",
+     reviews:[{tekst:"Spilte fotball etterpå! ⭐⭐⭐⭐⭐",dato:"4 dager siden"}]},
+
+    // TØYENPARKEN
+    {id:27,navn:"Lena F.",emoji:"👩‍🦱",gate:"Seilduksgata 14",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"120 m",rating:"4.9",besok:37,open:true,
+     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🧊 Kjøl medbrakt drikke","Barnefamilier"],
+     notat:"Jordmor og barnefamilievert. Varm mat, kjøleskap og paraply. Spesielt egnet for småbarnsfamilier.",
+     reviews:[{tekst:"Jordmor-vert! Fantastisk! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt for barna.",dato:"2 dager siden"}]},
+    {id:28,navn:"Geir A.",emoji:"🧔",gate:"Tøyengata 44",omrade:"oyenparken",omradeNavn:"🌳 Tøyenparken",dist:"230 m",rating:"4.6",besok:14,open:true,
+     tags:["Åpen nå","Hotzone","🏸 Lån badminton","🚲 Luft til sykkel/ball","💗 Hjertestarter","🩺 Kan førstehjelp"],
+     notat:"Brannmann. Hjertestarter, førstehjelp og sportsutstyr. Tryggeste stopp ved Tøyenparken.",
+     reviews:[{tekst:"Brannmann-vert — tryggeste i Oslo! ⭐⭐⭐⭐⭐",dato:"1 uke siden"}]},
+
+    // SLOTTSPARKEN
+    {id:29,navn:"Astrid M.",emoji:"👩‍🦳",gate:"Parkveien 18",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"95 m",rating:"5.0",besok:71,open:true,
+     tags:["Åpen nå","Hotzone","🔋 Lading","🚰 Fyll vannflaske","📚 Lån en bok","🌂 Nødparaply","☀️ Nødsolkrem"],
+     notat:"Hjemmekontor-dame med alt du trenger. Lading, vann, bøker, paraply og solkrem. 1. etasje.",
+     reviews:[{tekst:"Komplett servicepunkt! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Livredder under konsert.",dato:"2 dager siden"}]},
+    {id:30,navn:"Henrik P.",emoji:"👨‍🦱",gate:"Wergelandsveien 5",omrade:"slottsparken",omradeNavn:"🌳 Slottsparken",dist:"180 m",rating:"4.8",besok:33,open:true,
+     tags:["Åpen nå","Hotzone","💗 Hjertestarter","🩺 Kan førstehjelp","🧊 Kjøl medbrakt drikke"],
+     notat:"Lege ansatt ved Rikshospitalet. Hjertestarter og medisinsk utstyr. Kjøleskap tilgjengelig.",
+     reviews:[{tekst:"Lege-vert ved Slottsparken! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
+
+    // THORSHOVPARKEN
+    {id:34,navn:"Turid V.",emoji:"👩‍🦳",gate:"Vogts gate 12",omrade:"thorshovparken",omradeNavn:"🌳 Thorshovparken",dist:"130 m",rating:"5.0",besok:27,open:true,
+     tags:["Åpen nå","Hotzone","🍼 Varme barnemat/melk","🌂 Nødparaply","🏸 Lån badminton","Barnefamilier"],
+     notat:"Barnehageansatt nær parken. Badminton, varm barnemat og paraply. Ring på 12A.",
+     reviews:[{tekst:"Barnehage-vert! ⭐⭐⭐⭐⭐",dato:"i dag"},{tekst:"Perfekt for lekeplassen.",dato:"3 dager siden"}]}
   ];
 
   let aktivtOmrade = 'alle';
@@ -639,6 +777,7 @@
     else if (aktivtOmrade === 'tag_hjertestarter') filtered = verter.filter(v => v.tags.some(t => t.includes('Hjertestarter')));
     else if (aktivtOmrade === 'tag_sport') filtered = verter.filter(v => v.tags.some(t => t.includes('badminton')));
     else if (aktivtOmrade === 'tag_fotball') filtered = verter.filter(v => v.tags.some(t => t.includes('spille')));
+    else if (aktivtOmrade === 'tag_musikk') filtered = verter.filter(v => v.tags.some(t => t.includes('Musikk')));
     else if (aktivtOmrade === 'tag_paraply') filtered = verter.filter(v => v.tags.some(t => t.includes('paraply')));
     else if (aktivtOmrade === 'tag_barnemat') filtered = verter.filter(v => v.tags.some(t => t.includes('barnemat')));
     else filtered = verter.filter(v => v.omrade === aktivtOmrade);
