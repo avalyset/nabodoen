@@ -668,7 +668,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.9</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.3.0</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -848,15 +848,24 @@ function renderListings() {
   // Medisinsk verter flyter IKKE automatisk opp — kun synlig ved aktivt hastefilter for innloggede
   // (NSM-prinsipp: ikke eksponer "alltid hjemme"-profiler offentlig)
 
-  // Hard cut for ikke-innloggede: vis maks 4 vanlige, deretter gate
+  // Ikke-innloggede: 4 klare + 3 blurrede preview + gate card
   var html = '';
   if (!isLoggedIn) {
-    var regVisible = filtered.slice(0, 4);
-    var regHidden = filtered.length - regVisible.length;
+    var regVisible  = filtered.slice(0, 4);
+    var regBlurred  = filtered.slice(4, 7);   // 3 blurrede preview
+    var regHidden   = Math.max(0, filtered.length - 7); // resten
     html = regVisible.map(renderVert).join('');
-    if (regHidden > 0) {
+    // Blurrede preview-kort
+    regBlurred.forEach(function(v) {
+      html += '<div style="position:relative;pointer-events:none;user-select:none;">'
+        + '<div style="filter:blur(6px);opacity:.55;">' + renderVert(v) + '</div>'
+        + '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;" onclick="openLogin()">'
+        + '<span style="background:var(--g-dark);color:#fff;padding:8px 20px;border-radius:50px;font-size:13px;font-weight:600;box-shadow:var(--shadow-md);">🔒 Logg inn for å se</span>'
+        + '</div></div>';
+    });
+    if (filtered.length > 4) {
       html += '<div class="login-gate-card">'
-        + '<h4>🔒 ' + regHidden + ' verter til nær deg</h4>'
+        + '<h4>🔒 ' + (regHidden > 0 ? regHidden + ' verter til' : 'Se alle verter') + ' nær deg</h4>'
         + '<p>Registrer deg som vert for å se alle naboer. Gratis, alltid.</p>'
         + '<button class="gate-btn" onclick="openLogin()">Logg inn eller registrer deg →</button>'
         + '</div>';
