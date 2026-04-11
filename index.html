@@ -668,7 +668,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.4</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.5</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -796,12 +796,14 @@ var userLat = null, userLng = null;
 // ── RENDER ───────────────────────────────────────────────────────────────────
 function renderVert(v) {
   var openBadge = v.open ? '<span class="open-badge open">Åpen nå</span>' : '<span class="open-badge closed">Stengt</span>';
-  var hasteBadge = v.medisinsk ? '<span class="haste-badge">🏥 Hasteaksess</span>' : '';
+  // Hasteaksess-badge KUN synlig for innloggede — privat tillitsfunksjon mellom verifiserte medlemmer
+  var hasteBadge = (v.medisinsk && isLoggedIn) ? '<span class="haste-badge">🏥 Hasteaksess</span>' : '';
   var visibleTags = v.tags.filter(function(t){ return t !== 'Åpen nå' && t !== '🏥 Hasteaksess'; }).slice(0,2);
   var extra = v.tags.filter(function(t){ return t !== 'Åpen nå' && t !== '🏥 Hasteaksess'; }).length - 2;
-  var cls = 'listing' + (v.medisinsk ? ' medisinsk' : '');
-  return '<div class="'+cls+'" onclick="openProfile('+v.id+')">'
-    + '<div class="listing-avatar">'+v.emoji+'</div>'
+  // Rød styling kun når hastefilter er aktivt av innlogget bruker
+  var isHasteActive = v.medisinsk && isLoggedIn && filterHaste;
+  return '<div class="listing" onclick="openProfile('+v.id+')">'
+    + '<div class="listing-avatar" style="'+(isHasteActive ? 'background:linear-gradient(135deg,#fef2f2,#fecaca);' : '')+'">'+v.emoji+'</div>'
     + '<div class="listing-body">'
     +   '<div class="listing-name-row"><span class="listing-name">'+v.navn+'</span>'+openBadge+hasteBadge+'</div>'
     +   '<div class="listing-meta">'+v.omradeNavn+' · ★ '+v.rating+' · '+v.besok+' besøk</div>'
@@ -812,9 +814,8 @@ function renderVert(v) {
     + '</div>'
     + '<div class="listing-right">'
     +   '<span class="listing-dist">'+v.dist+'</span>'
-    +   '<button class="listing-action" onclick="event.stopPropagation();openProfile('+v.id+')">Se profil →</button>'
+    +   '<button class="listing-action" style="'+(isHasteActive ? 'background:#dc2626;' : '')+'" onclick="event.stopPropagation();openProfile('+v.id+')">Se profil →</button>'
     + '</div>'
-    + (v.medisinsk ? '' : '')
     + '</div>';
 }
 
@@ -844,21 +845,15 @@ function renderListings() {
   if (filterStellerom) filtered = filtered.filter(function(v){ return v.tags.some(function(t){ return t.includes('Stellerom') || t.includes('stellerom') || t.includes('skiftebord'); }); });
   if (userLat !== null) filtered.sort(function(a,b){ return dist(a)-dist(b); });
 
-  // Hasteaksess verter alltid øverst (hvis ikke allerede filtrert)
-  if (!filterHaste) {
-    var med = filtered.filter(function(v){ return v.medisinsk; });
-    var reg = filtered.filter(function(v){ return !v.medisinsk; });
-    filtered = med.concat(reg);
-  }
+  // Medisinsk verter flyter IKKE automatisk opp — kun synlig ved aktivt hastefilter for innloggede
+  // (NSM-prinsipp: ikke eksponer "alltid hjemme"-profiler offentlig)
 
-  // Hard cut for ikke-innloggede: vis alle medisinsk + maks 4 vanlige, deretter gate
+  // Hard cut for ikke-innloggede: vis maks 4 vanlige, deretter gate
   var html = '';
-  if (!isLoggedIn && !filterHaste) {
-    var medList = filtered.filter(function(v){ return v.medisinsk; });
-    var regList = filtered.filter(function(v){ return !v.medisinsk; });
-    var regVisible = regList.slice(0, 4);
-    var regHidden = regList.length - regVisible.length;
-    html = medList.map(renderVert).join('') + regVisible.map(renderVert).join('');
+  if (!isLoggedIn) {
+    var regVisible = filtered.slice(0, 4);
+    var regHidden = filtered.length - regVisible.length;
+    html = regVisible.map(renderVert).join('');
     if (regHidden > 0) {
       html += '<div class="login-gate-card">'
         + '<h4>🔒 ' + regHidden + ' verter til nær deg</h4>'
@@ -887,10 +882,13 @@ function renderFeed() {
 
 function updateStats() {
   var open = verter.filter(function(v){ return v.open; }).length;
-  var med = verter.filter(function(v){ return v.medisinsk; }).length;
-  document.getElementById('stats-bar').innerHTML =
-    '<strong style="color:var(--g-dark)">'+open+' åpne nå</strong> av '+verter.length
-    +' verter · <span style="color:#dc2626;font-weight:600;">🏥 '+med+' medisinsk hasteaksess</span>';
+  var statHtml = '<strong style="color:var(--g-dark)">'+open+' åpne nå</strong> av '+verter.length+' verter';
+  // Medisinsk hasteaksess-info kun for innloggede
+  if (isLoggedIn) {
+    var med = verter.filter(function(v){ return v.medisinsk; }).length;
+    statHtml += ' · <span style="color:#dc2626;font-weight:600;">🏥 '+med+' medisinsk hasteaksess</span>';
+  }
+  document.getElementById('stats-bar').innerHTML = statHtml;
 }
 
 // ── FILTERS ──────────────────────────────────────────────────────────────────
@@ -924,6 +922,11 @@ function filterTilbud(val) {
 }
 
 function toggleHaste(btn) {
+  if (!isLoggedIn) {
+    openLogin();
+    showToast('Logg inn for å bruke medisinsk hasteaksess');
+    return;
+  }
   filterHaste = !filterHaste;
   btn.classList.toggle('active');
   document.getElementById('haste-banner').style.display = filterHaste ? 'flex' : 'none';
