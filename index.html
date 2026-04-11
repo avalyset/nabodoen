@@ -17,7 +17,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://nabodo.no">
 <!-- CSP: oppdatert med embed.windy.com for iframe og frame-src -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://formspree.io https://cdnjs.cloudflare.com https://*.tile.openstreetmap.org; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.tile.openstreetmap.org; connect-src 'self' https://formspree.io https://embed.windy.com; frame-src https://embed.windy.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://formspree.io https://cdnjs.cloudflare.com https://*.tile.openstreetmap.org; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.tile.openstreetmap.org; connect-src 'self' https://formspree.io https://embed.windy.com https://overpass-api.de https://overpass.kumi.systems; frame-src https://embed.windy.com;">
 <meta name="theme-color" content="#1a3d2b">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -298,11 +298,12 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
         ></iframe>
         <div id="map-container"></div>
       </div>
-      <!-- Host layer toggle -->
+      <!-- Three independent map layer toggles -->
       <div class="map-controls">
-        <button class="map-toggle active" data-layer="hosts" onclick="toggleMapLayer('hosts',this)">🏠 Verter (<span id="host-count">0</span>)</button>
-        <button class="map-toggle" disabled style="opacity:.4;cursor:default;">⚡ Elbil-lading <span style="font-size:10px;">(kommer)</span></button>
-        <button class="map-toggle" disabled style="opacity:.4;cursor:default;">🚽 Offentlige toaletter <span style="font-size:10px;">(kommer)</span></button>
+        <button class="map-toggle active" id="toggle-hosts" onclick="toggleLayer('hosts',this)">🏠 Verter <span id="host-count" style="opacity:.7;font-size:11px;"></span></button>
+        <button class="map-toggle" id="toggle-lading" onclick="toggleLayer('lading',this)">⚡ Elbil-lading <span id="lading-count" style="opacity:.7;font-size:11px;"></span></button>
+        <button class="map-toggle" id="toggle-toalett" onclick="toggleLayer('toalett',this)">🚽 Toaletter <span id="toalett-count" style="opacity:.7;font-size:11px;"></span></button>
+        <span style="margin-left:auto;font-size:11px;color:var(--xs);">Data: Oslo kommune / OpenStreetMap (NLOD)</span>
       </div>
     </div>
   </div>
@@ -595,7 +596,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.0.1</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.1.0</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -925,52 +926,167 @@ function setWindyOverlay(overlay, btn) {
   document.getElementById('windy-iframe').src = WINDY_BASE + '&overlay=' + overlay;
 }
 
-// ── MAP (transparent Leaflet overlay on top of Windy) ────────────────────────
-var map, hostMarkers, hostLayerActive = true;
+// ── MAP — 3 uavhengige kartlag (Straumvarsel-mønster) ────────────────────────
+var map;
+var layers = {
+  hosts:   { group: null, active: true,  loaded: false, count: 0 },
+  lading:  { group: null, active: false, loaded: false, count: 0 },
+  toalett: { group: null, active: false, loaded: false, count: 0 }
+};
+
+// Oslo bbox for Overpass
+var OSLO_BBOX = '59.80,10.55,59.98,10.90';
 
 function initMap() {
-  map = L.map('map-container', {
-    zoomControl: true,
-    attributionControl: false
-  }).setView([59.9139,10.7522],12);
+  map = L.map('map-container', { zoomControl:true, attributionControl:false })
+         .setView([59.9139,10.7522],12);
 
-  // Invisible tile layer (opacity:0) — required so Leaflet sets up projection
-  // and marker cluster renders correctly. Windy iframe shows through visually.
+  // Invisible tile layer — required for Leaflet projection + marker rendering
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    opacity: 0,
-    maxZoom: 19,
-    subdomains: 'abc'
+    opacity:0, maxZoom:19, subdomains:'abc'
   }).addTo(map);
 
-  hostMarkers = L.markerClusterGroup({maxClusterRadius:60});
-  verter.forEach(function(v){
-    var coords = areaCoords[v.omrade]||[59.9139,10.7522];
-    var lat = coords[0]+(Math.random()-.5)*.004;
-    var lng = coords[1]+(Math.random()-.5)*.004;
-    var color = v.open ? '#1a3d2b' : '#9ca3af';
-    L.circleMarker([lat,lng],{
-      radius:9, fillColor:color, color:'#fff', weight:2.5, opacity:1, fillOpacity:.9
-    })
-    .bindPopup('<strong>'+v.navn+'</strong><br><small>'+v.omradeNavn+'</small><br>'+(v.open?'✅ Åpen nå':'⏱ Sjekk tidspunkt'))
-    .on('click',function(){ openProfile(v.id); })
-    .addTo(hostMarkers);
-  });
-  map.addLayer(hostMarkers);
-  document.getElementById('host-count').textContent = verter.length;
+  // Init host markers immediately (local data, no fetch needed)
+  loadHosts();
+}
 
-  // Patch background after Leaflet renders
+// ── VERTER ───────────────────────────────────────────────────────────────────
+function loadHosts() {
+  var g = L.markerClusterGroup({ maxClusterRadius:50 });
+  verter.forEach(function(v) {
+    var coords = areaCoords[v.omrade] || [59.9139,10.7522];
+    var lat = coords[0] + (Math.random()-.5)*.004;
+    var lng = coords[1] + (Math.random()-.5)*.004;
+    L.circleMarker([lat,lng], {
+      radius:9, fillColor: v.open?'#1a3d2b':'#9ca3af',
+      color:'#fff', weight:2.5, opacity:1, fillOpacity:.9
+    })
+    .bindPopup(
+      '<strong>' + v.navn + '</strong><br>'
+      + '<small>' + v.omradeNavn + ' · ' + v.dist + '</small><br>'
+      + (v.open ? '✅ Åpen nå' : '⏱ Sjekk tidspunkt')
+    )
+    .on('click', function(){ openProfile(v.id); })
+    .addTo(g);
+  });
+  layers.hosts.group = g;
+  layers.hosts.count = verter.length;
+  layers.hosts.loaded = true;
+  map.addLayer(g);
+  document.getElementById('host-count').textContent = '(' + verter.length + ')';
+
+  // Patch transparent background
   setTimeout(function(){
     var lc = document.querySelector('#map-container .leaflet-container');
     if (lc) lc.style.background = 'transparent';
-  },100);
+  }, 100);
 }
 
-function toggleMapLayer(layer, btn) {
-  if (layer !== 'hosts') return;
-  hostLayerActive = !hostLayerActive;
-  btn.classList.toggle('active');
-  if (hostLayerActive) map.addLayer(hostMarkers); else map.removeLayer(hostMarkers);
+// ── ELBIL-LADING (Overpass / Oslo kommune NLOD) ───────────────────────────────
+function loadLading(cb) {
+  var query = '[out:json][timeout:25];node["amenity"="charging_station"](' + OSLO_BBOX + ');out body;';
+  var url = 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
+  document.getElementById('lading-count').textContent = '⏳';
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var g = L.markerClusterGroup({ maxClusterRadius:60 });
+      var n = 0;
+      (data.elements||[]).forEach(function(el) {
+        if (!el.lat || !el.lon) return;
+        var t = el.tags || {};
+        var name = t.name || t.operator || 'Ladepunkt';
+        var sockets = t['capacity'] || t['socket:type2:output'] || '?';
+        var operator = t.operator || '';
+        var fee = t.fee === 'no' ? '🆓 Gratis' : t.fee === 'yes' ? '💳 Betaling' : '';
+        L.circleMarker([el.lat,el.lon], {
+          radius:8, fillColor:'#f59e0b', color:'#fff', weight:2, opacity:1, fillOpacity:.9
+        })
+        .bindPopup(
+          '<strong>⚡ ' + name + '</strong>'
+          + (operator ? '<br><small>' + operator + '</small>' : '')
+          + (sockets !== '?' ? '<br>🔌 ' + sockets + ' plasser' : '')
+          + (fee ? '<br>' + fee : '')
+        )
+        .addTo(g);
+        n++;
+      });
+      layers.lading.group = g;
+      layers.lading.count = n;
+      layers.lading.loaded = true;
+      document.getElementById('lading-count').textContent = '(' + n + ')';
+      if (cb) cb(g);
+    })
+    .catch(function(e) {
+      console.warn('Lading fetch feil:', e);
+      document.getElementById('lading-count').textContent = '(!)';
+    });
 }
+
+// ── OFFENTLIGE TOALETTER (Overpass / Oslo kommune NLOD) ──────────────────────
+function loadToalett(cb) {
+  var query = '[out:json][timeout:25];node["amenity"="toilets"](' + OSLO_BBOX + ');out body;';
+  var url = 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
+  document.getElementById('toalett-count').textContent = '⏳';
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var g = L.markerClusterGroup({ maxClusterRadius:60 });
+      var n = 0;
+      (data.elements||[]).forEach(function(el) {
+        if (!el.lat || !el.lon) return;
+        var t = el.tags || {};
+        var name = t.name || 'Offentlig toalett';
+        var fee = t.fee === 'no' ? '🆓 Gratis' : t.fee === 'yes' ? '💳 Betaling' : '';
+        var wc = t.wheelchair === 'yes' ? '♿ Tilgjengelig' : '';
+        var hours = t.opening_hours || '';
+        L.circleMarker([el.lat,el.lon], {
+          radius:8, fillColor:'#3b82f6', color:'#fff', weight:2, opacity:1, fillOpacity:.9
+        })
+        .bindPopup(
+          '<strong>🚽 ' + name + '</strong>'
+          + (fee ? '<br>' + fee : '')
+          + (wc ? '<br>' + wc : '')
+          + (hours ? '<br>🕐 ' + hours : '')
+        )
+        .addTo(g);
+        n++;
+      });
+      layers.toalett.group = g;
+      layers.toalett.count = n;
+      layers.toalett.loaded = true;
+      document.getElementById('toalett-count').textContent = '(' + n + ')';
+      if (cb) cb(g);
+    })
+    .catch(function(e) {
+      console.warn('Toalett fetch feil:', e);
+      document.getElementById('toalett-count').textContent = '(!)';
+    });
+}
+
+// ── TOGGLE ────────────────────────────────────────────────────────────────────
+function toggleLayer(key, btn) {
+  var layer = layers[key];
+  if (layer.active) {
+    // Slå av
+    if (layer.group) map.removeLayer(layer.group);
+    layer.active = false;
+    btn.classList.remove('active');
+  } else {
+    // Slå på — last data første gang
+    layer.active = true;
+    btn.classList.add('active');
+    if (!layer.loaded) {
+      if (key === 'lading')  loadLading(function(g){ map.addLayer(g); });
+      if (key === 'toalett') loadToalett(function(g){ map.addLayer(g); });
+    } else {
+      if (layer.group) map.addLayer(layer.group);
+    }
+  }
+}
+
+// Beholder for bakoverkompatibilitet (brukes ikke lenger)
+function toggleMapLayer() {}
 
 // ── COUNTER ───────────────────────────────────────────────────────────────────
 function animateCounter(el, target, duration) {
