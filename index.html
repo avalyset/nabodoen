@@ -137,10 +137,10 @@
   .listing-rating { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
   .listing-action { background: var(--green-dark); color: #fff; border: none; padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; margin-top: 8px; white-space: nowrap; }
   /* BLUR GATE — 2 synlige */
-  .listings.blurred .listing:nth-child(n+3) { filter: blur(8px); pointer-events: none; opacity: 0.6; }
-  .listings.blurred .listing:nth-child(n+3) .listing-action { display: none; }
+  .listings.blurred .listing:nth-child(n+4) { filter: blur(8px); pointer-events: none; opacity: 0.6; }
+  .listings.blurred .listing:nth-child(n+4) .listing-action { display: none; }
   .member-overlay { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; flex-direction: column; gap: 10px; background: rgba(248,245,242,0.96); border-radius: var(--radius); text-align: center; font-size: 14px; color: var(--green-dark); font-weight: 500; z-index: 10; cursor: pointer; }
-  .listings.blurred .listing:nth-child(3) .member-overlay { display: flex; }
+  .listings.blurred .listing:nth-child(4) .member-overlay { display: flex; }
   /* FILTER TOGGLES */
   .filter-toggle { background: var(--surface); color: var(--text-muted); border: 0.5px solid var(--border); padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
   .filter-toggle:hover { border-color: var(--green-mid); color: var(--green-dark); }
@@ -603,7 +603,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v2.4.0</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v2.4.1</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
   · <a href="#personvern" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">Personvern</a>
 </footer>
@@ -842,8 +842,10 @@ function renderListings() {
     // Sesong-sortering når ingen GPS
     filtered = sesongSort(filtered);
   }
-  container.innerHTML = filtered.length
-    ? filtered.map(renderVert).join('')
+  // Ikke-innloggede ser maks 4 (2 klare + 2 blurrede), innloggede ser alle
+  var visning = (!isLoggedIn && filtered.length > 8) ? filtered.slice(0, 8) : filtered;
+  container.innerHTML = visning.length
+    ? visning.map(renderVert).join('')
     : '<p style="color:var(--text-muted);padding:2rem;text-align:center;">Ingen verter med disse filtrene.</p>';
   applyBlur();
 }
