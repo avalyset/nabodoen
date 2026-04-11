@@ -17,7 +17,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://nabodo.no">
 <meta name="source-code" content="https://github.com/nabodo/nabodoen">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://formspree.io https://cdnjs.cloudflare.com https://*.basemaps.cartocdn.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.basemaps.cartocdn.com; connect-src 'self' https://formspree.io;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://formspree.io https://cdnjs.cloudflare.com https://*.tile.openstreetmap.org; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.tile.openstreetmap.org; connect-src 'self' https://formspree.io;">
 <meta name="theme-color" content="#2d5a3d">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -578,7 +578,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v2.3.1</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v2.3.2</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
   · <a href="#personvern" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">Personvern</a>
 </footer>
@@ -933,9 +933,9 @@ var hostLayerActive = true;
 
 function initMap() {
   map = L.map('map-container').setView([59.9139, 10.7522], 12);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    maxZoom: 19, subdomains: 'abcd'
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 19, subdomains: 'abc'
   }).addTo(map);
 
   hostMarkers = L.markerClusterGroup({maxClusterRadius: 60});
