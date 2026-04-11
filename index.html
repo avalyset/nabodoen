@@ -132,13 +132,12 @@ section{padding:5rem 0;}
 .listing.medisinsk .listing-action{background:#dc2626;}
 .listing.medisinsk .listing-action:hover{background:#b91c1c;}
 
-/* Blur gate — medisinsk bypass */
-.listings.blurred .listing:nth-child(n+5){filter:blur(5px);pointer-events:none;opacity:.55;}
-.listings.blurred .listing:nth-child(5){filter:none;opacity:1;pointer-events:auto;}
-.listings.blurred .listing.medisinsk{filter:none!important;pointer-events:auto!important;opacity:1!important;}
-.member-overlay{display:none;position:absolute;inset:0;align-items:center;justify-content:center;background:rgba(255,255,255,.88);backdrop-filter:blur(2px);border-radius:16px;gap:8px;font-size:13px;color:var(--g-dark);font-weight:600;z-index:10;cursor:pointer;}
-.listings.blurred .listing:nth-child(5) .member-overlay{display:flex;}
-.listings.blurred .listing.medisinsk .member-overlay{display:none!important;}
+/* Login gate card — replaces blur scrollorama */
+.login-gate-card{background:linear-gradient(135deg,var(--g-pale) 0%,#d1fae5 100%);border:1px solid rgba(134,201,160,.5);border-radius:16px;padding:1.5rem;text-align:center;margin-top:4px;}
+.login-gate-card h4{font-family:'DM Serif Display',serif;font-size:20px;color:var(--g-dark);margin-bottom:.5rem;}
+.login-gate-card p{font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.55;}
+.login-gate-card .gate-btn{background:var(--g-dark);color:#fff;border:none;padding:11px 28px;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+.login-gate-card .gate-btn:hover{background:var(--g-mid);}
 
 /* Hasteaksess banner */
 .haste-banner{background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%);border:1px solid #fca5a5;border-radius:16px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:12px;}
@@ -661,7 +660,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.0</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.1</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -807,7 +806,7 @@ function renderVert(v) {
     +   '<span class="listing-dist">'+v.dist+'</span>'
     +   '<button class="listing-action" onclick="event.stopPropagation();openProfile('+v.id+')">Se profil →</button>'
     + '</div>'
-    + (v.medisinsk ? '' : '<div class="member-overlay" onclick="openLogin()">🔒 Logg inn for å se</div>')
+    + (v.medisinsk ? '' : '')
     + '</div>';
 }
 
@@ -844,10 +843,27 @@ function renderListings() {
     filtered = med.concat(reg);
   }
 
-  c.innerHTML = filtered.length
-    ? filtered.map(renderVert).join('')
-    : '<p style="color:var(--muted);padding:2rem;text-align:center;">Ingen verter i dette området ennå.</p>';
-  applyBlur();
+  // Hard cut for ikke-innloggede: vis alle medisinsk + maks 4 vanlige, deretter gate
+  var html = '';
+  if (!isLoggedIn && !filterHaste) {
+    var medList = filtered.filter(function(v){ return v.medisinsk; });
+    var regList = filtered.filter(function(v){ return !v.medisinsk; });
+    var regVisible = regList.slice(0, 4);
+    var regHidden = regList.length - regVisible.length;
+    html = medList.map(renderVert).join('') + regVisible.map(renderVert).join('');
+    if (regHidden > 0) {
+      html += '<div class="login-gate-card">'
+        + '<h4>🔒 ' + regHidden + ' verter til nær deg</h4>'
+        + '<p>Registrer deg som vert for å se alle naboer. Gratis, alltid.</p>'
+        + '<button class="gate-btn" onclick="openLogin()">Logg inn eller registrer deg →</button>'
+        + '</div>';
+    }
+  } else {
+    html = filtered.length
+      ? filtered.map(renderVert).join('')
+      : '<p style="color:var(--muted);padding:2rem;text-align:center;">Ingen verter i dette området ennå.</p>';
+  }
+  c.innerHTML = html;
 }
 
 function renderFeed() {
@@ -935,15 +951,14 @@ function visOyPanel(omrade) {
 function searchVerter() {
   var q = document.getElementById('search-input').value.toLowerCase();
   if (!q) { aktivtOmrade='alle'; renderListings(); return; }
-  var c = document.getElementById('listings-container');
   var filtered = verter.filter(function(v){
     return v.tags.some(function(t){ return t.toLowerCase().includes(q); })
       || v.navn.toLowerCase().includes(q) || v.omradeNavn.toLowerCase().includes(q) || v.notat.toLowerCase().includes(q);
   });
+  var c = document.getElementById('listings-container');
   c.innerHTML = filtered.length
     ? filtered.map(renderVert).join('')
     : '<p style="color:var(--muted);padding:2rem;text-align:center;">Ingen treff — prøv et annet søkeord</p>';
-  applyBlur();
 }
 
 function luckyVert() {
@@ -1039,11 +1054,7 @@ function doLogin() {
   } else { showToast('Fyll inn e-post og passord'); }
 }
 
-function applyBlur() {
-  var c = document.getElementById('listings-container');
-  if (!c) return;
-  c.classList.toggle('blurred', !isLoggedIn);
-}
+function applyBlur() { renderListings(); } // etter innlogging: re-render uten gate
 
 // ── TOILET RATING ─────────────────────────────────────────────────────────────
 var toiletRatingVal = 0;
