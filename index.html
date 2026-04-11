@@ -2,7 +2,11 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<!-- Nabodo — EcoDeco AS -->
+<!-- 
+  👋 Hei, utvikler!
+  Nabodo er åpen kildekode.
+  Bidra på: https://github.com/nabodo/nabodoen
+-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nabodo – Finn et toalett hos en nabo</title>
 <meta name="description" content="Finn et gratis toalett hos en nabo i nærheten. Vis interesse og hjelp andre.">
@@ -664,10 +668,10 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.3.4</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.3.5</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
-  <a href="/cdn-cgi/l/email-protection#2a5a45595e6a4f49454e4f4945044445" style="font-size:12px;">Kontakt</a>
+  <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -683,7 +687,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── SANITIZER ─────────────────────────────────────────────────────────────────
 function esc(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -777,19 +781,11 @@ var areaCoords = {
   majorstuen:[59.9300,10.7150],marienlyst:[59.9325,10.7200],cuba:[59.9245,10.7560],
   frognerparken:[59.9272,10.7013],sthanshaugen:[59.9290,10.7380],sofienberg:[59.9215,10.7680],
   oyenparken:[59.9155,10.7710],slottsparken:[59.9172,10.7275],thorshovparken:[59.9355,10.7680],
-  // Kystområder: koordinater justert til fastland/riktig øy, redusert offset
-  bygdoy:[59.9068,10.6935],      // Bygdøy-halvøya, ikke i sjøen
-  paradisbukta:[59.9012,10.6780],// Paradisbukta strandlinje, ikke i fjorden
-  soerenga:[59.9048,10.7530],    // Sørenga, Operaen-siden
-  tjuvholmen:[59.9068,10.7195],  // Tjuvholmen, faktisk på land
-  hvervenbukta:[59.8345,10.7910],// Hvervenbukta sørside
-  // Øyer: senter av faktisk øy
-  hovedoya:[59.8952,10.7305],    // Midt på Hovedøya
-  langoyene:[59.8695,10.7205],   // Langøyene
-  nakholmen:[59.8882,10.7088],   // Nakholmen
-  gressholmen:[59.8825,10.7225],
-  bleikoya:[59.8862,10.7368],    // Bleikøya
-  lindoya:[59.8878,10.7135]      // Lindøya
+  bygdoy:[59.9068,10.6935],paradisbukta:[59.9012,10.6780],
+  soerenga:[59.9048,10.7530],tjuvholmen:[59.9068,10.7195],hvervenbukta:[59.8345,10.7910],
+  hovedoya:[59.8952,10.7305],langoyene:[59.8695,10.7205],
+  nakholmen:[59.8882,10.7088],gressholmen:[59.8825,10.7225],
+  bleikoya:[59.8862,10.7368],lindoya:[59.8878,10.7135]
 };
 
 // ── STATE ────────────────────────────────────────────────────────────────────
@@ -1181,21 +1177,17 @@ function loadHosts() {
   var g = L.markerClusterGroup({maxClusterRadius:50});
   verter.forEach(function(v){
     var coords = areaCoords[v.omrade]||[59.9139,10.7522];
-    // Null jitter for øyer (for smale til at tilfeldig offset fungerer)
-    var islandAreas = ['hovedoya','langoyene','nakholmen','gressholmen','bleikoya','lindoya'];
-    var coastalAreas = ['bygdoy','paradisbukta','soerenga','tjuvholmen','hvervenbukta'];
-    var jitter = islandAreas.indexOf(v.omrade) !== -1 ? 0
-               : coastalAreas.indexOf(v.omrade) !== -1 ? 0.0008
-               : 0.002;
+    var islands = ['hovedoya','langoyene','nakholmen','gressholmen','bleikoya','lindoya'];
+    var coastal = ['bygdoy','paradisbukta','soerenga','tjuvholmen','hvervenbukta'];
+    var jitter = islands.indexOf(v.omrade)!==-1 ? 0 : coastal.indexOf(v.omrade)!==-1 ? 0.0008 : 0.002;
     var lat = coords[0]+(Math.random()-.5)*jitter;
     var lng = coords[1]+(Math.random()-.5)*jitter;
     var color = v.medisinsk ? '#dc2626' : (v.open ? '#1a3d2b' : '#9ca3af');
-    // Popup-innhold avhenger av login-status (NSM-prinsipp)
-    var popupContent = isLoggedIn
+    var popup = isLoggedIn
       ? '<strong>'+(v.medisinsk?'🏥 ':'')+v.navn+'</strong><br><small>'+v.omradeNavn+' · '+v.dist+'</small><br>'+(v.open?'✅ Åpen nå':'⏱ Sjekk tidspunkt')
       : '<strong>🔒 Vert i '+v.omradeNavn+'</strong><br><small>Logg inn for å se hvem</small>';
     L.circleMarker([lat,lng],{radius:9,fillColor:color,color:'#fff',weight:2.5,opacity:1,fillOpacity:.9})
-     .bindPopup(popupContent)
+     .bindPopup(popup)
      .on('click',function(){ if(isLoggedIn) openProfile(v.id); else openLogin(); })
      .addTo(g);
   });
@@ -1312,4 +1304,9 @@ if(counterEl){
   }).observe(counterEl);
 }
 
-if(window.location.hash==='#takk'){var tEl=document.getElementById('takk'); if(tEl) tEl.style.display='blo
+if(window.location.hash==='#takk'){var tEl=document.getElementById('takk'); if(tEl) tEl.style.display='block';}
+// Init Leaflet ved sidelast inn i skjult div — invalidateSize() kalles ved tab-bytte
+setTimeout(initMap, 150);
+</script>
+</body>
+</html>
