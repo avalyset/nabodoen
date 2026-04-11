@@ -596,7 +596,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.1.0</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.1.1</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -926,6 +926,16 @@ function setWindyOverlay(overlay, btn) {
   document.getElementById('windy-iframe').src = WINDY_BASE + '&overlay=' + overlay;
 }
 
+// ── SANITIZER — escape all external API data before DOM insertion ─────────────
+function esc(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
 // ── MAP — 3 uavhengige kartlag (Straumvarsel-mønster) ────────────────────────
 var map;
 var layers = {
@@ -995,9 +1005,9 @@ function loadLading(cb) {
       (data.elements||[]).forEach(function(el) {
         if (!el.lat || !el.lon) return;
         var t = el.tags || {};
-        var name = t.name || t.operator || 'Ladepunkt';
-        var sockets = t['capacity'] || t['socket:type2:output'] || '?';
-        var operator = t.operator || '';
+        var name = esc(t.name || t.operator || 'Ladepunkt');
+        var sockets = esc(t['capacity'] || t['socket:type2:output'] || '?');
+        var operator = esc(t.operator || '');
         var fee = t.fee === 'no' ? '🆓 Gratis' : t.fee === 'yes' ? '💳 Betaling' : '';
         L.circleMarker([el.lat,el.lon], {
           radius:8, fillColor:'#f59e0b', color:'#fff', weight:2, opacity:1, fillOpacity:.9
@@ -1036,10 +1046,10 @@ function loadToalett(cb) {
       (data.elements||[]).forEach(function(el) {
         if (!el.lat || !el.lon) return;
         var t = el.tags || {};
-        var name = t.name || 'Offentlig toalett';
+        var name = esc(t.name || 'Offentlig toalett');
         var fee = t.fee === 'no' ? '🆓 Gratis' : t.fee === 'yes' ? '💳 Betaling' : '';
         var wc = t.wheelchair === 'yes' ? '♿ Tilgjengelig' : '';
-        var hours = t.opening_hours || '';
+        var hours = esc(t.opening_hours || '');
         L.circleMarker([el.lat,el.lon], {
           radius:8, fillColor:'#3b82f6', color:'#fff', weight:2, opacity:1, fillOpacity:.9
         })
