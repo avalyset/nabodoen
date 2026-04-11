@@ -297,9 +297,9 @@
       <div id="map-container"></div>
       <div class="map-controls">
         <button class="map-toggle active" data-layer="hosts" onclick="toggleMapLayer('hosts', this)">🏠 Verter (<span id="host-count">0</span>)</button>
-        <button class="map-toggle" id="toggle-toilets" data-layer="toilets" onclick="toggleMapLayer('toilets', this)">🚽 Off. toaletter <span id="toilet-count" style="font-size:10px;opacity:0.7"></span></button>
-        <button class="map-toggle" disabled style="opacity:0.5;cursor:default">⚡ Elbil-lading <span style="font-size:10px;opacity:0.7">(kommer)</span></button>
-        <button class="map-toggle" disabled style="opacity:0.5;cursor:default">💧 Drikkevann <span style="font-size:10px;opacity:0.7">(kommer)</span></button>
+        <button class="map-toggle" id="toggle-toilets" data-layer="toilets" onclick="toggleMapLayer('toilets', this)">🚽 Toaletter <span id="toilet-count" style="font-size:10px;opacity:0.7"></span></button>
+        <button class="map-toggle" id="toggle-charging" data-layer="charging" onclick="toggleMapLayer('charging', this)">⚡ Elbil-lading <span id="charging-count" style="font-size:10px;opacity:0.7"></span></button>
+        <button class="map-toggle" id="toggle-water" data-layer="water" onclick="toggleMapLayer('water', this)">💧 Drikkevann <span id="water-count" style="font-size:10px;opacity:0.7"></span></button>
         <button class="map-toggle" onclick="openToiletRating()" style="border-color:#f59e0b;color:#92400e;">⭐ Gi toalett-rating</button>
       </div>
     </div>
@@ -603,7 +603,7 @@
 
 <footer>
   <span class="logo">Nabodo</span>
-  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v2.4.1</p>
+  <p style="font-size:12px;color:rgba(168,213,181,0.5);margin-bottom:0.5rem;">nabodo.no · v2.4.2</p>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">⭐ github.com/nabodo/nabodoen</a>
   · <a href="#personvern" style="font-size:12px;color:rgba(168,213,181,0.4);text-decoration:none;">Personvern</a>
 </footer>
@@ -1106,9 +1106,20 @@ function showToast(msg) {
 }
 
 // ─── MAP ──────────────────────────────────────────────────────────────────────
-var map, hostMarkers, toiletMarkers;
+var map, hostMarkers, toiletMarkers, chargingMarkers, waterMarkers;
 var hostLayerActive = true;
 var toiletLayerActive = false;
+var chargingLayerActive = false;
+var waterLayerActive = false;
+
+var BBOX = '59.85,10.60,60.00,10.90';
+
+function overpassFetch(query, onSuccess, onError) {
+  fetch('https://overpass-api.de/api/interpreter?data=[out:json][timeout:15];' + query + '(' + BBOX + ');out;')
+    .then(function(r) { return r.json(); })
+    .then(onSuccess)
+    .catch(onError || function() {});
+}
 
 function initMap() {
   map = L.map('map-container').setView([59.9139, 10.7522], 12);
@@ -1117,7 +1128,7 @@ function initMap() {
     maxZoom: 19, subdomains: 'abc'
   }).addTo(map);
 
-  // Vert-lag
+  // ── Vert-lag ──
   hostMarkers = L.markerClusterGroup({maxClusterRadius: 60});
   verter.forEach(function(v) {
     var coords = areaCoords[v.omrade] || [59.9139, 10.7522];
@@ -1133,47 +1144,81 @@ function initMap() {
   map.addLayer(hostMarkers);
   document.getElementById('host-count').textContent = verter.length;
 
-  // Toalett-lag (Overpass API)
+  // ── Toalett-lag (blå) ──
   toiletMarkers = L.markerClusterGroup({maxClusterRadius: 40});
-  fetch('https://overpass-api.de/api/interpreter?data=[out:json][timeout:10];node[amenity=toilets](59.85,10.60,60.00,10.90);out;')
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      data.elements.forEach(function(el) {
-        var props = el.tags || {};
-        var info = '<strong>🚽 Offentlig toalett</strong>'
-          + (props.name ? '<br>' + props.name : '')
-          + (props.fee === 'yes' ? '<br>💳 Betaling kreves' : '<br>✅ Gratis')
-          + (props['toilets:wheelchair'] === 'yes' ? '<br>♿ Tilgjengelig' : '')
-          + '<br><button onclick="openToiletRating()" style="margin-top:6px;background:#2d5a3d;color:#fff;border:none;padding:4px 12px;border-radius:20px;cursor:pointer;font-size:12px;">⭐ Gi rating</button>';
-        L.circleMarker([el.lat, el.lon], {
-          radius: 7, fillColor: '#0ea5e9', color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.85
-        }).bindPopup(info).addTo(toiletMarkers);
-      });
-      var count = data.elements.length;
-      document.getElementById('toilet-count').textContent = count > 0 ? '(' + count + ')' : '';
-    })
-    .catch(function(){
-      document.getElementById('toilet-count').textContent = '(offline)';
+  overpassFetch('node[amenity=toilets]', function(data) {
+    data.elements.forEach(function(el) {
+      var p = el.tags || {};
+      var info = '<strong>🚽 Offentlig toalett</strong>'
+        + (p.name ? '<br><em>' + p.name + '</em>' : '')
+        + (p.fee === 'yes' ? '<br>💳 Betaling kreves' : '<br>✅ Gratis')
+        + (p['toilets:wheelchair'] === 'yes' ? '<br>♿ Tilgjengelig' : '')
+        + (p.changing_table === 'yes' ? '<br>🍼 Stellerom' : '')
+        + '<br><small style="color:#999">OpenStreetMap</small>'
+        + '<br><button onclick="openToiletRating()" style="margin-top:6px;background:#2d5a3d;color:#fff;border:none;padding:4px 12px;border-radius:20px;cursor:pointer;font-size:12px;">⭐ Gi rating</button>';
+      L.circleMarker([el.lat, el.lon], {
+        radius: 7, fillColor: '#0ea5e9', color: '#fff', weight: 2, fillOpacity: 0.85
+      }).bindPopup(info).addTo(toiletMarkers);
     });
+    document.getElementById('toilet-count').textContent = '(' + data.elements.length + ')';
+  }, function() {
+    document.getElementById('toilet-count').textContent = '(offline)';
+  });
 
-  // Bruker-ratede toaletter
-  toiletRatings.forEach(function(r) {
-    if (!r.lat) return; // lagret uten koordinater = skip
+  // ── Elbil-lading-lag (gul) ──
+  chargingMarkers = L.markerClusterGroup({maxClusterRadius: 50});
+  overpassFetch('node[amenity=charging_station]', function(data) {
+    data.elements.forEach(function(el) {
+      var p = el.tags || {};
+      var sockets = p['capacity'] || p['socket:type2'] || p['socket:chademo'] || '?';
+      var info = '<strong>⚡ Elbil-lading</strong>'
+        + (p.name ? '<br><em>' + p.name + '</em>' : '')
+        + (p.operator ? '<br>👤 ' + p.operator : '')
+        + (p.fee === 'yes' ? '<br>💳 Betaling kreves' : p.fee === 'no' ? '<br>✅ Gratis' : '')
+        + (p.opening_hours ? '<br>🕐 ' + p.opening_hours : '')
+        + '<br><small style="color:#999">OpenStreetMap</small>';
+      L.circleMarker([el.lat, el.lon], {
+        radius: 7, fillColor: '#f59e0b', color: '#fff', weight: 2, fillOpacity: 0.9
+      }).bindPopup(info).addTo(chargingMarkers);
+    });
+    document.getElementById('charging-count').textContent = '(' + data.elements.length + ')';
+  }, function() {
+    document.getElementById('charging-count').textContent = '(offline)';
+  });
+
+  // ── Drikkevann-lag (turkis) ──
+  waterMarkers = L.markerClusterGroup({maxClusterRadius: 40});
+  overpassFetch('node[amenity=drinking_water]', function(data) {
+    data.elements.forEach(function(el) {
+      var p = el.tags || {};
+      var info = '<strong>💧 Drikkevann</strong>'
+        + (p.name ? '<br><em>' + p.name + '</em>' : '')
+        + (p.bottle ? '<br>🧴 Flaske kan fylles' : '')
+        + (p.wheelchair === 'yes' ? '<br>♿ Tilgjengelig' : '')
+        + '<br><small style="color:#999">OpenStreetMap</small>';
+      L.circleMarker([el.lat, el.lon], {
+        radius: 7, fillColor: '#06b6d4', color: '#fff', weight: 2, fillOpacity: 0.85
+      }).bindPopup(info).addTo(waterMarkers);
+    });
+    document.getElementById('water-count').textContent = '(' + data.elements.length + ')';
+  }, function() {
+    document.getElementById('water-count').textContent = '(offline)';
   });
 
   updateToiletLayer();
 }
 
 function toggleMapLayer(layer, btn) {
-  if (layer === 'hosts') {
-    hostLayerActive = !hostLayerActive;
-    btn.classList.toggle('active');
-    if (hostLayerActive) map.addLayer(hostMarkers); else map.removeLayer(hostMarkers);
-  } else if (layer === 'toilets') {
-    toiletLayerActive = !toiletLayerActive;
-    btn.classList.toggle('active');
-    if (toiletLayerActive) map.addLayer(toiletMarkers); else map.removeLayer(toiletMarkers);
-  }
+  var layers = { hosts: hostMarkers, toilets: toiletMarkers, charging: chargingMarkers, water: waterMarkers };
+  var states = { hosts: hostLayerActive, toilets: toiletLayerActive, charging: chargingLayerActive, water: waterLayerActive };
+  if (!layers[layer]) return;
+  var nowActive = !states[layer];
+  if (layer === 'hosts') hostLayerActive = nowActive;
+  else if (layer === 'toilets') toiletLayerActive = nowActive;
+  else if (layer === 'charging') chargingLayerActive = nowActive;
+  else if (layer === 'water') waterLayerActive = nowActive;
+  btn.classList.toggle('active');
+  if (nowActive) map.addLayer(layers[layer]); else map.removeLayer(layers[layer]);
 }
 
 // ─── COUNTER ──────────────────────────────────────────────────────────────────
