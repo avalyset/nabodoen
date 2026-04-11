@@ -104,9 +104,10 @@ section{padding:5rem 0;}
 .windy-pill:hover{border-color:var(--g-mid);color:var(--g-dark);}
 .windy-pill.active{background:var(--g-dark);color:#fff;border-color:var(--g-dark);box-shadow:0 2px 8px rgba(26,61,43,.3);}
 #map-wrapper{position:relative;height:56vh;}
-#windy-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none;}
-#map-container{position:absolute;inset:0;width:100%;height:100%;background:transparent;}
+#windy-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none;z-index:1;}
+#map-container{position:absolute;inset:0;width:100%;height:100%;background:transparent;z-index:2;}
 #map-container .leaflet-container{background:transparent !important;}
+#map-container .leaflet-tile-pane{opacity:0 !important;}
 .map-controls{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);}
 .map-toggle{background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:7px 16px;border-radius:50px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
 .map-toggle:hover{border-color:var(--g-mid);color:var(--g-dark);}
@@ -594,7 +595,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.0.0</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.0.1</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -933,13 +934,13 @@ function initMap() {
     attributionControl: false
   }).setView([59.9139,10.7522],12);
 
-  // No tile layer — Leaflet container is transparent, Windy iframe shows through
-  // Force transparent background
-  var container = document.getElementById('map-container');
-  if (container) {
-    var leafletEl = container.querySelector('.leaflet-container');
-    if (leafletEl) leafletEl.style.background = 'transparent';
-  }
+  // Invisible tile layer (opacity:0) — required so Leaflet sets up projection
+  // and marker cluster renders correctly. Windy iframe shows through visually.
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    opacity: 0,
+    maxZoom: 19,
+    subdomains: 'abc'
+  }).addTo(map);
 
   hostMarkers = L.markerClusterGroup({maxClusterRadius:60});
   verter.forEach(function(v){
