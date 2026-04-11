@@ -296,7 +296,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 <section>
   <div style="max-width:1200px;margin:0 auto;padding:0 2rem;">
     <div class="section-label">Interaktivt kart</div>
-    <h2 class="section-title">Verter nær deg — akkurat nå</h2>
+    <h2 class="section-title">Se hvem som er hjemme nå</h2>
     <p class="section-sub">Se verter, toaletter, lading og drikkevann. Bytt værlag for å se forholdene nå.</p>
     <div class="map-outer">
       <!-- Tab-bar: Vær ELLER Kart — aldri stacked (Straumvarsel-lærdom v44/v45) -->
@@ -367,7 +367,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 <!-- LISTINGS -->
 <section class="listings-bg" id="finn" style="padding-top:2rem;">
   <div class="container">
-    <div class="section-label">Demo — slik ser det ut</div>
+    <div class="section-label">Ditt nabolag</div>
     <h2 class="section-title">Verter nær deg</h2>
 
     <!-- Search row -->
@@ -382,7 +382,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
     <!-- Quick filters -->
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.75rem;">
-      <button class="qfilter haste" id="qf-haste" onclick="toggleHaste(this)">🏥 Medisinsk hasteaksess</button>
+      <button class="qfilter haste" id="qf-haste" onclick="toggleHaste(this)">🏥 Hasteaksess <span style="font-size:10px;opacity:.7;">· kun medlemmer</span></button>
       <button class="qfilter" id="qf-aapen" onclick="toggleAapen(this)">✅ Kun åpne nå</button>
       <button class="qfilter" id="qf-stellerom" onclick="toggleStellerom(this)">🍼 Stellerom</button>
     </div>
@@ -444,7 +444,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
     <div id="haste-banner" class="haste-banner" style="display:none;">
       <div class="haste-banner-icon">🏥</div>
       <div>
-        <h4>Medisinsk hasteaksess — alltid synlig, ingen innlogging nødvendig</h4>
+        <h4>Medisinsk hasteaksess — kun for verifiserte medlemmer</h4>
         <p>Disse vertene tilbyr øyeblikkelig tilgang for brukere med Crohns, IBD, blæreproblem eller andre medisinske behov. Ingen GVP-kostnad. Ring på — de vet hva det handler om.</p>
       </div>
     </div>
@@ -668,7 +668,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.8</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.9</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -745,16 +745,16 @@ var verter = [
   {id:47,navn:"Ingeborg W.",emoji:"👩🏻‍🦳",gate:"Tjuvholmen, ved Astrup Fearnley",omrade:"tjuvholmen",omradeNavn:"🏖️ Tjuvholmen",dist:"80 m",rating:"4.9",besok:37,open:true,safety:"Alle velkommen",medisinsk:false,tags:["Åpen nå","🧊 Kjøl medbrakt drikke","📚 Lån en bok","🛋️ Lån et pledd"],notat:"Pensjonert kunstkurator.",reviews:[{tekst:"Kulturen og do i ett! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
   {id:48,navn:"Kwame A.",emoji:"👨🏿",gate:"Tjuvholmen, kunstkvartalet",omrade:"tjuvholmen",omradeNavn:"🏖️ Tjuvholmen",dist:"160 m",rating:"4.8",besok:21,open:true,safety:"Alle velkommen",medisinsk:false,tags:["Åpen nå","🔋 Lading","🎵 Musikk og stemning","🎸 Lån en gitar"],notat:"Musiker og designer. Lading, gitar og kaffe.",reviews:[{tekst:"Musikk, kaffe og do! ⭐⭐⭐⭐⭐",dato:"3 dager siden"}]},
   {id:49,navn:"Ragnhild T.",emoji:"👩‍🦳",gate:"Hvervenbukta, ved stranden",omrade:"hvervenbukta",omradeNavn:"🏖️ Hvervenbukta",dist:"65 m",rating:"5.0",besok:16,open:true,safety:"Alle velkommen",medisinsk:false,tags:["Åpen nå","☀️ Nødsolkrem","🚰 Fyll vannflaske","🧊 Kjøl medbrakt drikke","🛋️ Lån et pledd"],notat:"Pensjonert lærer ved Oslofjorden.",reviews:[{tekst:"Sørsidens beste vert! ⭐⭐⭐⭐⭐",dato:"i dag"}]},
-  {id:50,navn:"Priya S.",emoji:"👩🏽",gate:"Hvervenbukta, badeplassen",omrade:"hvervenbukta",omradeNavn:"🏖️ Hvervenbukta",dist:"120 m",rating:"4.9",besok:11,open:true,safety:"Kun familier",medisinsk:true,tags:["🏥 Hasteaksess","Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","☀️ Nødsolkrem","🩺 Kan førstehjelp"],notat:"Jordmor og tobarnsmamma. Tilbyr hasteaksess — kjenner til IBD og medisinske behov. Alltid hjemme dagtid.",reviews:[{tekst:"Jordmor-vert ved fjorden! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]}
+  {id:50,navn:"Priya S.",emoji:"👩🏽",gate:"Hvervenbukta, badeplassen",omrade:"hvervenbukta",omradeNavn:"🏖️ Hvervenbukta",dist:"120 m",rating:"4.9",besok:11,open:true,safety:"Alle velkommen",medisinsk:true,tags:["🏥 Hasteaksess","Åpen nå","🍼 Varme barnemat/melk","Babyskiftebord","☀️ Nødsolkrem","🩺 Kan førstehjelp"],notat:"Jordmor og tobarnsmamma. Tilbyr hasteaksess — kjenner til IBD og medisinske behov. Alltid hjemme dagtid.",reviews:[{tekst:"Jordmor-vert ved fjorden! ⭐⭐⭐⭐⭐",dato:"2 dager siden"}]}
 ];
 
 var feedPosts = [
   {emoji:"👩‍🦰",navn:"Silje M.",omrade:"Sagene",tekst:"Noen som vil spille badminton på Myraløkka i dag rundt kl 15? Har racket til to! 🏸",tag:"⚽ Aktivitet",tid:"14 min siden"},
   {emoji:"🧔‍♂️",navn:"Magnus T.",omrade:"Torshov",tekst:"Kaffe og vinyl på Torshov i ettermiddag — alle naboer velkomne! Bare ring på 34.",tag:"👋 Sosialt",tid:"32 min siden"},
   {emoji:"👩🏾‍🦱",navn:"Aisha M.",omrade:"Sofienbergparken",tekst:"Piknik i Sofienbergparken på lørdag — noen som vil bli med? Tar med ekstra pledd 🛋️",tag:"🌳 Parkaktivitet",tid:"1 time siden"},
-  {emoji:"👴",navn:"Ole T.",omrade:"Grønland",tekst:"Påminnelse: Jeg er lege og tilbyr hasteaksess for Crohns/IBD. Ingen GVP-kostnad. Ring bare på. 🏥",tag:"🏥 Hasteaksess",tid:"2 timer siden"},
-  {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
-  {emoji:"🧔",navn:"Geir A.",omrade:"Tøyenparken",tekst:"Brannmann hjemme på dagtid. Hjertestarter og hasteaksess tilgjengelig. Ring 44 ved behov. 💗",tag:"💗 Beredskap",tid:"i går"}
+  {emoji:"👨🏽",navn:"Diego R.",omrade:"Cuba — Grünerløkka",tekst:"Kubansk gitarkveld fredag kl 19. Åpen for alle naboer. ¡Bienvenidos! 🎸",tag:"🎵 Musikk",tid:"2 timer siden"},
+  {emoji:"👩‍🦳",navn:"Marie S.",omrade:"St. Hanshaugen",tekst:"Har to pledd ledig til helgen — lånes ut gratis til parkbesøkende. Send melding! 🛋️",tag:"🛋️ Utlån",tid:"3 timer siden"},
+  {emoji:"🧓",navn:"Bjørn A.",omrade:"Hammersborg",tekst:"Sykkel med flat dekk? Pumpe tilgjengelig hos meg, bare ring på. 🚲",tag:"🚲 Utlån",tid:"i går"}
 ];
 
 var batruter = {
@@ -973,8 +973,12 @@ function searchVerter() {
 }
 
 function luckyVert() {
-  var open = verter.filter(function(v){ return v.open; });
-  var v = open[Math.floor(Math.random()*open.length)];
+  // Ikke-innloggede ser bare 4 vanlige — lucky plukker kun fra synlige åpne verter
+  var pool = isLoggedIn
+    ? verter.filter(function(v){ return v.open; })
+    : verter.filter(function(v){ return v.open && !v.medisinsk; }).slice(0, 4);
+  if (!pool.length) return;
+  var v = pool[Math.floor(Math.random()*pool.length)];
   openProfile(v.id);
   showToast('🎲 Tilfeldig vert: '+v.navn+'!');
 }
