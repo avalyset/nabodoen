@@ -301,9 +301,9 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
     <div class="map-outer">
       <!-- Tab-bar: Vær ELLER Kart — aldri stacked (Straumvarsel-lærdom v44/v45) -->
       <div class="windy-bar">
-        <button class="map-tab active" id="tab-vaer" onclick="switchMapTab('vaer')">☁️ Vær</button>
-        <button class="map-tab" id="tab-kart" onclick="switchMapTab('kart')">🗺 Kart</button>
-        <div id="windy-pills-row" style="display:flex;gap:8px;align-items:center;margin-left:8px;">
+        <button class="map-tab" id="tab-vaer" onclick="switchMapTab('vaer')">☁️ Vær</button>
+        <button class="map-tab active" id="tab-kart" onclick="switchMapTab('kart')">🗺 Kart</button>
+        <div id="windy-pills-row" style="display:none;gap:8px;align-items:center;margin-left:8px;">
           <button class="windy-pill active" onclick="setWindyOverlay('wind',this)">🌬️ Vind</button>
           <button class="windy-pill" onclick="setWindyOverlay('temp',this)">🌡️ Temp</button>
           <button class="windy-pill" onclick="setWindyOverlay('rain',this)">🌧️ Regn</button>
@@ -312,14 +312,14 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
         <span style="margin-left:auto;font-size:11px;color:var(--xs);" id="map-hint">Klikk på vert for profil</span>
       </div>
       <!-- Windy iframe (egen boks, ikke stacked med Leaflet) -->
-      <div id="map-vaer" style="height:56vh;position:relative;">
+      <div id="map-vaer" style="height:56vh;position:relative;display:none;">
         <iframe id="windy-iframe"
           src="https://embed.windy.com/embed2.html?lat=59.91&lon=10.75&zoom=11&level=surface&overlay=wind&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=m%2Fs&metricTemp=%C2%B0C&radarRange=-1"
           style="position:absolute;inset:0;width:100%;height:100%;border:none;"
         ></iframe>
       </div>
       <!-- Leaflet kart (eget DOM-element, aldri overlaid på Windy) -->
-      <div id="map-kart" style="height:56vh;display:none;">
+      <div id="map-kart" style="height:56vh;display:block;">
         <div id="map-container" style="width:100%;height:100%;"></div>
       </div>
       <div class="map-controls">
@@ -668,7 +668,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.6</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.2.7</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
