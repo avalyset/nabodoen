@@ -668,7 +668,7 @@ footer a{color:rgba(134,201,160,.7);text-decoration:none;}
 
 <footer>
   <span class="logo" style="display:block;margin-bottom:.5rem;">Nabodo</span>
-  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.3.5</p>
+  <p style="font-size:12px;color:rgba(134,201,160,.4);margin-bottom:.5rem;">nabodo.no · v3.3.6</p>
   <a href="#personvern" style="font-size:12px;">Personvern</a>
   <span style="color:rgba(134,201,160,.2);margin:0 6px;">·</span>
   <a href="https://github.com/nabodo/nabodoen" target="_blank" style="font-size:12px;">⭐ GitHub</a>
@@ -1183,9 +1183,19 @@ function loadHosts() {
     var lat = coords[0]+(Math.random()-.5)*jitter;
     var lng = coords[1]+(Math.random()-.5)*jitter;
     var color = v.medisinsk ? '#dc2626' : (v.open ? '#1a3d2b' : '#9ca3af');
+    var prepMap = {
+      bislett:'på',frogner:'på',grunerlokka:'på',gamlebyen:'på',gronland:'på',
+      hammersborg:'på',sagene:'på',bjolsen:'på',torshov:'på',majorstuen:'på',
+      marienlyst:'på',cuba:'på',
+      frognerparken:'i',sthanshaugen:'i',sofienberg:'i',oyenparken:'i',
+      slottsparken:'i',thorshovparken:'i',
+      bygdoy:'ved',paradisbukta:'ved',soerenga:'ved',tjuvholmen:'ved',hvervenbukta:'ved',
+      hovedoya:'på',langoyene:'på',nakholmen:'på',gressholmen:'på',bleikoya:'på',lindoya:'på'
+    };
+    var prep = prepMap[v.omrade]||'i';
     var popup = isLoggedIn
       ? '<strong>'+(v.medisinsk?'🏥 ':'')+v.navn+'</strong><br><small>'+v.omradeNavn+' · '+v.dist+'</small><br>'+(v.open?'✅ Åpen nå':'⏱ Sjekk tidspunkt')
-      : '<strong>🔒 Vert i '+v.omradeNavn+'</strong><br><small>Logg inn for å se hvem</small>';
+      : '<strong>🔒 Vert '+prep+' '+v.omradeNavn+'</strong><br><small>Logg inn for å se hvem</small>';
     L.circleMarker([lat,lng],{radius:9,fillColor:color,color:'#fff',weight:2.5,opacity:1,fillOpacity:.9})
      .bindPopup(popup)
      .on('click',function(){ if(isLoggedIn) openProfile(v.id); else openLogin(); })
