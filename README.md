@@ -1,117 +1,93 @@
-# 🚪 Nabodo
+# Nabodo
 
-**Åpne din dør. Finn en nabo.**
+**Nabolaget som hjelper hverandre.**
 
-> «Fordi alle har vært der.»
+Nabodo er en hyperlokal mikrotjeneste- og mikro-utleiemarkedsplass der naboer er både tilbydere og brukere. Ingen er bare konsument — alle bidrar for å delta.
 
-Live på → **[nabodo.no](https://nabodo.no)**  
+> "Glemte du paraplyen på do? Bra vi har Nabodo."
+
+Live på → **[nabodo.no](https://nabodo.no)**
 Omtalt på → NRK Stor-Oslo, april 2026
 
 ---
 
-## Hva er Nabodo?
+## Status — v4.6.1 (april 2026)
 
-Nabodo er en **1:1-tjeneste** — du registrerer deg som vert og får tilgang til alle andre verter nær deg. Gjensidig tillit er selve mekanismen. Ingen anonyme gjester, ingen enveisbruk. Du gir en dør — du får tilgang til hundrevis.
-
-Oslo har systematisk for få offentlige toaletter i boligstrøk. Nabodo løser dette nedenfra — én dør om gangen.
-
----
-
-## Modellen
-
-Nabodo er ikke bare et toalettnettverk. Verter kan tilby:
-
-🚽 Toalett · 🔋 Lading · 🧊 Kjøl medbrakt drikke · 🚰 Fyll vannflaske  
-☀️ Nødsolkrem · 🌂 Nødparaply · 📚 Lån en bok · 🎸 Lån en gitar  
-🛋️ Lån et pledd · 🏸 Lån badminton · ⚽ Bli med å spille  
-🍼 Varme barnemat/melk · 🩺 Kan førstehjelp · 💗 Hjertestarter  
-👋 Bli med på kaffe · 🎵 Musikk og stemning
+| Komponent | Status |
+|-----------|--------|
+| **nabodo.no** | Live — Cloudflare Pages |
+| **nabodo-api.ecodeco.workers.dev** | Live — Cloudflare Workers + Hono |
+| **D1 database** | 16 tabeller, 56 katalogposter, 48 verter (46 aktive) |
+| **Stripe Connect** | Sandbox — konto opprettet, webhook verifisert |
+| **Vipps Login + eCom** | Under godkjenning (~1 uke fra 11. april) |
+| **Crisp + Hugo AI** | Live — 8 FAQ-artikler, auto-crawl |
+| **Cron triggers** | 4 aktive (auto-complete, påminnelser, ukesrapport, månedsrapport) |
 
 ---
 
-## Status
+## Hva fungerer nå
 
-```
-v1.5.3 — Beta
-✅ nabodo.no live på Cloudflare Pages
-✅ PWA — installer fra nettleseren
-✅ 34 mockup-verter i Oslo sentrum
-✅ Interaktive profiler med filter og søk
-✅ Nabo søker nabo-feed
-✅ Nabodo-score og statistikk
-✅ Formspree e-post-registrering
-✅ Personvern + vilkår (GDPR)
-✅ Åpen kildekode på GitHub
-🔜 BankID-innlogging (mai 2026)
-🔜 Cloudflare Workers + D1 database
-🔜 Kartverket kart og geolokasjon
-🔜 Vipps-integrasjon
-🔜 Toveisratings
-```
+- 56 tjenester i katalogen (4 lag, 4 sesonger: helårs, vår, sommer, vinter)
+- Komplett booking-livssyklus: request → confirm → deliver (QR) → complete
+- Blind toveis-rating med auto-publisering
+- GVP-system (God Vilje Poeng) med immutable ledger
+- Anti-fluff deteksjon (5 sjekker, logging)
+- Anti-disintermediation (chat-filter, vilkår)
+- Stripe PaymentIntent med 85/15 split
+- QR-leveringsbekreftelse med engangskode (UUID, TTL 2t)
+- Auto-godkjenning etter 2 timer (cron)
+- Kvitteringer via MailChannels
+- DAC7-rapport for Skatteetaten
+- Sesongfilter (vår, sommer, vinter)
+- GPS-privatliv (avrundede koordinater for uautentiserte)
 
 ---
 
-## Teknologi
+## Produktlag
+
+| Lag | Type | Provisjon |
+|-----|------|-----------|
+| 0 | Gratis (toalett, vann, lading, stellerom) | 0 % — kun GVP |
+| 1 | Mikro-utleie (powerbank, paraply, kajakk, ski) | 15 % |
+| 2 | Mikro-tjenester (innkjøp, småfiks, hagearbeid) | 15 % |
+| 3 | Opplevelser (gitartime, DJ, seiltur, coaching) | 12 % |
+
+---
+
+## Tech stack
 
 | Komponent | Løsning |
 |-----------|---------|
-| Frontend | HTML/CSS/JS |
-| Hosting | Cloudflare Pages |
-| PWA | manifest.json + service worker |
-| Skjema | Formspree |
-| Backend (fase 2) | Cloudflare Workers + D1 |
-| Auth (fase 2) | BankID via Criipto |
-| Kart (fase 2) | Kartverket API |
-| Betaling (fase 2) | Vipps |
+| Frontend | Én `index.html`, ingen build-steg, Leaflet + Windy |
+| API | Cloudflare Workers, Hono framework, TypeScript |
+| Database | Cloudflare D1 (SQLite), 16 tabeller |
+| Betaling | Stripe Connect (sandbox) + Vipps eCom (under godkjenning) |
+| Auth | Dev stub (bølge 0) → Vipps OIDC (bølge 1) |
+| E-post | MailChannels (kvitteringer, rating-prompts, månedsrapporter) |
+| Chat | Crisp med Hugo AI-agent |
+| Deploy | `wrangler pages deploy` (frontend), `wrangler deploy` (API) |
 
 ---
 
-## Kom i gang
+## Booking-livssyklus
 
-```bash
-git clone https://github.com/nabodo/nabodoen.git
-cd nabodoen
-open index.html
 ```
-
-Ingen avhengigheter. Bare åpne `index.html` i nettleseren.
-
----
-
-## Bidra
-
-- 🐛 **Bugfixes** — finn og fiks feil
-- 💡 **Funksjoner** — foreslå via Issues
-- 🎨 **Design** — forbedre UI/UX
-- 🗺️ **Kart** — Kartverket-integrasjon
-- 🔐 **Sikkerhet** — BankID og GDPR
-
-### Slik bidrar du
-
-1. Fork repo-en
-2. Lag en branch: `git checkout -b min-funksjon`
-3. Commit: `git commit -m "feat: legg til X"`
-4. Push og åpne en Pull Request
-
-Se [CONTRIBUTING.md](CONTRIBUTING.md) for detaljer.
-
----
-
-## Sommerdugnad 2026
-
-Vi jobber mot **1000 registrerte verter i Oslo innen 1. august 2026** — i samarbeid med NRK Stor-Oslo.
-
-Vil du være med? Meld deg på [nabodo.no](https://nabodo.no) eller bidra her på GitHub.
+requested → confirmed (vert bekrefter)
+confirmed → delivered (vert leverer, QR-kode genereres)
+delivered → completed (gjest godkjenner, eller auto etter 2t)
+confirmed → cancelled (auto etter 2t uten levering)
+completed → rating-prompts sendt til begge parter
+```
 
 ---
 
 ## Eier
 
-**EcoDeco AS** · Org.nr. 936 320 856  
+**EcoDeco AS** · Org.nr. 936 320 856
 Grunder: Eirik Botten Nicolaysen
 
 ---
 
 ## Lisens
 
-MIT — bruk fritt, gi gjerne kreditt.
+Source Available — se [LICENSE](LICENSE). Ikke open source.
