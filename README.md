@@ -11,13 +11,13 @@ Omtalt på → NRK Stor-Oslo, april 2026
 
 ---
 
-## Status — v4.6.1 (april 2026)
+## Status — v4.6.3 (april 2026)
 
 | Komponent | Status |
 |-----------|--------|
 | **nabodo.no** | Live — Cloudflare Pages |
 | **nabodo-api.ecodeco.workers.dev** | Live — Cloudflare Workers + Hono |
-| **D1 database** | 16 tabeller, 56 katalogposter, 48 verter (46 aktive) |
+| **D1 database** | 16 tabeller, 60 katalogposter, 48 verter (46 aktive) |
 | **Stripe Connect** | Sandbox — konto opprettet, webhook verifisert |
 | **Vipps Login + eCom** | Under godkjenning (~1 uke fra 11. april) |
 | **Crisp + Hugo AI** | Live — 8 FAQ-artikler, auto-crawl |
@@ -27,7 +27,7 @@ Omtalt på → NRK Stor-Oslo, april 2026
 
 ## Hva fungerer nå
 
-- 56 tjenester i katalogen (4 lag, 4 sesonger: helårs, vår, sommer, vinter)
+- 60 tjenester i katalogen (4 lag, 4 sesonger, inkl. grill/mat-opplevelser)
 - Komplett booking-livssyklus: request → confirm → deliver (QR) → complete
 - Blind toveis-rating med auto-publisering
 - GVP-system (God Vilje Poeng) med immutable ledger
