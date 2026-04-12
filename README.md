@@ -11,7 +11,7 @@ Omtalt på → NRK Stor-Oslo, april 2026
 
 ---
 
-## Status — v4.6.4 (april 2026)
+## Status — v4.7.3 (april 2026)
 
 | Komponent | Status |
 |-----------|--------|
@@ -28,6 +28,8 @@ Omtalt på → NRK Stor-Oslo, april 2026
 ## Hva fungerer nå
 
 - 60 tjenester i katalogen (4 lag, 4 sesonger, inkl. grill/mat-opplevelser)
+- Tier-system: Nabo → Stamgjest → Nabovert → SuperNabo (cron-automasjon)
+- CSS designsystem: 8px grid, 5 radii-verdier, konsistent kort-DNA
 - Komplett booking-livssyklus: request → confirm → deliver (QR) → complete
 - Blind toveis-rating med auto-publisering
 - GVP-system (God Vilje Poeng) med immutable ledger
