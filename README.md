@@ -11,7 +11,7 @@ Omtalt på → NRK Stor-Oslo, april 2026
 
 ---
 
-## Status — v4.6.3 (april 2026)
+## Status — v4.6.4 (april 2026)
 
 | Komponent | Status |
 |-----------|--------|
@@ -33,6 +33,8 @@ Omtalt på → NRK Stor-Oslo, april 2026
 - GVP-system (God Vilje Poeng) med immutable ledger
 - Anti-fluff deteksjon (5 sjekker, logging)
 - Anti-disintermediation (chat-filter, vilkår)
+- Anti-misbruk (illegal keywords, misuse reports, Slack-varsling)
+- Rapporter misbruk-knapp i vertprofiler
 - Stripe PaymentIntent med 85/15 split
 - QR-leveringsbekreftelse med engangskode (UUID, TTL 2t)
 - Auto-godkjenning etter 2 timer (cron)
