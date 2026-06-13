@@ -1,97 +1,96 @@
 # Nabodo
 
-**Nabolaget som hjelper hverandre.**
+**Open your door. Find a neighbour.**
 
-Nabodo er en hyperlokal mikrotjeneste- og mikro-utleiemarkedsplass der naboer er både tilbydere og brukere. Ingen er bare konsument — alle bidrar for å delta.
+Nabodo is a hyperlocal platform for Oslo where residents open their homes to
+people nearby — a toilet when you're caught out, a phone charge, a refill of
+water, a place to warm baby food. It runs on reciprocity — you give to get.
+Micro-hospitality, not a utility finder.
 
-> "Glemte du paraplyen på do? Bra vi har Nabodo."
+The idea was first floated on air by «Kokke Øyvind» on NRK Stor-Oslo in April
+2026, and built out from there.
 
-Live på → **[nabodo.no](https://nabodo.no)**
-Omtalt på → NRK Stor-Oslo, april 2026
-
----
-
-## Status — v4.7.3 (april 2026)
-
-| Komponent | Status |
-|-----------|--------|
-| **nabodo.no** | Live — Cloudflare Pages |
-| **nabodo-api.ecodeco.workers.dev** | Live — Cloudflare Workers + Hono |
-| **D1 database** | 16 tabeller, 60 katalogposter, 48 verter (46 aktive) |
-| **Stripe Connect** | Sandbox — konto opprettet, webhook verifisert |
-| **Vipps Login + eCom** | Under godkjenning (~1 uke fra 11. april) |
-| **Crisp + Hugo AI** | Live — 8 FAQ-artikler, auto-crawl |
-| **Cron triggers** | 4 aktive (auto-complete, påminnelser, ukesrapport, månedsrapport) |
+Live at → **[nabodo.no](https://nabodo.no)**
 
 ---
 
-## Hva fungerer nå
+## About this repository
 
-- 60 tjenester i katalogen (4 lag, 4 sesonger, inkl. grill/mat-opplevelser)
-- Tier-system: Nabo → Stamgjest → Nabovert → SuperNabo (cron-automasjon)
-- CSS designsystem: 8px grid, 5 radii-verdier, konsistent kort-DNA
-- Komplett booking-livssyklus: request → confirm → deliver (QR) → complete
-- Blind toveis-rating med auto-publisering
-- GVP-system (God Vilje Poeng) med immutable ledger
-- Anti-fluff deteksjon (5 sjekker, logging)
-- Anti-disintermediation (chat-filter, vilkår)
-- Anti-misbruk (illegal keywords, misuse reports, Slack-varsling)
-- Rapporter misbruk-knapp i vertprofiler
-- Stripe PaymentIntent med 85/15 split
-- QR-leveringsbekreftelse med engangskode (UUID, TTL 2t)
-- Auto-godkjenning etter 2 timer (cron)
-- Kvitteringer via MailChannels
-- DAC7-rapport for Skatteetaten
-- Sesongfilter (vår, sommer, vinter)
-- GPS-privatliv (avrundede koordinater for uautentiserte)
+This repo holds the **Nabodo web front-end** — the public site at nabodo.no.
+It is a single `index.html` with inline CSS and JavaScript, a service worker,
+and a web app manifest. No build step, no dependencies: clone it and open the
+file.
+
+The platform logic — accounts, bookings, the reciprocity ledger, payments —
+runs server-side and is **not part of this repository**. That split is
+deliberate: the front-end is open to read, study, and improve via pull request;
+the service layer stays closed. See [LICENSE](LICENSE).
 
 ---
 
-## Produktlag
+## What's in here
 
-| Lag | Type | Provisjon |
-|-----|------|-----------|
-| 0 | Gratis (toalett, vann, lading, stellerom) | 0 % — kun GVP |
-| 1 | Mikro-utleie (powerbank, paraply, kajakk, ski) | 15 % |
-| 2 | Mikro-tjenester (innkjøp, småfiks, hagearbeid) | 15 % |
-| 3 | Opplevelser (gitartime, DJ, seiltur, coaching) | 12 % |
-
----
-
-## Tech stack
-
-| Komponent | Løsning |
-|-----------|---------|
-| Frontend | Én `index.html`, ingen build-steg, Leaflet + Windy |
-| API | Cloudflare Workers, Hono framework, TypeScript |
-| Database | Cloudflare D1 (SQLite), 16 tabeller |
-| Betaling | Stripe Connect (sandbox) + Vipps eCom (under godkjenning) |
-| Auth | Dev stub (bølge 0) → Vipps OIDC (bølge 1) |
-| E-post | MailChannels (kvitteringer, rating-prompts, månedsrapporter) |
-| Chat | Crisp med Hugo AI-agent |
-| Deploy | `wrangler pages deploy` (frontend), `wrangler deploy` (API) |
+- The full nabodo.no single-page site (`index.html`)
+- A custom CSS design system: 8px spacing grid, consistent card and radius
+  tokens, no framework
+- Leaflet map with OpenStreetMap tiles and live public-amenity layers
+- Progressive web app scaffolding (`manifest.json`, `sw.js`, icons)
+- Norwegian-language UI throughout
 
 ---
 
-## Booking-livssyklus
+## The idea, briefly
 
-```
-requested → confirmed (vert bekrefter)
-confirmed → delivered (vert leverer, QR-kode genereres)
-delivered → completed (gjest godkjenner, eller auto etter 2t)
-confirmed → cancelled (auto etter 2t uten levering)
-completed → rating-prompts sendt til begge parter
-```
+Nabodo is organised in tiers, from free community access up to paid
+experiences. The free tier is the heart of it; everything above is optional.
+
+| Tier | Type | Example |
+|------|------|---------|
+| 0 | Free community access | Toilet, water, charging, baby-changing |
+| 1 | Micro-rental | Power bank, umbrella, kayak, skis |
+| 2 | Micro-services | Errands, small fixes, gardening |
+| 3 | Experiences | Guitar lesson, sailing trip, coaching |
+
+The reciprocity rule is the core identity, not a feature: to use what
+neighbours offer, you register as a host yourself. Goodwill is tracked so the
+exchange stays balanced.
+
+> The host profiles and activity shown on the live site are demonstration
+> data. Nabodo is in early beta.
 
 ---
 
-## Eier
+## Tech
+
+| Part | Choice |
+|------|--------|
+| Front-end | One `index.html`, no build step |
+| Maps | Leaflet + OpenStreetMap |
+| PWA | `manifest.json` + service worker |
+| Hosting | Cloudflare Pages |
+
+---
+
+## Contributing
+
+Contributions to the front-end are welcome — see
+[CONTRIBUTING](CONTRIBUTING.md). Good places to start: mobile accessibility,
+English translation of the UI, and map improvements.
+
+---
+
+## Owner
 
 **EcoDeco AS** · Org.nr. 936 320 856
-Grunder: Eirik Botten Nicolaysen
+Founder: Eirik Botten Nicolaysen
+
+Built with the help of AI coding tools; all decisions, architecture, and
+ownership are the founder's.
 
 ---
 
-## Lisens
+## License
 
-Source Available — se [LICENSE](LICENSE). Ikke open source.
+Source Available — see [LICENSE](LICENSE). This is **not** open source: you may
+read, study, and contribute back, but not copy, sell, or launch a competing
+service. Nabodo® is a trademark of EcoDeco AS.

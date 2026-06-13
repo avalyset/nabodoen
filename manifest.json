@@ -1,7 +1,7 @@
 {
   "name": "Nabodo",
   "short_name": "Nabodo",
-  "description": "Finn et toalett hos en nabo — gratis, trygt, nærme deg.",
+  "description": "Hyperlokal nabohjelp i Oslo. Du gir for å få.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#2d5a3d",
